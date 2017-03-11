@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "Change Case",
+	"version": "1.0",
+	"description": "",
+	"homepage_url": "http://www.bartoszlorek.pl/",
+	"permissions": [
+		"contextMenus",
+		"activeTab"
+	],
+	"background": {
+		"scripts": [ "main.js" ]
+	},
+	"icons": {
+		"16": "assets/icon16.png",
+		"48": "assets/icon48.png",
+		"128": "assets/icon48.png"
+	},
+	"browser_action": {
+		"default_icon": "assets/icon16.png"
+	}
+}
