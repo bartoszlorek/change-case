@@ -1,4 +1,4 @@
-import CASES from './cases';
+import CASES_METHODS from './cases';
 
 function nextNode(node) {
     if (node.hasChildNodes()) {
@@ -88,13 +88,13 @@ function getSelectedNodes() {
 }
 
 function changeCase(method, node) {
-    if (typeof CASES[method] !== 'function') {
+    if (typeof CASES_METHODS[method] !== 'function') {
         return;
     }
     let before = node.text.substring(0, node.range[0]),
         current = node.text.substring(node.range[0], node.range[1]),
         after = node.text.substring(node.range[1]),
-        text = before + CASES[method](current) + after;
+        text = before + CASES_METHODS[method](current) + after;
 
     if (node.type === 'textarea' || node.type === 'input') {
         node.element.value = text;

@@ -33,7 +33,7 @@ const executeScript = (function() {
 
 function changeCase(method) {
     return function(info, tab) {
-        if (! info.editable) {
+        if (! info.selectionText ) {
             return;
         }
         executeScript(tab.id, function() {
@@ -76,7 +76,7 @@ function createMenu() {
                 onclick: changeCase(cases[i][0])
             }
         }
-        params.contexts = ['selection'];
+        params.contexts = ['editable'];
         chrome.contextMenus.create(params);
     }
 }
