@@ -1,4 +1,4 @@
-import CASES_METHODS from './cases';
+import CASE_METHODS from './cases';
 
 function nextNode(node) {
     if (node.hasChildNodes()) {
@@ -87,29 +87,35 @@ function getSelectedNodes() {
         .getRangeAt(0));
 }
 
-function changeCase(method, node) {
-    if (typeof CASES_METHODS[method] !== 'function') {
+function changeCase(methodName, node) {
+    let method = CASE_METHODS[methodName],
+        result,
+        start,
+        stop;
+
+    if (typeof method !== 'function') {
         return;
     }
-    let before = node.text.substring(0, node.range[0]),
-        current = node.text.substring(node.range[0], node.range[1]),
-        after = node.text.substring(node.range[1]),
-        text = before + CASES_METHODS[method](current) + after;
+    start = node.range[0];
+    stop = node.range[1];
+    result = node.text.substring(0, start);
+    result += method(node.text.substring(start, stop));
+    result += node.text.substring(stop);
 
     if (node.type === 'textarea' || node.type === 'input') {
-        node.element.value = text;
+        node.element.value = result;
 
     } else if (node.type === 'text') {
-        node.element.nodeValue = text;
+        node.element.nodeValue = result;
     }
 }
 
 chrome.runtime.onMessage.addListener(function(request) {
-    let method = request && request.method || false,
+    let methodName = request && request.method || false,
         nodes = getSelectedNodes();
         
     window.getSelection().empty();
     for (let i=0; i<nodes.length; i++) {
-        changeCase(method, nodes[i]);
+        changeCase(methodName, nodes[i]);
     }
 });

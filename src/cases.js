@@ -1,5 +1,5 @@
 /**
- * The cases based on change-case by Blake Embrey
+ * The cases are based on change-case by Blake Embrey
  * https://github.com/blakeembrey/change-case
  */
 
