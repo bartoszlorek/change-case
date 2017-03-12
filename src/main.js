@@ -1,7 +1,23 @@
 
+function isCompleted(info) {
+	return info && info.status === 'complete'
+		&& typeof info.url === 'undefined';
+}
+
+function removeItem(array, item) {
+	var index = array.indexOf(item);
+	if (index !== -1) {
+		array.splice(index, 1);
+	}
+}
+
 var executeScript = (function() {
 	var executedTabs = [];
 
+	chrome.tabs.onUpdated.addListener(function(tabId, info) {
+		if (! isCompleted(info)) return;
+		removeItem(executedTabs, tabId);
+	});
 	return function(tabId, callback) {
 		if (executedTabs.indexOf(tabId) === -1) {
 			executedTabs.push(tabId);
@@ -45,7 +61,7 @@ function createMenu() {
 	for (var name in cases) {
 		chrome.contextMenus.create({
 			title: cases[name],
-			contexts: ['selection'], //editable
+			contexts: ['selection'],
 			onclick: changeCase(name)
 		});
 	}

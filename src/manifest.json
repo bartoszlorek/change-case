@@ -9,7 +9,8 @@
 		"activeTab"
 	],
 	"background": {
-		"scripts": [ "main.js" ]
+		"scripts": [ "main.js" ],
+		"persistent": true
 	},
 	"icons": {
 		"16": "assets/icon16.png",

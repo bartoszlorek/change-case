@@ -5,13 +5,31 @@
         body { padding:24px; }
         body, input, textarea { font-family:monospace; }
         input, textarea { display:block; width:100%; margin:0 0 12px; padding:12px; min-height:48px; }
+        .wrap { margin:0 0 48px }
     </style>
 </head>
 <body>
-    <h1>header</h1>
-    <input type="text" />
-    <input type="text" />
-    <textarea rows="4" cols="50"></textarea>
-    <p>none editable text</p>
+
+    <div class="wrap">
+        <h1>Simple HTML input text and textarea</h1>
+        <p>Ignore non-editable text like this paragraph.</p>
+        <input type="text" />
+        <textarea rows="4" cols="50"></textarea>
+    </div>
+
+    <div class="wrap">
+        <h1>HTML WYSIWYG editor (like TinyMCE)</h1>
+        <textarea id="editor">TinyMCE enables you to convert HTML textarea fields or other HTML elements to editor instances.</textarea>
+        <script src="tinymce.min.js"></script>
+        <script type="text/javascript">
+            tinymce.init({
+                selector: '#editor',
+                theme_url: './tinymce/modern/theme.min.js',
+                skin_url: './tinymce/lightgray',
+                menubar: false
+            });
+        </script>
+    </div>
+    
 </body>
 </html>
