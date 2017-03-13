@@ -31,9 +31,9 @@ const executeScript = (function() {
     }
 })();
 
-function changeCase(method) {
+function handleChangeCase(method) {
     return function(info, tab) {
-        if (! info.selectionText ) {
+        if (! info.selectionText) {
             return;
         }
         executeScript(tab.id, function() {
@@ -73,7 +73,7 @@ function createMenu() {
         } else {
             params = {
                 title: cases[i][1],
-                onclick: changeCase(cases[i][0])
+                onclick: handleChangeCase(cases[i][0])
             }
         }
         params.contexts = ['editable'];

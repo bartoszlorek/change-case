@@ -30,7 +30,7 @@ function getRangeTextNodes(range) {
     return textNodes;
 }
 
-function getRangeText(range) {
+function parseRange(range) {
     let nodes = getRangeTextNodes(range),
         nodesLength = nodes.length,
         selection = [],
@@ -58,7 +58,7 @@ function getRangeText(range) {
     return selection;
 }
 
-function getValue(element) {
+function parseInput(element) {
     return {
         element: element,
         range: [
@@ -70,21 +70,23 @@ function getValue(element) {
     }
 }
 
-function getSelectedNodes() {
+function selectedNodes() {
     let element = document.activeElement,
         tagName = element.tagName && element.tagName.toLowerCase() || false,
         type = element.type && element.type.toLowerCase() || false,
         localWindow = window;
 
     if (tagName === 'textarea' || tagName === 'input' && type === 'text') {
-        return [ getValue(element) ];
+        return [ parseInput(element) ];
     }
     if (tagName === 'iframe') {
         localWindow = element.contentWindow || element;
     }
-    return getRangeText(localWindow
+    return parseRange(
+        localWindow
         .getSelection()
-        .getRangeAt(0));
+        .getRangeAt(0)
+    )
 }
 
 function changeCase(methodName, node) {
@@ -112,10 +114,10 @@ function changeCase(methodName, node) {
 
 chrome.runtime.onMessage.addListener(function(request) {
     let methodName = request && request.method || false,
-        nodes = getSelectedNodes();
+        nodes = selectedNodes();
         
     window.getSelection().empty();
     for (let i=0; i<nodes.length; i++) {
         changeCase(methodName, nodes[i]);
     }
-});
+})

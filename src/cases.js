@@ -14,7 +14,10 @@ function noCase(value, replacement) {
 
     if (typeof replacement === 'string') {
         value = value.replace(NON_WORD_REGEXP, (match, index, value) => {
-            return index === 0 || index === (value.length - match.length) ? '' : replacement;
+            if (index === 0 || index === (value.length - match.length)) {
+                return ' ';
+            }
+            return replacement;
         })
     }
     return lowerCase(value);
@@ -85,7 +88,6 @@ function toggleCase(value) {
     }
     return result;
 }
-
 
 export default {
     noCase: function(value) {
