@@ -123,14 +123,14 @@ if (typeof chrome !== 'undefined') {
             
         window.getSelection().empty();
         for (let i=0; i<nodes.length; i++) {
-            changeCase(methodName, nodes[i]);
+        changeCase(methodName, nodes[i]);
         }
     })
 }
 
-export let testExport = {}
+export let testExport;
 if (process && process.env.NODE_ENV === 'test') {
-     testExport = {
+    testExport = {
         nextNode,
         getRangeTextNodes,
         parseRange,
