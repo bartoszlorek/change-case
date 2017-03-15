@@ -11,10 +11,13 @@ function nextNode(node) {
 }
 
 function getRangeTextNodes(range) {
-    let node = range.startContainer,
-        endNode = range.endContainer,
+    let node = range && range.startContainer || null,
+        endNode = range && range.endContainer || null,
         textNodes = [];
 
+    if (!node || !endNode) {
+        return textNodes;
+    }
     if (node === endNode) {
         return [node];
     }
@@ -95,8 +98,8 @@ function changeCase(methodName, node) {
         start,
         stop;
 
-    if (typeof method !== 'function') {
-        return;
+    if (typeof method !== 'function' || !(node && node.text)) {
+        return false;
     }
     start = node.range[0];
     stop = node.range[1];
@@ -110,14 +113,27 @@ function changeCase(methodName, node) {
     } else if (node.type === 'text') {
         node.element.nodeValue = result;
     }
+    return true;
 }
 
-chrome.runtime.onMessage.addListener(function(request) {
-    let methodName = request && request.method || false,
-        nodes = selectedNodes();
-        
-    window.getSelection().empty();
-    for (let i=0; i<nodes.length; i++) {
-        changeCase(methodName, nodes[i]);
+if (typeof chrome !== 'undefined') {
+    chrome.runtime.onMessage.addListener(function(request) {
+        let methodName = request && request.method || false,
+            nodes = selectedNodes();
+            
+        window.getSelection().empty();
+        for (let i=0; i<nodes.length; i++) {
+            changeCase(methodName, nodes[i]);
+        }
+    })
+}
+
+export let testExport = {}
+if (process && process.env.NODE_ENV === 'test') {
+     testExport = {
+        nextNode,
+        getRangeTextNodes,
+        parseRange,
+        changeCase
     }
-})
+}
