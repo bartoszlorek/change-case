@@ -10,86 +10,98 @@ function nextNode(node) {
     }
 }
 
-function getRangeTextNodes(range) {
-    let node = range && range.startContainer || null,
-        endNode = range && range.endContainer || null,
-        textNodes = [];
+function rangeTextNodes(range) {
+    let node = range && range.start || null,
+        endNode = range && range.end || null,
+        nodes = [];
 
-    if (!node || !endNode) {
-        return textNodes;
-    }
-    if (node === endNode) {
-        return [node];
-    }
+    if (!node || !endNode) return nodes;
+    if (node === endNode) return [node];
     if (node.nodeType === 3) {
-        textNodes.push(node);
+        nodes.push(node);
     }
     while (node && node !== endNode) {
         node = nextNode(node);
         if (node.nodeType === 3) {
-            textNodes.push(node);
+            nodes.push(node);
         }
     }
-    return textNodes;
+    return nodes;
 }
 
-function parseRange(range) {
-    let nodes = getRangeTextNodes(range),
+function parseNodes(range) {
+    if (range === false) {
+        return [];
+    }
+    let nodes = rangeTextNodes(range),
         nodesLength = nodes.length,
-        selection = [],
-        start,
-        stop,
-        text;
+        output = [];
 
     for (let i=0; i<nodesLength; i++) {
-        text = nodes[i].nodeValue;
-        start = i === 0 ? range.startOffset : 0;
-        stop = i === nodesLength - 1
-            ? range.endOffset
-            : text.length;
-
-        if (nodesLength === 1) {
-            stop = range.endOffset;
-        }
-        selection.push({
-            element: nodes[i],
+        let node = nodes[i],
+            text = node.nodeType === 3
+                 ? node.nodeValue : node.value,
+            start = i == 0 ? range.offset[0] : 0,
+            stop = i == nodesLength - 1
+                 ? range.offset[1] : text.length;
+        output.push({
+            element: node,
             range: [start, stop],
-            text: text,
-            type: 'text'
+            text: text
         })
     }
-    return selection;
+    return output;
 }
 
-function parseInput(element) {
-    return {
-        element: element,
-        range: [
-            element.selectionStart,
-            element.selectionEnd
-        ],
-        text: element.value,
-        type: element.tagName.toLowerCase()
-    }
-}
+function selectionRange(localWindow, localDocument) {
+    localWindow = localWindow || window;
+    localDocument = localDocument || document;
 
-function selectedNodes() {
-    let element = document.activeElement,
+    let element = localDocument.activeElement,
         tagName = element.tagName && element.tagName.toLowerCase() || false,
         type = element.type && element.type.toLowerCase() || false,
-        localWindow = window;
+        selection,
+        range;
 
+    if (tagName === false) return false;
     if (tagName === 'textarea' || tagName === 'input' && type === 'text') {
-        return [ parseInput(element) ];
+        return {
+            empty: () => localWindow.getSelection().empty(),
+            start: element,
+            end: element,
+            offset: [
+                element.selectionStart,
+                element.selectionEnd
+            ]
+        }
     }
-    if (tagName === 'iframe') {
-        localWindow = element.contentWindow || element;
+    if (tagName === 'iframe' || tagName === 'frame') {
+        localWindow = element.contentWindow;
+        localDocument = element.contentDocument;
     }
-    return parseRange(
-        localWindow
-        .getSelection()
-        .getRangeAt(0)
-    )
+    selection = localWindow.getSelection();
+    if (selection.rangeCount === 0) {
+        return false;
+    }
+    range = selection.getRangeAt(0);
+
+    // sometimes iframe returns incorrect active element
+    // with offsets equal to 1 as a Range type
+    if ((tagName === 'iframe' || tagName === 'frame')
+    &&  range.startOffset - range.endOffset === 0) {
+        return selectionRange(
+            localWindow,
+            localDocument)
+    }
+    return {
+        empty: () => selection.empty(),
+        start: range.startContainer,
+        end: range.endContainer,
+        offset: [
+            range.startOffset,
+            range.endOffset
+        ]
+    }
 }
 
 function changeCase(methodName, node) {
@@ -97,7 +109,7 @@ function changeCase(methodName, node) {
         result,
         start,
         stop;
-
+        
     if (typeof method !== 'function' || !(node && node.text)) {
         return false;
     }
@@ -107,23 +119,21 @@ function changeCase(methodName, node) {
     result += method(node.text.substring(start, stop));
     result += node.text.substring(stop);
 
-    if (node.type === 'textarea' || node.type === 'input') {
-        node.element.value = result;
-
-    } else if (node.type === 'text') {
-        node.element.nodeValue = result;
-    }
+    if ( node.element.nodeType === 3 )
+         node.element.nodeValue = result;
+    else node.element.value = result;
     return true;
 }
 
 if (typeof chrome !== 'undefined') {
     chrome.runtime.onMessage.addListener(function(request) {
         let methodName = request && request.method || false,
-            nodes = selectedNodes();
-            
-        window.getSelection().empty();
+            range = selectionRange(),
+            nodes = parseNodes(range);
+
+        if (range !== false) range.empty();
         for (let i=0; i<nodes.length; i++) {
-        changeCase(methodName, nodes[i]);
+            changeCase(methodName, nodes[i]);
         }
     })
 }
