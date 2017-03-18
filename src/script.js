@@ -76,23 +76,17 @@ function selectionRange(localWindow, localDocument) {
         }
     }
     if (tagName === 'iframe' || tagName === 'frame') {
-        localWindow = element.contentWindow;
-        localDocument = element.contentDocument;
+        return selectionRange(
+            element.contentWindow,
+            element.contentDocument
+        )
     }
     selection = localWindow.getSelection();
     if (selection.rangeCount === 0) {
         return false;
     }
     range = selection.getRangeAt(0);
-
-    // sometimes iframe returns incorrect active element
-    // with offsets equal to 1 as a Range type
-    if ((tagName === 'iframe' || tagName === 'frame')
-    &&  range.startOffset - range.endOffset === 0) {
-        return selectionRange(
-            localWindow,
-            localDocument)
-    }
+    
     return {
         empty: () => selection.empty(),
         start: range.startContainer,
@@ -142,8 +136,8 @@ export let testExport;
 if (process && process.env.NODE_ENV === 'test') {
     testExport = {
         nextNode,
-        getRangeTextNodes,
-        parseRange,
+        rangeTextNodes,
+        parseNodes,
         changeCase
     }
 }

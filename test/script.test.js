@@ -1,5 +1,5 @@
 import { testExport } from '../src/script.js';
-const { nextNode, getRangeTextNodes, parseRange, changeCase } = testExport;
+const { nextNode, rangeTextNodes, parseNodes, changeCase } = testExport;
 
 describe('script.js', () => {
 
@@ -9,73 +9,72 @@ describe('script.js', () => {
         '<p id="third">the lazy dog</p>';
 
     let fakeRange = {
-        startContainer: document.getElementById('first').firstChild,
-        endContainer: document.getElementById('second').firstChild,
-        startOffset: 2,
-        endOffset: 11
+        empty: () => {},
+        start: document.getElementById('first').firstChild,
+        end: document.getElementById('second').firstChild,
+        offset: [2, 11]
     }
 
     it('fake range is working', () => {
         expect(
-            fakeRange.startContainer.nodeValue
+            fakeRange.start.nodeValue
         ).toEqual('the quick brown')
     })
     
     describe('nextNode', () => {
-        let start = fakeRange.startContainer.parentElement,
-            firstIteration = nextNode(start),
-            secondIteration = nextNode(firstIteration),
-            thirdIteration = nextNode(secondIteration);
+        let first = nextNode(fakeRange.start.parentElement),
+            second = nextNode(first),
+            third = nextNode(second);
 
         it('should return first text node', () => {
             expect(
-                firstIteration.nodeValue
+                first.nodeValue
             ).toEqual('the quick brown')
         })
         it('should return second paragraph', () => {
             expect(
-                secondIteration.id
+                second.id
             ).toEqual('second')
         })
         it('should return second text node', () => {
             expect(
-                thirdIteration.nodeValue
+                third.nodeValue
             ).toEqual('fox jumps over')
         })
     })
 
-    describe('getRangeTextNodes', () => {
+    describe('rangeTextNodes', () => {
         it('should return empty array', () => {
             expect(
-                getRangeTextNodes(null)
+                rangeTextNodes(null)
             ).toEqual([]);
         })
         it('should return array', () => {
             expect(
-                getRangeTextNodes(fakeRange)
+                rangeTextNodes(fakeRange)
             ).toBeInstanceOf(Array);
         })
         it('should return 2 text node', () => {
             expect(
-                getRangeTextNodes(fakeRange).length
+                rangeTextNodes(fakeRange).length
             ).toEqual(2);
         })
         it('first item should be first paragraph text node', () => {
             expect(
-                getRangeTextNodes(fakeRange)[0].nodeValue
+                rangeTextNodes(fakeRange)[0].nodeValue
             ).toEqual('the quick brown');
         })
     })
 
-    describe('parseRange', () => {
+    describe('parseNodes', () => {
         it('should return empty array', () => {
             expect(
-                parseRange(null)
+                parseNodes(null)
             ).toEqual([]);
         })
         it('first item`s should be [2,15]', () => {
             expect(
-                parseRange(fakeRange)[0].range
+                parseNodes(fakeRange)[0].range
             ).toEqual([2, 15]);
         })
     })
