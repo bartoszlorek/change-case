@@ -15,3 +15,8 @@ Chrome extension providing multiple methods to change text case. Supports simple
 - dot.case
 - tOGGLE cASE
 - no case
+
+## Limitation
+- input `type="email"` (doesn't support selection start and end)
+- WYSIWYG HTML editor Undo/Redo
+- React's dumb input getting value by prop
