@@ -2,7 +2,7 @@
 
 Chrome extension providing multiple methods to change text case. Supports simple HTML input text fields, textarea and content editable (WYSIWYG HTML editors like TinyMCE). The most cases are based on [change-case](https://github.com/blakeembrey/change-case) by Blake Embrey.
 
-### Available methods:
+## Available methods:
 - UPPERCASE
 - lowercase
 - Title Case
@@ -17,6 +17,6 @@ Chrome extension providing multiple methods to change text case. Supports simple
 - no case
 
 ## Limitation
-- input `type="email"` (doesn't support selection start and end)
-- WYSIWYG HTML editor Undo/Redo
-- React's dumb input getting value by prop
+- input `type="email"` (doesn't support selection start/end)
+- undo/redo in editors based on `contentEditable`
+- some unidirectional data flow apps override changes

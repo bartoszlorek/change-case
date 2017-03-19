@@ -59,20 +59,23 @@ function selectionRange(localWindow, localDocument) {
 
     let element = localDocument.activeElement,
         tagName = element.tagName && element.tagName.toLowerCase() || false,
-        type = element.type && element.type.toLowerCase() || false,
         selection,
         range;
 
     if (tagName === false) return false;
-    if (tagName === 'textarea' || tagName === 'input' && type === 'text') {
-        return {
-            empty: () => localWindow.getSelection().empty(),
-            start: element,
-            end: element,
-            offset: [
-                element.selectionStart,
-                element.selectionEnd
-            ]
+    if (tagName === 'textarea' || tagName === 'input') {
+        try {
+            return {
+                empty: () => localWindow.getSelection().empty(),
+                start: element,
+                end: element,
+                offset: [
+                    element.selectionStart,
+                    element.selectionEnd
+                ]
+            }
+        } catch(e) {
+            return false;
         }
     }
     if (tagName === 'iframe' || tagName === 'frame') {
@@ -98,6 +101,18 @@ function selectionRange(localWindow, localDocument) {
     }
 }
 
+function dispatchEvents(element) {
+    if (element.nodeType !== 1) {
+        element = element.parentElement;
+    }
+    let params = { 'bubbles': true },
+        events = [ 'input' ];
+    for (let i=0; i<events.length; i++) {
+        element.dispatchEvent(
+            new Event(events[i], params));
+    }
+}
+
 function changeCase(methodName, node) {
     let method = CASE_METHODS[methodName],
         result,
@@ -116,6 +131,8 @@ function changeCase(methodName, node) {
     if ( node.element.nodeType === 3 )
          node.element.nodeValue = result;
     else node.element.value = result;
+
+    dispatchEvents(node.element);
     return true;
 }
 
