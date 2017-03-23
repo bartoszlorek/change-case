@@ -16,7 +16,7 @@ Chrome extension providing multiple methods to change text case. Supports simple
 - tOGGLE cASE
 - no case
 
-## Limitation
+## Limitations:
 - input `type="email"` (doesn't support selection start/end)
 - undo/redo in editors based on `contentEditable`
 - some unidirectional data flow apps override changes

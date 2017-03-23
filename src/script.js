@@ -136,13 +136,33 @@ function changeCase(methodName, node) {
     return true;
 }
 
+function showError() {
+    let message = 'An error occurred. You can help fix it out!\n'
+        + '---------------------------------------------------------------\n'
+        + 'OK - send an email with current page url and description\n'
+        + 'CANCEL - just skip it, and have a nice day';
+
+    if (window.confirm(message)) {
+        let email = 'mailto:bery.lorek@gmail.com?'
+            + 'subject=' + encodeURIComponent('Change Case Error')
+            + '&body=' + encodeURIComponent('where: ' + window.location.href + '\nwhat: ');
+        window.open(email);
+    }
+    return false;
+}
+
 if (typeof chrome !== 'undefined') {
     chrome.runtime.onMessage.addListener(function(request) {
         let methodName = request && request.method || false,
             range = selectionRange(),
-            nodes = parseNodes(range);
+            nodes;
 
-        if (range !== false) range.empty();
+        if (range === false) {
+            showError();
+            return false;
+        }
+        range.empty();
+        nodes = parseNodes(range);
         for (let i=0; i<nodes.length; i++) {
             changeCase(methodName, nodes[i]);
         }
