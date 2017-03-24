@@ -113,6 +113,21 @@ function dispatchEvents(element) {
     }
 }
 
+function dispatchError() {
+    let message = 'An error occurred. You can help fix it out, to make Change Case a better extension. You must choose...\n'
+        + '---------------------------------------------------------------\n'
+        + 'OK - send an email with informations\n'
+        + 'CANCEL - just skip it, and have a nice day\n';
+
+    if (window.confirm(message)) {
+        let email = 'mailto:bery.lorek@gmail.com?'
+            + 'subject=' + encodeURIComponent('Change Case Error')
+            + '&body=' + encodeURIComponent('where: ' + window.location.href + '\nwhat: ');
+        window.open(email);
+    }
+    return false;
+}
+
 function changeCase(methodName, node) {
     let method = CASE_METHODS[methodName],
         result,
@@ -136,29 +151,17 @@ function changeCase(methodName, node) {
     return true;
 }
 
-function showError() {
-    let message = 'An error occurred. You can help fix it out!\n'
-        + '---------------------------------------------------------------\n'
-        + 'OK - send an email with current page url and description\n'
-        + 'CANCEL - just skip it, and have a nice day';
-
-    if (window.confirm(message)) {
-        let email = 'mailto:bery.lorek@gmail.com?'
-            + 'subject=' + encodeURIComponent('Change Case Error')
-            + '&body=' + encodeURIComponent('where: ' + window.location.href + '\nwhat: ');
-        window.open(email);
-    }
-    return false;
-}
-
 if (typeof chrome !== 'undefined') {
     chrome.runtime.onMessage.addListener(function(request) {
-        let methodName = request && request.method || false,
+        if (! request || request.type !== 'CHANGE_CASE') {
+            return false;
+        }
+        let methodName = request.value || false,
             range = selectionRange(),
             nodes;
 
         if (range === false) {
-            showError();
+            dispatchError();
             return false;
         }
         range.empty();

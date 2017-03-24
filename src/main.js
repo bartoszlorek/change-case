@@ -38,7 +38,8 @@ function handleChangeCase(method) {
         }
         executeScript(tab.id, function() {
             chrome.tabs.sendMessage(tab.id, {
-                method: method
+                type: 'CHANGE_CASE',
+                value: method
             });
         });
     }
