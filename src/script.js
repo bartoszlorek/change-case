@@ -1,4 +1,5 @@
 import CASE_METHODS from './cases';
+import dispatchError from './error';
 
 function nextNode(node) {
     if (node.hasChildNodes()) {
@@ -111,21 +112,6 @@ function dispatchEvents(element) {
         element.dispatchEvent(
             new Event(events[i], params));
     }
-}
-
-function dispatchError() {
-    let message = 'An error occurred. You can help fix it out, to make Change Case a better extension. You must choose...\n'
-        + '---------------------------------------------------------------\n'
-        + 'OK - send an email with informations\n'
-        + 'CANCEL - just skip it, and have a nice day\n';
-
-    if (window.confirm(message)) {
-        let email = 'mailto:bery.lorek@gmail.com?'
-            + 'subject=' + encodeURIComponent('Change Case Error')
-            + '&body=' + encodeURIComponent('where: ' + window.location.href + '\nwhat: ');
-        window.open(email);
-    }
-    return false;
 }
 
 function changeCase(methodName, node) {
