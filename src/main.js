@@ -1,4 +1,3 @@
-
 function isCompleted(info) {
     return info && info.status === 'complete'
         && typeof info.url === 'undefined';
@@ -20,11 +19,16 @@ const executeScript = (function() {
     });
     return function(tabId, callback) {
         if (executedTabs.indexOf(tabId) === -1) {
-            executedTabs.push(tabId);
             chrome.tabs.executeScript(tabId, {
                 file: 'script.js'
-            }, callback);
-
+            }, () => {
+                if (chrome.runtime.lastError) {
+                    alert(chrome.runtime.lastError.message);
+                    return;
+                }
+                executedTabs.push(tabId);
+                callback();
+            })
         } else {
             callback();
         }
@@ -40,8 +44,8 @@ function handleChangeCase(method) {
             chrome.tabs.sendMessage(tab.id, {
                 type: 'CHANGE_CASE',
                 value: method
-            });
-        });
+            })
+        })
     }
 }
 
