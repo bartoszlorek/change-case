@@ -32,6 +32,6 @@ export default function dispatchError() {
             .join(' ');
         issue = '<'+ issue.trim() +'>';
     }
-    prompt("An error occurred. Publish the following informations like current url and issue, on the extension page.",
+    prompt("An error occurred. Publish the following informations about issue, on the extension page.",
         window.location.href + issue);
 }
