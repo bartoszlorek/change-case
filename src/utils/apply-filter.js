@@ -4,7 +4,7 @@ import spliceString from './splice-string'
 
 function applyFilter(method, string, ignore) {
     let newString = method(string);
-    if (!isArray(ignore)) {
+    if (!isArray(ignore) || !ignore.length) {
         return newString;
     }
     let newIgnore = ignore.map(element => method(element)),
