@@ -1,11 +1,11 @@
-function spliceString(string, index, count, add) {
+function spliceString(string, index, count, replace) {
     if (index < 0) {
         index = string.length + index;
         if (index < 0) {
             index = 0;
         }
     }
-    return string.slice(0, index) + (add || '') +
+    return string.slice(0, index) + (replace || '') +
         string.slice(index + count);
 }
 
