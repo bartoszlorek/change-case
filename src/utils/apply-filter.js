@@ -3,24 +3,25 @@ import findAll from './find-all';
 import spliceString from './splice-string'
 
 function applyFilter(method, string, ignore) {
-    let newString = method(string);
+    let outString = method(string);
     if (!isArray(ignore) || !ignore.length) {
-        return newString;
+        return outString;
     }
-    let newIgnore = ignore.map(element => method(element)),
-        newMatches = findAll(newString, newIgnore),
-        oldMatches = findAll(string, ignore);
+    let outIgnore = ignore.map(element => method(element)),
+        outMatches = findAll(outString, outIgnore),
+        srcMatches = findAll(string, ignore),
+        offset = 0;
 
-    newMatches.forEach((element, i) => {
-        let { match, index } = element;
-        newString = spliceString(
-            newString,
-            index,
-            match.length,
-            oldMatches[i].match
-        );
+    outMatches.forEach((element, i) => {
+        let start = element.index + offset,
+            count = element.match.length,
+            replace = srcMatches[i].match;
+
+        outString = spliceString(outString, start, count, replace);
+        offset += replace.length - count;
     });
-    return newString;
+
+    return outString;
 }
 
 export default applyFilter;
