@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
     entry: {
         'main': './src/main.js',
@@ -5,7 +7,7 @@ module.exports = {
         'options': './src/options.js'
     },
     output: {
-        path: './dist',
+        path: path.join(__dirname, 'dist'),
         filename: '[name].js'
     },
     module: {
