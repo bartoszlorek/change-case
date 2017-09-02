@@ -1,4 +1,5 @@
 import React from 'react';
+import { bind } from './react-utils';
 import style from './style.css';
 
 import Blacklist from './components/blacklist';
@@ -23,18 +24,38 @@ const methods = [
 class Options extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            message: null
+        }
+        bind(this, [
+            'handelSave',
+            'handleMessage'
+        ]);
     }
 
     handelSave() {
         console.log('save')
     }
 
+    handleMessage(text, type) {
+        this.setState({
+            message: !text ? null : {
+                type: type || 'info',
+                text
+            }
+        });
+    }
+
     render() {
         return (
             <div className={style.app}>
                 <Blacklist />
-                <Shortcuts methods={methods} />
-                <Controls onSave={this.handelSave} />
+                <Shortcuts
+                    methods={methods}
+                    onMessage={this.handleMessage} />
+                <Controls
+                    message={this.state.message}
+                    onSave={this.handelSave} />
             </div>
         )
     }

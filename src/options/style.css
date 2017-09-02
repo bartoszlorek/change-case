@@ -45,6 +45,14 @@ textarea {
     border-top: 1px solid #bbcad2;
     display: flex;
     justify-content: space-between;
-    flex-direction: row-reverse;
+    align-items: center;
     box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.1);
+}
+.error {
+    color: #f1002b;
+    font-weight: bold;
+}
+.info {
+    color: #009ff1;
+    font-weight: bold;
 }

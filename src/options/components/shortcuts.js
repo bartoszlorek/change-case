@@ -42,7 +42,7 @@ class Shortcuts extends React.Component {
     }
 
     render() {
-        let { methods } = this.props;
+        let { methods, onMessage } = this.props;
         return (
             <div className={style.wrap}>
                 <p className={style.description}>
@@ -57,7 +57,7 @@ class Shortcuts extends React.Component {
                             active={this.state.active === method.name}
                             onClick={this.handelActive}
                             onAssign={this.handleAssign}
-                        />
+                            onMessage={onMessage} />
                     )}
                 </div>
             </div>

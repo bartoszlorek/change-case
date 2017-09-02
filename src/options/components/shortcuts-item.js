@@ -7,6 +7,20 @@ import style from '../style.css';
 const Mousetrap = require('mousetrap-record')(require('mousetrap'));
 const escKeys = code => code && uniq(code.split(/[\+\s]/)).join('+');
 
+function validKeys(code, handler) {
+    if (code[0] === 'del') {
+        return '';
+    }
+    // don't press too long
+    let last = code.length - 1;
+    if (code[last] === code[last - 1]) {
+        handler('invalid keys', 'error');
+        return '';
+    }
+    handler(null);
+    return code.join(' ');
+}
+
 class ShortcutItem extends React.Component {
     constructor(props) {
         super(props);
@@ -22,7 +36,7 @@ class ShortcutItem extends React.Component {
         Mousetrap.record(code => {
             this.props.onAssign({
                 name: this.props.data.name,
-                code: code[0] !== 'del' && code.join(' ')
+                code: validKeys(code, this.props.onMessage)
             });
             this.props.onClick();
             return false;

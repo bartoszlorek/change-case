@@ -1,9 +1,12 @@
 import React from 'react';
 import style from '../style.css';
 
-function controls(props) {
+import Message from './message';
+
+function Controls(props) {
     return (
         <div className={style.controls}>
+            <Message data={props.message} />
             <button
                 type='submit'
                 className='save'
@@ -14,4 +17,4 @@ function controls(props) {
     )
 }
 
-export default controls;
+export default Controls;

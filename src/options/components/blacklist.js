@@ -1,7 +1,7 @@
 import React from 'react';
 import style from '../style.css';
 
-export default function(props) {
+export default function (props) {
     return (
         <div className={style.wrap}>
             <p className={style.description}>
