@@ -2,11 +2,11 @@ import React from 'react';
 import { bind } from './react-utils';
 import style from './style.css';
 
-import Blacklist from './components/blacklist';
+import Wrap from './components/wrap';
+import Message from './components/message';
 import Shortcuts from './components/shortcuts';
-import Controls from './components/controls';
 
-const methods = [
+const ShortcutsItems = [
     { name: 'uppercase', label: 'UPPERCASE' },
     { name: 'lowercase', label: 'lowercase' },
     { name: 'titleCase', label: 'Title Case' },
@@ -49,14 +49,24 @@ class Options extends React.Component {
     render() {
         return (
             <div className={style.app}>
-                <Blacklist />
-                <Shortcuts
-                    methods={methods}
-                    onMessage={this.handleMessage} />
-                <Controls
-                    message={this.state.message}
-                    onSave={this.handelSave} />
-            </div>
+                <Wrap
+                    title='Blacklist'
+                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
+                    <textarea rows='5'></textarea>
+                </Wrap>
+                <Wrap
+                    title='Keyboard Shortcuts'
+                    description='press "Delete" to remove assignment'>
+                    <Shortcuts
+                        items={ShortcutsItems}
+                        onMessage={this.handleMessage}
+                    />
+                </Wrap>
+                <div className={style.controls}>
+                    <Message data={this.state.message} />
+                    <button onClick={this.handelSave}>Save</button>
+                </div>
+            </div >
         )
     }
 }

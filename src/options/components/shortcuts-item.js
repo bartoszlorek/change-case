@@ -21,7 +21,7 @@ function validKeys(code, handler) {
     return code.join(' ');
 }
 
-class ShortcutItem extends React.Component {
+class ShortcutsItem extends React.Component {
     constructor(props) {
         super(props);
         bind(this, [
@@ -64,4 +64,4 @@ class ShortcutItem extends React.Component {
     }
 }
 
-export default ShortcutItem;
+export default ShortcutsItem;

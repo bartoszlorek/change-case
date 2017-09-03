@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { bind } from '../react-utils';
 import style from '../style.css';
 
-import ShortcutItem from './shortcuts-item';
+import ShortcutsItem from './shortcuts-item';
 
 class Shortcuts extends React.Component {
     constructor(props) {
@@ -18,20 +18,20 @@ class Shortcuts extends React.Component {
         }
     }
 
-    handelActive(methodName) {
-        this.setState((prevState) => {
+    handelActive(itemName) {
+        this.setState(prevState => {
             let active = null;
-            if (methodName && methodName !== prevState.active) {
-                active = methodName;
+            if (itemName && itemName !== prevState.active) {
+                active = itemName;
             }
             return { active }
         });
     }
 
-    handleAssign(method) {
-        this.setState((prevState) => {
+    handleAssign(item) {
+        this.setState(prevState => {
             let newKeys = {};
-            newKeys[method.name] = method.code;
+            newKeys[item.name] = item.code;
             return {
                 keys: Object.assign({},
                     prevState.keys,
@@ -42,24 +42,21 @@ class Shortcuts extends React.Component {
     }
 
     render() {
-        let { methods, onMessage } = this.props;
+        let { items, onMessage } = this.props;
         return (
-            <div className={style.wrap}>
-                <p className={style.description}>
-                    <b>Keyboard Shortcuts:</b> press <i>Delete</i> to remove assignment
-                </p>
-                <div>
-                    {methods && methods.map(method =>
-                        <ShortcutItem
-                            key={method.name}
-                            data={method}
-                            code={this.state.keys[method.name]}
-                            active={this.state.active === method.name}
-                            onClick={this.handelActive}
-                            onAssign={this.handleAssign}
-                            onMessage={onMessage} />
-                    )}
-                </div>
+            <div>
+                {items && items.map(item =>
+                    <ShortcutsItem
+                        key={item.name}
+                        data={item}
+                        code={this.state.keys[item.name]}
+                        active={this.state.active === item.name}
+
+                        onClick={this.handelActive}
+                        onAssign={this.handleAssign}
+                        onMessage={onMessage}
+                    />
+                )}
             </div>
         )
     }

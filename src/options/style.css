@@ -1,18 +1,18 @@
 body {
     margin: 0;
-    background: #f5f8fb;
+    background: #f2f2f2;
 }
 textarea {
     width: 100%;
     resize: vertical;
-    border: 1px solid #bbcad2;
+    border: 1px solid #d3d3d3;
 }
 .app {
     padding-bottom: 53px;
 }
 .wrap {
     padding: 14px 17px;
-    border-top: 1px solid #bbcad2;
+    border-top: 1px solid #d3d3d3;
 }
 .wrap:first-child {
     border-top: 0;
@@ -23,12 +23,12 @@ textarea {
 }
 .item {
     padding: .75em;
-    border-bottom: 1px solid #d6e0eb;
+    border-bottom: 1px solid #dadada;
     display: flex;
     justify-content: space-between;
 }
 .item:hover {
-    background: #e2edf9;
+    background: #dbe5f0;
     cursor: pointer;
 }
 .itemActive,
@@ -42,7 +42,7 @@ textarea {
     bottom: 0; left: 0; right: 0;
     padding: 14px 17px;
     background: #fff;
-    border-top: 1px solid #bbcad2;
+    border-top: 1px solid #d3d3d3;
     display: flex;
     justify-content: space-between;
     align-items: center;

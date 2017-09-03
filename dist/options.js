@@ -22700,17 +22700,17 @@ var _style = __webpack_require__(21);
 
 var _style2 = _interopRequireDefault(_style);
 
-var _blacklist = __webpack_require__(208);
+var _wrap = __webpack_require__(262);
 
-var _blacklist2 = _interopRequireDefault(_blacklist);
+var _wrap2 = _interopRequireDefault(_wrap);
+
+var _message = __webpack_require__(261);
+
+var _message2 = _interopRequireDefault(_message);
 
 var _shortcuts = __webpack_require__(209);
 
 var _shortcuts2 = _interopRequireDefault(_shortcuts);
-
-var _controls = __webpack_require__(260);
-
-var _controls2 = _interopRequireDefault(_controls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22720,7 +22720,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var methods = [{ name: 'uppercase', label: 'UPPERCASE' }, { name: 'lowercase', label: 'lowercase' }, { name: 'titleCase', label: 'Title Case' }, { name: 'sentenceCase', label: 'Sentence case' }, { name: 'camelCase', label: 'camelCase' }, { name: 'pascalCase', label: 'PascalCase' }, { name: 'constantCase', label: 'CONSTANT_CASE' }, { name: 'paramCase', label: 'param-case' }, { name: 'snakeCase', label: 'snake_case' }, { name: 'dotCase', label: 'dot.case' }, { name: 'toggleCase', label: 'tOGGLE cASE' }, { name: 'noCase', label: 'no case' }];
+var ShortcutsItems = [{ name: 'uppercase', label: 'UPPERCASE' }, { name: 'lowercase', label: 'lowercase' }, { name: 'titleCase', label: 'Title Case' }, { name: 'sentenceCase', label: 'Sentence case' }, { name: 'camelCase', label: 'camelCase' }, { name: 'pascalCase', label: 'PascalCase' }, { name: 'constantCase', label: 'CONSTANT_CASE' }, { name: 'paramCase', label: 'param-case' }, { name: 'snakeCase', label: 'snake_case' }, { name: 'dotCase', label: 'dot.case' }, { name: 'toggleCase', label: 'tOGGLE cASE' }, { name: 'noCase', label: 'no case' }];
 
 var Options = function (_React$Component) {
     _inherits(Options, _React$Component);
@@ -22758,13 +22758,33 @@ var Options = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 { className: _style2.default.app },
-                _react2.default.createElement(_blacklist2.default, null),
-                _react2.default.createElement(_shortcuts2.default, {
-                    methods: methods,
-                    onMessage: this.handleMessage }),
-                _react2.default.createElement(_controls2.default, {
-                    message: this.state.message,
-                    onSave: this.handelSave })
+                _react2.default.createElement(
+                    _wrap2.default,
+                    {
+                        title: 'Blacklist',
+                        description: 'comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."' },
+                    _react2.default.createElement('textarea', { rows: '5' })
+                ),
+                _react2.default.createElement(
+                    _wrap2.default,
+                    {
+                        title: 'Keyboard Shortcuts',
+                        description: 'press "Delete" to remove assignment' },
+                    _react2.default.createElement(_shortcuts2.default, {
+                        items: ShortcutsItems,
+                        onMessage: this.handleMessage
+                    })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: _style2.default.controls },
+                    _react2.default.createElement(_message2.default, { data: this.state.message }),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handelSave },
+                        'Save'
+                    )
+                )
             );
         }
     }]);
@@ -22783,7 +22803,7 @@ exports = module.exports = __webpack_require__(205)(undefined);
 
 
 // module
-exports.push([module.i, "body {\r\n    margin: 0;\r\n    background: #f5f8fb;\r\n}\r\ntextarea {\r\n    width: 100%;\r\n    resize: vertical;\r\n    border: 1px solid #bbcad2;\r\n}\r\n.style-app--1ZC4t {\r\n    padding-bottom: 53px;\r\n}\r\n.style-wrap--305tL {\r\n    padding: 14px 17px;\r\n    border-top: 1px solid #bbcad2;\r\n}\r\n.style-wrap--305tL:first-child {\r\n    border-top: 0;\r\n}\r\n.style-description--21Q2a {\r\n    margin: 0 0 1em;\r\n    line-height: 1.5em;\r\n}\r\n.style-item--30_bc {\r\n    padding: .75em;\r\n    border-bottom: 1px solid #d6e0eb;\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n.style-item--30_bc:hover {\r\n    background: #e2edf9;\r\n    cursor: pointer;\r\n}\r\n.style-itemActive--1gX5h,\r\n.style-itemActive--1gX5h:hover {\r\n    background: #009ff1;\r\n    border-color: #0088cc;\r\n    color: #fff;\r\n}\r\n.style-controls--3pnpX {\r\n    position: fixed;\r\n    bottom: 0; left: 0; right: 0;\r\n    padding: 14px 17px;\r\n    background: #fff;\r\n    border-top: 1px solid #bbcad2;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.1);\r\n}\r\n.style-error---dbOI {\r\n    color: #f1002b;\r\n    font-weight: bold;\r\n}\r\n.style-info--1Q6AG {\r\n    color: #009ff1;\r\n    font-weight: bold;\r\n}", ""]);
+exports.push([module.i, "body {\r\n    margin: 0;\r\n    background: #f2f2f2;\r\n}\r\ntextarea {\r\n    width: 100%;\r\n    resize: vertical;\r\n    border: 1px solid #d3d3d3;\r\n}\r\n.style-app--1ZC4t {\r\n    padding-bottom: 53px;\r\n}\r\n.style-wrap--305tL {\r\n    padding: 14px 17px;\r\n    border-top: 1px solid #d3d3d3;\r\n}\r\n.style-wrap--305tL:first-child {\r\n    border-top: 0;\r\n}\r\n.style-description--21Q2a {\r\n    margin: 0 0 1em;\r\n    line-height: 1.5em;\r\n}\r\n.style-item--30_bc {\r\n    padding: .75em;\r\n    border-bottom: 1px solid #dadada;\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n.style-item--30_bc:hover {\r\n    background: #dbe5f0;\r\n    cursor: pointer;\r\n}\r\n.style-itemActive--1gX5h,\r\n.style-itemActive--1gX5h:hover {\r\n    background: #009ff1;\r\n    border-color: #0088cc;\r\n    color: #fff;\r\n}\r\n.style-controls--3pnpX {\r\n    position: fixed;\r\n    bottom: 0; left: 0; right: 0;\r\n    padding: 14px 17px;\r\n    background: #fff;\r\n    border-top: 1px solid #d3d3d3;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.1);\r\n}\r\n.style-error---dbOI {\r\n    color: #f1002b;\r\n    font-weight: bold;\r\n}\r\n.style-info--1Q6AG {\r\n    color: #009ff1;\r\n    font-weight: bold;\r\n}", ""]);
 
 // exports
 exports.locals = {
@@ -23334,50 +23354,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function (props) {
-    return _react2.default.createElement(
-        'div',
-        { className: _style2.default.wrap },
-        _react2.default.createElement(
-            'p',
-            { className: _style2.default.description },
-            _react2.default.createElement(
-                'b',
-                null,
-                'Blacklist:'
-            ),
-            ' comma-separated list of words to ignore during conversion, ',
-            _react2.default.createElement(
-                'i',
-                null,
-                'e.g. Hello World, New York, John, ...'
-            )
-        ),
-        _react2.default.createElement('textarea', { rows: '5' })
-    );
-};
-
-var _react = __webpack_require__(14);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _style = __webpack_require__(21);
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
+/* 208 */,
 /* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23434,21 +23411,21 @@ var Shortcuts = function (_React$Component) {
 
     _createClass(Shortcuts, [{
         key: 'handelActive',
-        value: function handelActive(methodName) {
+        value: function handelActive(itemName) {
             this.setState(function (prevState) {
                 var active = null;
-                if (methodName && methodName !== prevState.active) {
-                    active = methodName;
+                if (itemName && itemName !== prevState.active) {
+                    active = itemName;
                 }
                 return { active: active };
             });
         }
     }, {
         key: 'handleAssign',
-        value: function handleAssign(method) {
+        value: function handleAssign(item) {
             this.setState(function (prevState) {
                 var newKeys = {};
-                newKeys[method.name] = method.code;
+                newKeys[item.name] = item.code;
                 return {
                     keys: Object.assign({}, prevState.keys, newKeys)
                 };
@@ -23460,42 +23437,24 @@ var Shortcuts = function (_React$Component) {
             var _this2 = this;
 
             var _props = this.props,
-                methods = _props.methods,
+                items = _props.items,
                 onMessage = _props.onMessage;
 
             return _react2.default.createElement(
                 'div',
-                { className: _style2.default.wrap },
-                _react2.default.createElement(
-                    'p',
-                    { className: _style2.default.description },
-                    _react2.default.createElement(
-                        'b',
-                        null,
-                        'Keyboard Shortcuts:'
-                    ),
-                    ' press ',
-                    _react2.default.createElement(
-                        'i',
-                        null,
-                        'Delete'
-                    ),
-                    ' to remove assignment'
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    methods && methods.map(function (method) {
-                        return _react2.default.createElement(_shortcutsItem2.default, {
-                            key: method.name,
-                            data: method,
-                            code: _this2.state.keys[method.name],
-                            active: _this2.state.active === method.name,
-                            onClick: _this2.handelActive,
-                            onAssign: _this2.handleAssign,
-                            onMessage: onMessage });
-                    })
-                )
+                null,
+                items && items.map(function (item) {
+                    return _react2.default.createElement(_shortcutsItem2.default, {
+                        key: item.name,
+                        data: item,
+                        code: _this2.state.keys[item.name],
+                        active: _this2.state.active === item.name,
+
+                        onClick: _this2.handelActive,
+                        onAssign: _this2.handleAssign,
+                        onMessage: onMessage
+                    });
+                })
             );
         }
     }]);
@@ -23563,19 +23522,19 @@ function validKeys(code, handler) {
     return code.join(' ');
 }
 
-var ShortcutItem = function (_React$Component) {
-    _inherits(ShortcutItem, _React$Component);
+var ShortcutsItem = function (_React$Component) {
+    _inherits(ShortcutsItem, _React$Component);
 
-    function ShortcutItem(props) {
-        _classCallCheck(this, ShortcutItem);
+    function ShortcutsItem(props) {
+        _classCallCheck(this, ShortcutsItem);
 
-        var _this = _possibleConstructorReturn(this, (ShortcutItem.__proto__ || Object.getPrototypeOf(ShortcutItem)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ShortcutsItem.__proto__ || Object.getPrototypeOf(ShortcutsItem)).call(this, props));
 
         (0, _reactUtils.bind)(_this, ['handleClick']);
         return _this;
     }
 
-    _createClass(ShortcutItem, [{
+    _createClass(ShortcutsItem, [{
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             var _this2 = this;
@@ -23622,10 +23581,10 @@ var ShortcutItem = function (_React$Component) {
         }
     }]);
 
-    return ShortcutItem;
+    return ShortcutsItem;
 }(_react2.default.Component);
 
-exports.default = ShortcutItem;
+exports.default = ShortcutsItem;
 
 /***/ }),
 /* 211 */
@@ -26245,49 +26204,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 
 /***/ }),
-/* 260 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(14);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _style = __webpack_require__(21);
-
-var _style2 = _interopRequireDefault(_style);
-
-var _message = __webpack_require__(261);
-
-var _message2 = _interopRequireDefault(_message);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Controls(props) {
-    return _react2.default.createElement(
-        'div',
-        { className: _style2.default.controls },
-        _react2.default.createElement(_message2.default, { data: props.message }),
-        _react2.default.createElement(
-            'button',
-            {
-                type: 'submit',
-                className: 'save',
-                onClick: props.onSave },
-            'Save'
-        )
-    );
-}
-
-exports.default = Controls;
-
-/***/ }),
+/* 260 */,
 /* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26326,6 +26243,81 @@ function Message(props) {
 }
 
 exports.default = Message;
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (props) {
+    var title = props.title,
+        description = props.description,
+        children = props.children;
+
+    return _react2.default.createElement(
+        'div',
+        { className: _style2.default.wrap },
+        _react2.default.createElement(
+            'p',
+            { className: _style2.default.description },
+            title && _react2.default.createElement(
+                'b',
+                null,
+                title,
+                ': '
+            ),
+            escQuotes(description)
+        ),
+        children
+    );
+};
+
+var _react = __webpack_require__(14);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _style = __webpack_require__(21);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function escQuotes(string) {
+    if (!string) {
+        return null;
+    }
+    string = string.trim();
+    var atStart = +(string[0] === '"'),
+        parts = string.split('"');
+
+    if (parts[0] === '') {
+        parts.shift();
+    }
+    if (parts[parts.length - 1] === '') {
+        parts.pop();
+    }
+    return parts.map(function (part, index) {
+        var isQuote = index % 2 !== atStart;
+        if (isQuote) {
+            return _react2.default.createElement(
+                'i',
+                { key: index },
+                part
+            );
+        }
+        return _react2.default.createElement(
+            'span',
+            { key: index },
+            part
+        );
+    });
+}
 
 /***/ })
 /******/ ]);
