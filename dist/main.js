@@ -1,1 +1,149 @@
-!function(e){function t(r){if(n[r])return n[r].exports;var a=n[r]={i:r,l:!1,exports:{}};return e[r].call(a.exports,a,a.exports,t),a.l=!0,a.exports}var n={};t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=7)}({7:function(e,t,n){"use strict";function r(e){return e&&"complete"===e.status&&void 0===e.url}function a(e,t){var n=e.indexOf(t);n!==-1&&e.splice(n,1)}function o(e){return function(t,n){t.selectionText&&c(n.id,function(){chrome.tabs.sendMessage(n.id,{type:"CHANGE_CASE",value:e})})}}function s(){for(var e=[["upperCase","UPPERCASE"],["lowerCase","lowercase"],["titleCase","Title Case"],["sentenceCase","Sentence case"],null,["camelCase","camelCase"],["pascalCase","PascalCase"],["constantCase","CONSTANT_CASE"],null,["paramCase","param-case"],["snakeCase","snake_case"],["dotCase","dot.case"],null,["toggleCase","tOGGLE cASE"],["noCase","no case"]],t=e.length,n=void 0,r=0;r<t;r++)n=null===e[r]?{type:"separator"}:{title:e[r][1],onclick:o(e[r][0])},n.contexts=["editable"],chrome.contextMenus.create(n)}var c=function(){var e=[];return chrome.tabs.onUpdated.addListener(function(t,n){r(n)&&a(e,t)}),function(t,n){e.indexOf(t)===-1?chrome.tabs.executeScript(t,{file:"script.js"},function(){if(chrome.runtime.lastError)return void alert(chrome.runtime.lastError.message);e.push(t),n()}):n()}}();s()}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 93);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 93:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function isCompleted(info) {
+    return info && info.status === 'complete' && typeof info.url === 'undefined';
+}
+
+function removeItem(array, item) {
+    var index = array.indexOf(item);
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
+
+var executeScript = function () {
+    var executedTabs = [];
+
+    chrome.tabs.onUpdated.addListener(function (tabId, info) {
+        if (!isCompleted(info)) return;
+        removeItem(executedTabs, tabId);
+    });
+    return function (tabId, callback) {
+        if (executedTabs.indexOf(tabId) === -1) {
+            chrome.tabs.executeScript(tabId, {
+                file: 'script.js'
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    alert(chrome.runtime.lastError.message);
+                    return;
+                }
+                executedTabs.push(tabId);
+                callback();
+            });
+        } else {
+            callback();
+        }
+    };
+}();
+
+function handleChangeCase(method) {
+    return function (info, tab) {
+        if (!info.selectionText) {
+            return;
+        }
+        executeScript(tab.id, function () {
+            chrome.tabs.sendMessage(tab.id, {
+                type: 'CHANGE_CASE',
+                value: method
+            });
+        });
+    };
+}
+
+function createMenu() {
+    var cases = [['upperCase', 'UPPERCASE'], ['lowerCase', 'lowercase'], ['titleCase', 'Title Case'], ['sentenceCase', 'Sentence case'], null, ['camelCase', 'camelCase'], ['pascalCase', 'PascalCase'], ['constantCase', 'CONSTANT_CASE'], null, ['paramCase', 'param-case'], ['snakeCase', 'snake_case'], ['dotCase', 'dot.case'], null, ['toggleCase', 'tOGGLE cASE'], ['noCase', 'no case']];
+    var length = cases.length,
+        params = void 0;
+
+    for (var i = 0; i < length; i++) {
+        if (cases[i] === null) {
+            params = {
+                type: 'separator'
+            };
+        } else {
+            params = {
+                title: cases[i][1],
+                onclick: handleChangeCase(cases[i][0])
+            };
+        }
+        params.contexts = ['editable'];
+        chrome.contextMenus.create(params);
+    }
+}
+
+createMenu();
+
+/***/ })
+
+/******/ });
