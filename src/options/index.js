@@ -3,6 +3,8 @@ import { bind } from './react-utils';
 import style from './style.css';
 
 import Wrap from './components/wrap';
+import Input from './components/input';
+import Textarea from './components/textarea';
 import Message from './components/message';
 import Shortcuts from './components/shortcuts';
 
@@ -25,11 +27,13 @@ class Options extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: null
+            message: null,
+            data: {}
         }
         bind(this, [
             'handelSave',
-            'handleMessage'
+            'handleMessage',
+            'handleData'
         ]);
     }
 
@@ -46,13 +50,22 @@ class Options extends React.Component {
         });
     }
 
+    handleData(name) {
+        return (value) => {
+            console.log(name, value)
+            //this.setState({});
+        }
+    }
+
     render() {
         return (
             <div className={style.app}>
                 <Wrap
                     title='Blacklist'
-                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
-                    <textarea rows='5'></textarea>
+                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'
+                    data={this.state.data['blacklist']}
+                    onData={this.handleData('blacklist')}>
+                    <Textarea rows='5'></Textarea>
                 </Wrap>
                 <Wrap
                     title='Keyboard Shortcuts'

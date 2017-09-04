@@ -5,6 +5,9 @@ function escQuotes(string) {
     if (!string) {
         return null;
     }
+    if (string.indexOf('"') < 0) {
+        return string;
+    }
     string = string.trim();
     let atStart = +(string[0] === '"'),
         parts = string.split('"');
@@ -24,14 +27,29 @@ function escQuotes(string) {
     });
 }
 
+function isReactComponent(value) {
+    return !!value && typeof value.type === 'function';
+}
+
 export default function (props) {
-    let { title, description, children } = props;
+    let { title, description, children, data, onData } = props;
+
     return (
         <div className={style.wrap}>
             <p className={style.description}>
                 {title && <b>{title}: </b>}{escQuotes(description)}
             </p>
-            {children}
+            {React.Children.map(children,
+                child => {
+                    if (isReactComponent(child)) {
+                        return React.cloneElement(child, {
+                            data,
+                            onData
+                        })
+                    }
+                    return child;
+                }
+            )}
         </div>
     )
 }
