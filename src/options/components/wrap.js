@@ -27,29 +27,14 @@ function escQuotes(string) {
     });
 }
 
-function isReactComponent(value) {
-    return !!value && typeof value.type === 'function';
-}
-
 export default function (props) {
-    let { title, description, children, data, onData } = props;
-
+    let { title, description, children } = props;
     return (
         <div className={style.wrap}>
             <p className={style.description}>
                 {title && <b>{title}: </b>}{escQuotes(description)}
             </p>
-            {React.Children.map(children,
-                child => {
-                    if (isReactComponent(child)) {
-                        return React.cloneElement(child, {
-                            data,
-                            onData
-                        })
-                    }
-                    return child;
-                }
-            )}
+            {children}
         </div>
     )
 }
