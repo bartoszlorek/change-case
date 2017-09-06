@@ -1,11 +1,14 @@
 body {
     margin: 0;
-    background: #f2f2f2;
+    background: #f1f1f1;
 }
 textarea {
     width: 100%;
     resize: vertical;
     border: 1px solid #d3d3d3;
+}
+textarea:focus {
+    border-color: #009ff1;
 }
 .app {
     padding-bottom: 53px;
@@ -22,20 +25,28 @@ textarea {
     line-height: 1.5em;
 }
 .item {
+    position: relative;
     padding: .75em;
-    border-bottom: 1px solid #dadada;
+    border-top: 1px dashed #ccc;
     display: flex;
     justify-content: space-between;
 }
+.item:first-child {
+    border-top: 0;
+}
 .item:hover {
-    background: #dbe5f0;
+    background: #e6e6e6;
     cursor: pointer;
 }
 .itemActive,
 .itemActive:hover {
-    background: #009ff1;
-    border-color: #0088cc;
     color: #fff;
+    background: #009ff1;
+    border-top-color: #009ff1;
+    border-top-style: solid;
+}
+.itemActive + .item {
+    border-top: 1px solid #009ff1;
 }
 .controls {
     position: fixed;
