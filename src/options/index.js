@@ -45,8 +45,16 @@ class Options extends React.Component {
         ]);
     }
 
+    componentDidMount() {
+        chrome.storage.sync.get(null, data => {
+            this.setState({ data });
+        });
+    }
+
     handelSave() {
-        console.log('save')
+        chrome.storage.sync.set(this.state.data, () => {
+            this.handleMessage('options saved');
+        });
     }
 
     handleMessage(text, type) {
@@ -56,6 +64,11 @@ class Options extends React.Component {
                 text
             }
         });
+        if (text) {
+            setTimeout(() => {
+                this.handleMessage(null);
+            }, 3000);
+        }
     }
 
     handleData(name) {
@@ -78,7 +91,7 @@ class Options extends React.Component {
                     title='Blacklist'
                     description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
                     <Textarea
-                        defaultValue={this.state.data['blacklist']}
+                        value={this.state.data['blacklist']}
                         onChange={this.handleData('blacklist')}>
                     </Textarea>
                 </Wrap>
