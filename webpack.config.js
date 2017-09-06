@@ -2,8 +2,8 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        'main': './src/main.js',
-        'script': './src/script.js',
+        'background': './src/background.js',
+        'content-script': './src/content-script.js',
         'options': './src/options.js'
     },
     output: {

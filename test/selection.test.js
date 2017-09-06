@@ -1,4 +1,9 @@
-import { _private, interpolateRange, selectionRange } from '../src/selection.js';
+import {
+    _private,
+    interpolateRange,
+    selectionRange
+} from '../src/scripts/selection';
+
 const { nextNode, rangeTextNodes } = _private;
 
 describe('selection.js', () => {
@@ -9,7 +14,7 @@ describe('selection.js', () => {
         '<p id="third">the lazy dog</p>';
 
     let fakeRange = {
-        empty: () => {},
+        empty: () => { },
         start: document.getElementById('first').firstChild,
         end: document.getElementById('second').firstChild,
         offset: [2, 11]
@@ -20,7 +25,7 @@ describe('selection.js', () => {
             fakeRange.start.nodeValue
         ).toEqual('the quick brown')
     })
-    
+
     describe('nextNode', () => {
         let first = nextNode(fakeRange.start.parentElement),
             second = nextNode(first),
@@ -78,5 +83,5 @@ describe('selection.js', () => {
             ).toEqual([2, 15]);
         })
     })
-    
+
 })

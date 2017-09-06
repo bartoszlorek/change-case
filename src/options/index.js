@@ -1,6 +1,6 @@
 import React from 'react';
 import { isPlainObject } from 'lodash';
-import { bind } from './react-utils';
+import { bind } from './utils/react-utils';
 import style from './style.css';
 
 import Wrap from './components/wrap';
@@ -23,13 +23,6 @@ const shortcutsItems = [
     { name: 'toggleCase', label: 'tOGGLE cASE' },
     { name: 'noCase', label: 'no case' }
 ];
-
-function addValue(data, value) {
-    if (isPlainObject(value)) {
-        return Object.assign({}, data, value);
-    }
-    return value;
-}
 
 class Options extends React.Component {
     constructor(props) {
@@ -112,6 +105,13 @@ class Options extends React.Component {
             </div >
         )
     }
+}
+
+export function addValue(data, value) {
+    if (isPlainObject(value)) {
+        return Object.assign({}, data, value);
+    }
+    return value;
 }
 
 export default Options;

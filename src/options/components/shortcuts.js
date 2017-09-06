@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { bind } from '../react-utils';
+import { bind } from '../utils/react-utils';
 import style from '../style.css';
 
 import ShortcutsItem from './shortcuts-item';

@@ -1,5 +1,5 @@
-import applyFilter from '../src/utils/apply-filter';
-import CASE_METHODS from '../src/cases';
+import applyFilter from '../src/scripts/apply-filter';
+import CASE_METHODS from '../src/scripts/cases';
 
 const { upperCase, pascalCase, sentenceCase } = CASE_METHODS;
 
@@ -9,7 +9,7 @@ describe('apply-filter.js', () => {
         let result = applyFilter(upperCase, 'lazy brown fox');
         expect(result).toEqual('LAZY BROWN FOX');
     })
-    
+
     it('should ignore given words', () => {
         let source = 'The lazy brown fox jumps over the lazy dog.',
             output = 'THE lazy brown fox JUMPS OVER THE lazy DOG.',

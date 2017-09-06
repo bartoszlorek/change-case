@@ -1,7 +1,7 @@
-import { _private } from '../src/script.js';
+import { _private } from '../src/content-script';
 const { changeCase } = _private;
 
-describe('script.js', () => {
+describe('content-script.js', () => {
     document.body.innerHTML = '<p id="element">text to change</p>';
 
     describe('changeCase', () => {

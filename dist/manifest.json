@@ -12,7 +12,7 @@
         "storage"
     ],
     "background": {
-        "scripts": ["main.js"],
+        "scripts": ["background.js"],
         "persistent": true
     },
     "options_ui": {

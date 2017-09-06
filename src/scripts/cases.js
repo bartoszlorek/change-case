@@ -7,6 +7,24 @@ import NON_WORD_REGEXP from './vendor/non-word-regexp';
 import CAMEL_CASE_REGEXP from './vendor/camel-case-regexp';
 import CAMEL_CASE_UPPER_REGEXP from './vendor/camel-case-upper-regexp';
 
+export default {
+    upperCase,
+    lowerCase,
+    titleCase,
+    sentenceCase,
+
+    camelCase,
+    pascalCase,
+    constantCase,
+
+    paramCase,
+    snakeCase,
+    dotCase,
+
+    toggleCase,
+    noCase: value => noCase(value, ' ')
+}
+
 function noCase(value, replacement) {
     value = String(value)
         .replace(CAMEL_CASE_REGEXP, '$1 $2')
@@ -79,7 +97,7 @@ function toggleCase(value) {
     let length = value.length,
         result = '';
 
-    for (let i=0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
         let char = value[i],
             upper = upperCase(char);
         result += char === upper
@@ -87,25 +105,4 @@ function toggleCase(value) {
             : upper;
     }
     return result;
-}
-
-export default {
-    noCase: function(value) {
-        return noCase(value, ' ')
-    },
-
-    upperCase,
-    lowerCase,
-    titleCase,
-    sentenceCase,
-
-    camelCase,
-    pascalCase,
-    constantCase,
-
-    paramCase,
-    snakeCase,
-    dotCase,
-
-    toggleCase
 }

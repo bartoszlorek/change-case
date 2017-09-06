@@ -1,6 +1,6 @@
-import CASE_METHODS from './cases';
-import dispatchError from './error';
-import selectionText from './selection';
+import CASE_METHODS from './scripts/cases';
+import dispatchError from './scripts/error';
+import selectionText from './scripts/selection';
 
 function dispatchEvents(element) {
     if (element.nodeType !== 1) {

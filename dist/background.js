@@ -92,7 +92,7 @@ var executeScript = function () {
     return function (tabId, callback) {
         if (executedTabs.indexOf(tabId) === -1) {
             chrome.tabs.executeScript(tabId, {
-                file: 'script.js'
+                file: 'content-script.js'
             }, function () {
                 if (chrome.runtime.lastError) {
                     alert(chrome.runtime.lastError.message);
@@ -122,19 +122,19 @@ function handleChangeCase(method) {
 }
 
 function createMenu() {
-    var cases = [['upperCase', 'UPPERCASE'], ['lowerCase', 'lowercase'], ['titleCase', 'Title Case'], ['sentenceCase', 'Sentence case'], null, ['camelCase', 'camelCase'], ['pascalCase', 'PascalCase'], ['constantCase', 'CONSTANT_CASE'], null, ['paramCase', 'param-case'], ['snakeCase', 'snake_case'], ['dotCase', 'dot.case'], null, ['toggleCase', 'tOGGLE cASE'], ['noCase', 'no case']];
-    var length = cases.length,
+    var items = [['upperCase', 'UPPERCASE'], ['lowerCase', 'lowercase'], ['titleCase', 'Title Case'], ['sentenceCase', 'Sentence case'], null, ['camelCase', 'camelCase'], ['pascalCase', 'PascalCase'], ['constantCase', 'CONSTANT_CASE'], null, ['paramCase', 'param-case'], ['snakeCase', 'snake_case'], ['dotCase', 'dot.case'], null, ['toggleCase', 'tOGGLE cASE'], ['noCase', 'no case']];
+    var length = items.length,
         params = void 0;
 
     for (var i = 0; i < length; i++) {
-        if (cases[i] === null) {
+        if (items[i] === null) {
             params = {
                 type: 'separator'
             };
         } else {
             params = {
-                title: cases[i][1],
-                onclick: handleChangeCase(cases[i][0])
+                title: items[i][1],
+                onclick: handleChangeCase(items[i][0])
             };
         }
         params.contexts = ['editable'];

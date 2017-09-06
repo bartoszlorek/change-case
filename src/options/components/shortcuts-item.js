@@ -1,25 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { uniq } from 'lodash';
-import { bind } from '../react-utils';
+import { bind } from '../utils/react-utils';
 import style from '../style.css';
 
 const Mousetrap = require('mousetrap-record')(require('mousetrap'));
-const escKeys = code => code && uniq(code.split(/[\+\s]/)).join('+');
-
-function validKeys(code, handler) {
-    if (code[0] === 'del') {
-        return '';
-    }
-    // don't press too long
-    let last = code.length - 1;
-    if (code[last] === code[last - 1]) {
-        handler('invalid keys', 'error');
-        return false;
-    }
-    handler(null);
-    return code.join(' ');
-}
 
 class ShortcutsItem extends React.Component {
     constructor(props) {
@@ -65,6 +50,24 @@ class ShortcutsItem extends React.Component {
             </div>
         )
     }
+}
+
+export function escKeys(code) {
+    return code && uniq(code.split(/[\+\s]/)).join('+');
+}
+
+export function validKeys(code, handler) {
+    if (code[0] === 'del') {
+        return '';
+    }
+    // don't press too long
+    let last = code.length - 1;
+    if (code[last] === code[last - 1]) {
+        handler('invalid keys', 'error');
+        return false;
+    }
+    handler(null);
+    return code.join(' ');
 }
 
 export default ShortcutsItem;

@@ -1,4 +1,4 @@
-import findAll from '../src/utils/find-all';
+import findAll from '../src/scripts/utils/find-all';
 
 const sentence = 'The lazy brown fox jumps over the Lazy dog.';
 const search = ['Brown Fox', 'LAZY'];

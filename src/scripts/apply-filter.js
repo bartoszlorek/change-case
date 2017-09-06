@@ -1,6 +1,6 @@
 import { isArray } from 'lodash';
-import findAll from './find-all';
-import spliceString from './splice-string'
+import findAll from './utils/find-all';
+import spliceString from './utils/splice-string'
 
 function applyFilter(method, string, ignore) {
     let outString = method(string);

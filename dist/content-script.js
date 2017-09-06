@@ -537,6 +537,29 @@ var _camelCaseUpperRegexp2 = _interopRequireDefault(_camelCaseUpperRegexp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.default = {
+    upperCase: upperCase,
+    lowerCase: lowerCase,
+    titleCase: titleCase,
+    sentenceCase: sentenceCase,
+
+    camelCase: camelCase,
+    pascalCase: pascalCase,
+    constantCase: constantCase,
+
+    paramCase: paramCase,
+    snakeCase: snakeCase,
+    dotCase: dotCase,
+
+    toggleCase: toggleCase,
+    noCase: function noCase(value) {
+        return _noCase(value, ' ');
+    }
+}; /**
+    * The cases are based on change-case by Blake Embrey
+    * https://github.com/blakeembrey/change-case
+    */
+
 function _noCase(value, replacement) {
     value = String(value).replace(_camelCaseRegexp2.default, '$1 $2').replace(_camelCaseUpperRegexp2.default, '$1 $2');
 
@@ -549,10 +572,7 @@ function _noCase(value, replacement) {
         });
     }
     return lowerCase(value);
-} /**
-   * The cases are based on change-case by Blake Embrey
-   * https://github.com/blakeembrey/change-case
-   */
+}
 
 function upperCase(value) {
     return value.toUpperCase();
@@ -619,27 +639,6 @@ function toggleCase(value) {
     }
     return result;
 }
-
-exports.default = {
-    noCase: function noCase(value) {
-        return _noCase(value, ' ');
-    },
-
-    upperCase: upperCase,
-    lowerCase: lowerCase,
-    titleCase: titleCase,
-    sentenceCase: sentenceCase,
-
-    camelCase: camelCase,
-    pascalCase: pascalCase,
-    constantCase: constantCase,
-
-    paramCase: paramCase,
-    snakeCase: snakeCase,
-    dotCase: dotCase,
-
-    toggleCase: toggleCase
-};
 
 /***/ }),
 

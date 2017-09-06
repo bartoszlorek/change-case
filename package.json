@@ -2,7 +2,7 @@
   "name": "change-case",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main.js",
+  "main": "src/background.js",
   "scripts": {
     "start": "webpack --progress --colors --watch",
     "build": "webpack -p --config webpack.config.prod.js",
