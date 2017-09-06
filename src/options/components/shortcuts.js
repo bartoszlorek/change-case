@@ -13,8 +13,7 @@ class Shortcuts extends React.Component {
             'handleAssign'
         ]);
         this.state = {
-            active: null,
-            keys: {}
+            active: null
         }
     }
 
@@ -28,28 +27,19 @@ class Shortcuts extends React.Component {
         });
     }
 
-    handleAssign(item) {
-        this.setState(prevState => {
-            let newKeys = {};
-            newKeys[item.name] = item.code;
-            return {
-                keys: Object.assign({},
-                    prevState.keys,
-                    newKeys
-                )
-            }
-        });
+    handleAssign(itemData) {
+        this.props.onChange(itemData);
     }
 
     render() {
-        let { items, onMessage } = this.props;
+        let { items, value, onMessage } = this.props;
         return (
             <div>
                 {items && items.map(item =>
                     <ShortcutsItem
                         key={item.name}
                         data={item}
-                        code={this.state.keys[item.name]}
+                        value={value && value[item.name]}
                         active={this.state.active === item.name}
 
                         onClick={this.handelActive}

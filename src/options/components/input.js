@@ -10,14 +10,14 @@ class Input extends React.Component {
     }
 
     handleChange(e) {
-        this.props.onData(e.target.value);
+        this.props.onChange(e.target.value);
     }
 
     render() {
-        let { data, value } = this.props;
         return (
-            <input type='text'
-                defaultValue={value || data}
+            <input
+                {...this.props}
+                type='text'
                 onChange={this.handleChange}
             />
         )

@@ -1,4 +1,5 @@
 import React from 'react';
+import { isPlainObject } from 'lodash';
 import { bind } from './react-utils';
 import style from './style.css';
 
@@ -8,7 +9,7 @@ import Textarea from './components/textarea';
 import Message from './components/message';
 import Shortcuts from './components/shortcuts';
 
-const ShortcutsItems = [
+const shortcutsItems = [
     { name: 'uppercase', label: 'UPPERCASE' },
     { name: 'lowercase', label: 'lowercase' },
     { name: 'titleCase', label: 'Title Case' },
@@ -22,6 +23,13 @@ const ShortcutsItems = [
     { name: 'toggleCase', label: 'tOGGLE cASE' },
     { name: 'noCase', label: 'no case' }
 ];
+
+function addValue(data, value) {
+    if (isPlainObject(value)) {
+        return Object.assign({}, data, value);
+    }
+    return value;
+}
 
 class Options extends React.Component {
     constructor(props) {
@@ -52,8 +60,14 @@ class Options extends React.Component {
 
     handleData(name) {
         return (value) => {
-            console.log(name, value)
-            //this.setState({});
+            this.setState(prevState => ({
+                data: Object.assign({}, prevState.data, {
+                    [name]: addValue(
+                        prevState.data[name],
+                        value
+                    )
+                })
+            }));
         }
     }
 
@@ -62,16 +76,19 @@ class Options extends React.Component {
             <div className={style.app}>
                 <Wrap
                     title='Blacklist'
-                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'
-                    data={this.state.data['blacklist']}
-                    onData={this.handleData('blacklist')}>
-                    <Textarea rows='5'></Textarea>
+                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
+                    <Textarea
+                        defaultValue={this.state.data['blacklist']}
+                        onChange={this.handleData('blacklist')}>
+                    </Textarea>
                 </Wrap>
                 <Wrap
                     title='Keyboard Shortcuts'
                     description='press "Delete" to remove assignment'>
                     <Shortcuts
-                        items={ShortcutsItems}
+                        items={shortcutsItems}
+                        value={this.state.data['shortcuts']}
+                        onChange={this.handleData('shortcuts')}
                         onMessage={this.handleMessage}
                     />
                 </Wrap>

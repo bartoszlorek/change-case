@@ -1,5 +1,4 @@
 import React from 'react';
-import { pick } from 'lodash';
 import { bind } from '../react-utils';
 
 class Textarea extends React.Component {
@@ -11,16 +10,14 @@ class Textarea extends React.Component {
     }
 
     handleChange(e) {
-        this.props.onData(e.target.value);
+        this.props.onChange(e.target.value);
     }
 
     render() {
-        let { data, children } = this.props,
-            props = pick(this.props, ['rows']);
         return (
             <textarea
-                {...props}
-                defaultValue={children || data}
+                {...this.props}
+                rows={this.props.rows || '5'}
                 onChange={this.handleChange}>
             </textarea>
         )

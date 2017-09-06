@@ -15,7 +15,7 @@ function validKeys(code, handler) {
     let last = code.length - 1;
     if (code[last] === code[last - 1]) {
         handler('invalid keys', 'error');
-        return '';
+        return false;
     }
     handler(null);
     return code.join(' ');
@@ -34,10 +34,12 @@ class ShortcutsItem extends React.Component {
             return;
         }
         Mousetrap.record(code => {
-            this.props.onAssign({
-                name: this.props.data.name,
-                code: validKeys(code, this.props.onMessage)
-            });
+            let keys = validKeys(code, this.props.onMessage);
+            if (keys !== false) {
+                this.props.onAssign({
+                    [this.props.data.name]: keys
+                });
+            }
             this.props.onClick();
             return false;
         });
@@ -49,16 +51,17 @@ class ShortcutsItem extends React.Component {
     }
 
     render() {
+        let { data, value, active } = this.props;
         return (
             <div
                 className={classNames(
-                    this.props.active &&
+                    active &&
                     style.itemActive,
                     style.item
                 )}
                 onClick={this.handleClick}>
-                <div>{this.props.data.label}</div>
-                <div>{escKeys(this.props.code)}</div>
+                <div>{data.label}</div>
+                <div>{escKeys(value)}</div>
             </div>
         )
     }
