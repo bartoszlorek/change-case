@@ -5,26 +5,21 @@ function escQuotes(string) {
     if (!string) {
         return null;
     }
-    if (string.indexOf('"') < 0) {
+    let parts = string.trim().split('"');
+    if (parts.length < 3) {
         return string;
     }
-    string = string.trim();
-    let atStart = +(string[0] === '"'),
-        parts = string.split('"');
-
+    let atStart = +(parts[0] === '');
     if (parts[0] === '') {
         parts.shift();
     }
     if (parts[parts.length - 1] === '') {
         parts.pop();
     }
-    return parts.map((part, index) => {
-        let isQuote = index % 2 !== atStart;
-        if (isQuote) {
-            return <i key={index}>{part}</i>;
-        }
-        return <span key={index}>{part}</span>;
-    });
+    return parts.map((part, index) => index % 2 === atStart
+        ? <span key={index}>{part}</span>
+        : <i key={index}>{part}</i>
+    )
 }
 
 export default function (props) {
