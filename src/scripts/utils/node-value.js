@@ -5,6 +5,9 @@ function nodeValue(node, value) {
         ? 'nodeValue'
         : 'value';
 
+    if (typeof node[prop] === 'undefined') {
+        return;
+    }
     return value !== undefined
         ? node[prop] = value
         : node[prop];

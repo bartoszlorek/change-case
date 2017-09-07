@@ -1,11 +1,11 @@
 body {
     margin: 0;
-    background: #f1f1f1;
+    background: #f6f7f9;
 }
 textarea {
     width: 100%;
     resize: vertical;
-    border: 1px solid #d3d3d3;
+    border: 1px solid #dddfe2;
 }
 textarea:focus {
     border-color: #009ff1;
@@ -15,7 +15,7 @@ textarea:focus {
 }
 .wrap {
     padding: 14px 17px;
-    border-top: 1px solid #d3d3d3;
+    border-top: 1px solid #dddfe2;
 }
 .wrap:first-child {
     border-top: 0;
@@ -27,7 +27,7 @@ textarea:focus {
 .item {
     position: relative;
     padding: .75em;
-    border-top: 1px dashed #ccc;
+    border-top: 1px dashed #dddfe2;
     display: flex;
     justify-content: space-between;
 }
@@ -35,7 +35,7 @@ textarea:focus {
     border-top: 0;
 }
 .item:hover {
-    background: #e6e6e6;
+    background: #eaedf0;
     cursor: pointer;
 }
 .itemActive,
@@ -53,11 +53,11 @@ textarea:focus {
     bottom: 0; left: 0; right: 0;
     padding: 14px 17px;
     background: #fff;
-    border-top: 1px solid #d3d3d3;
+    border-top: 1px solid #dddfe2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
 }
 .error {
     color: #f1002b;

@@ -1,5 +1,6 @@
-import nextNode from '../../src/scripts/next-node';
-import rangeNodes from '../../src/scripts/range-nodes';
+import isTextNode from '../../src/scripts/utils/is-text-node';
+import nextNode from '../../src/scripts/utils/next-node';
+import rangeNodes from '../../src/scripts/utils/range-nodes';
 import rangeText from '../../src/scripts/range-text';
 
 describe('range', () => {
@@ -40,11 +41,9 @@ describe('range', () => {
         it('should return an empty array', () => {
             expect(rangeNodes(null)).toEqual([]);
         })
-        it('should return an array', () => {
-            expect(rangeNodes(range)).toBeInstanceOf(Array);
-        })
         it('should return 2 text node', () => {
-            expect(rangeNodes(range).length).toEqual(2);
+            let nodes = rangeNodes(range).filter(isTextNode);
+            expect(nodes.length).toEqual(2);
         })
         it('first item should be first paragraph text node', () => {
             expect(rangeNodes(range)[0].nodeValue)

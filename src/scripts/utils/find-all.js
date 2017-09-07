@@ -1,14 +1,4 @@
-function findValue(string, value) {
-    let startIndex = 0,
-        indices = [],
-        index;
-
-    while ((index = string.indexOf(value, startIndex)) > -1) {
-        indices.push(index);
-        startIndex = index + value.length;
-    }
-    return indices;
-}
+import indicesOf from './indices-of';
 
 function findAll(string, search) {
     if (!string || !(search && search.length)) {
@@ -22,7 +12,7 @@ function findAll(string, search) {
 
     search.forEach(value => {
         value = value.toLowerCase();
-        findValue(tmpString, value).forEach(index => {
+        indicesOf(tmpString, value).forEach(index => {
             matches.push({
                 match: string.slice(index, index + value.length),
                 index: index
