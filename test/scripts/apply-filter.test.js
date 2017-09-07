@@ -1,5 +1,5 @@
-import applyFilter from '../src/scripts/apply-filter';
-import CASE_METHODS from '../src/scripts/cases';
+import applyFilter from '../../src/scripts/apply-filter';
+import CASE_METHODS from '../../src/scripts/cases';
 
 const { upperCase, pascalCase, sentenceCase } = CASE_METHODS;
 
