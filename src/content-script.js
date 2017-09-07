@@ -1,5 +1,5 @@
-import applyMethod from './scripts/apply-method';
 import selectionRange from './scripts/utils/selection-range';
+import applyMethod from './scripts/apply-method';
 import rangeText from './scripts/range-text';
 import dispatchEvent from './scripts/dispatch-event';
 import dispatchError from './scripts/dispatch-error';
