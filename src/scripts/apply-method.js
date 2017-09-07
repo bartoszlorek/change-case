@@ -1,24 +1,21 @@
 import CASE_METHODS from './cases';
+import nodeValue from './utils/node-value';
 
-function applyMethod(methodName, node) {
+// todo: apply filter 
+
+function applyMethod(methodName, node, filter) {
     let method = CASE_METHODS[methodName],
-        result,
-        start,
-        stop;
+        result;
 
-    if (typeof method !== 'function' || !(node && node.text)) {
+    if (typeof method !== 'function' || !node) {
         return false;
     }
-    start = node.range[0];
-    stop = node.range[1];
-    result = node.text.substring(0, start);
-    result += method(node.text.substring(start, stop));
-    result += node.text.substring(stop);
+    let { element, text, offset } = node;
+    result = text.substring(0, offset[0])
+        + method(text.substring(offset[0], offset[1]))
+        + text.substring(offset[1]);
 
-    if (node.element.nodeType === 3)
-        node.element.nodeValue = result;
-    else node.element.value = result;
-    return true;
+    return nodeValue(element, result);
 }
 
 export default applyMethod;

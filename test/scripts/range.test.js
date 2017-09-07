@@ -9,19 +9,21 @@ describe('range', () => {
         '<p id="second">fox jumps over</p>' +
         '<p id="third">the lazy dog</p>';
 
-    const fakeRange = {
+    const start = document.getElementById('first').firstChild;
+    const end = document.getElementById('second').firstChild;
+    const range = {
         empty: () => { },
-        start: document.getElementById('first').firstChild,
-        end: document.getElementById('second').firstChild,
-        offset: [2, 11]
+        offset: [2, 11],
+        start,
+        end
     }
 
     it('range is working', () => {
-        expect(fakeRange.start.nodeValue).toEqual('the quick brown');
+        expect(range.start.nodeValue).toEqual('the quick brown');
     })
 
     describe('nextNode', () => {
-        let first = nextNode(fakeRange.start.parentElement),
+        let first = nextNode(range.start.parentElement),
             second = nextNode(first),
             third = nextNode(second);
 
@@ -37,17 +39,19 @@ describe('range', () => {
     })
 
     describe('rangeNodes', () => {
-        it('should return empty array', () => {
+        it('should return an empty array', () => {
             expect(rangeNodes(null)).toEqual([]);
+            expect(rangeNodes({ start })).toEqual([]);
+            expect(rangeNodes({ end })).toEqual([]);
         })
-        it('should return array', () => {
-            expect(rangeNodes(fakeRange)).toBeInstanceOf(Array);
+        it('should return an array', () => {
+            expect(rangeNodes(range)).toBeInstanceOf(Array);
         })
         it('should return 2 text node', () => {
-            expect(rangeNodes(fakeRange).length).toEqual(2);
+            expect(rangeNodes(range).length).toEqual(2);
         })
         it('first item should be first paragraph text node', () => {
-            expect(rangeNodes(fakeRange)[0].nodeValue)
+            expect(rangeNodes(range)[0].nodeValue)
                 .toEqual('the quick brown');
         })
     })
@@ -56,8 +60,8 @@ describe('range', () => {
         it('should return empty array', () => {
             expect(rangeText(null)).toEqual([]);
         })
-        it('first item`s should be [2,15]', () => {
-            expect(rangeText(fakeRange)[0].range).toEqual([2, 15]);
+        it('first item offset should be [2,15]', () => {
+            expect(rangeText(range)[0].offset).toEqual([2, 15]);
         })
     })
 

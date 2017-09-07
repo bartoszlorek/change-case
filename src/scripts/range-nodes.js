@@ -1,18 +1,15 @@
 import nextNode from './next-node';
-
-const isTextNode = node => node && node.nodeType === 3;
+import isTextNode from './utils/is-text-node';
 
 function rangeNodes(range) {
     let node = range && range.start,
         endNode = range && range.end,
         nodes = [];
 
-    if (!(node && endNode)) {
+    if (!node || !endNode) {
         return nodes;
     }
-    if (isTextNode(node)) {
-        nodes.push(node);
-    }
+    nodes.push(node);
     if (node === endNode) {
         return nodes;
     }

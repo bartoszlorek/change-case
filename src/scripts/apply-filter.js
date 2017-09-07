@@ -20,7 +20,6 @@ function applyFilter(method, string, ignore) {
         outString = spliceString(outString, start, count, replace);
         offset += replace.length - count;
     });
-
     return outString;
 }
 
