@@ -1,18 +1,24 @@
 import nextNode from './next-node';
 
+const isTextNode = node => node && node.nodeType === 3;
+
 function rangeNodes(range) {
-    let node = range && range.start || null,
-        endNode = range && range.end || null,
+    let node = range && range.start,
+        endNode = range && range.end,
         nodes = [];
 
-    if (!node || !endNode) return nodes;
-    if (node === endNode) return [node];
-    if (node.nodeType === 3) {
+    if (!(node && endNode)) {
+        return nodes;
+    }
+    if (isTextNode(node)) {
         nodes.push(node);
+    }
+    if (node === endNode) {
+        return nodes;
     }
     while (node && node !== endNode) {
         node = nextNode(node);
-        if (node.nodeType === 3) {
+        if (isTextNode(node)) {
             nodes.push(node);
         }
     }
