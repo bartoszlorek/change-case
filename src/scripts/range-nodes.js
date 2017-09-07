@@ -2,17 +2,22 @@ import nextNode from './next-node';
 import isTextNode from './utils/is-text-node';
 
 function rangeNodes(range) {
-    let node = range && range.start,
-        endNode = range && range.end,
-        nodes = [];
+    let nodes = [],
+        node,
+        endNode;
 
-    if (!node || !endNode) {
+    if (range) {
+        node = range.startContainer;
+        endNode = range.endContainer;
+    } else {
         return nodes;
     }
+
     nodes.push(node);
     if (node === endNode) {
         return nodes;
     }
+
     while (node && node !== endNode) {
         node = nextNode(node);
         if (isTextNode(node)) {

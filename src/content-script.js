@@ -1,7 +1,10 @@
 import applyMethod from './scripts/apply-method';
-import selectionText from './scripts/selection-text';
+import selectionRange from './scripts/selection-range';
+import rangeText from './scripts/range-text';
 import dispatchEvent from './scripts/dispatch-event';
 import dispatchError from './scripts/dispatch-error';
+
+const selectionText = () => rangeText(selectionRange());
 
 chrome.runtime.onMessage.addListener(function (request) {
     if (!request || request.type !== 'CHANGE_CASE') {
@@ -14,6 +17,6 @@ chrome.runtime.onMessage.addListener(function (request) {
     }
     for (let i = 0; i < selection.length; i++) {
         applyMethod(methodName, selection[i]);
-        dispatchEvent(selection[i].element);
+        dispatchEvent(selection[i].node);
     }
 });

@@ -13,13 +13,10 @@ function selectionRange(_window, _document) {
     if (tagName === 'textarea' || tagName === 'input') {
         try {
             return {
-                empty: () => selection.empty(),
-                start: element,
-                end: element,
-                offset: [
-                    element.selectionStart,
-                    element.selectionEnd
-                ]
+                startContainer: element,
+                startOffset: element.selectionStart,
+                endContainer: element,
+                endOffset: element.selectionEnd
             }
         } catch (e) {
             return false;
@@ -36,16 +33,12 @@ function selectionRange(_window, _document) {
     if (selection.rangeCount === 0) {
         return false;
     }
-
     let range = selection.getRangeAt(0);
     return {
-        empty: () => selection.empty(),
-        start: range.startContainer,
-        end: range.endContainer,
-        offset: [
-            range.startOffset,
-            range.endOffset
-        ]
+        startContainer: range.startContainer,
+        startOffset: range.startOffset,
+        endContainer: range.endContainer,
+        endOffset: range.endOffset
     }
 }
 

@@ -3,19 +3,19 @@ import nodeValue from './utils/node-value';
 
 // todo: apply filter 
 
-function applyMethod(methodName, node, filter) {
+function applyMethod(methodName, selected, filter) {
     let method = CASE_METHODS[methodName],
         result;
 
-    if (typeof method !== 'function' || !node) {
+    if (typeof method !== 'function' || !selected) {
         return false;
     }
-    let { element, text, offset } = node;
-    result = text.substring(0, offset[0])
-        + method(text.substring(offset[0], offset[1]))
-        + text.substring(offset[1]);
+    let { text, startOffset, endOffset } = selected;
+    result = text.substring(0, startOffset)
+        + method(text.substring(startOffset, endOffset))
+        + text.substring(endOffset);
 
-    return nodeValue(element, result);
+    return nodeValue(selected.node, result);
 }
 
 export default applyMethod;

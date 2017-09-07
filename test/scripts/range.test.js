@@ -9,21 +9,19 @@ describe('range', () => {
         '<p id="second">fox jumps over</p>' +
         '<p id="third">the lazy dog</p>';
 
-    const start = document.getElementById('first').firstChild;
-    const end = document.getElementById('second').firstChild;
     const range = {
-        empty: () => { },
-        offset: [2, 11],
-        start,
-        end
+        startContainer: document.getElementById('first').firstChild,
+        endContainer: document.getElementById('second').firstChild,
+        startOffset: 2,
+        endOffset: 11
     }
 
     it('range is working', () => {
-        expect(range.start.nodeValue).toEqual('the quick brown');
+        expect(range.startContainer.nodeValue).toEqual('the quick brown');
     })
 
     describe('nextNode', () => {
-        let first = nextNode(range.start.parentElement),
+        let first = nextNode(range.startContainer.parentElement),
             second = nextNode(first),
             third = nextNode(second);
 
@@ -41,8 +39,6 @@ describe('range', () => {
     describe('rangeNodes', () => {
         it('should return an empty array', () => {
             expect(rangeNodes(null)).toEqual([]);
-            expect(rangeNodes({ start })).toEqual([]);
-            expect(rangeNodes({ end })).toEqual([]);
         })
         it('should return an array', () => {
             expect(rangeNodes(range)).toBeInstanceOf(Array);
@@ -61,7 +57,9 @@ describe('range', () => {
             expect(rangeText(null)).toEqual([]);
         })
         it('first item offset should be [2,15]', () => {
-            expect(rangeText(range)[0].offset).toEqual([2, 15]);
+            let first = rangeText(range)[0];
+            expect(first.startOffset).toBe(2);
+            expect(first.endOffset).toBe(15);
         })
     })
 

@@ -4,10 +4,11 @@ describe('apply-method.js', () => {
     document.body.innerHTML = '<p id="element">text to change</p>';
 
     const element = document.getElementById('element');
-    const node = {
-        element: element.firstChild,
+    const selected = {
+        node: element.firstChild,
         text: element.textContent,
-        offset: [2, 12]
+        startOffset: 2,
+        endOffset: 12
     }
 
     it('should return false', () => {
@@ -16,8 +17,8 @@ describe('apply-method.js', () => {
             .toBeFalsy();
     })
     it('should change text', () => {
-        applyMethod('upperCase', node);
-        expect(node.element.nodeValue)
+        applyMethod('upperCase', selected);
+        expect(selected.node.nodeValue)
             .toEqual('teXT TO CHANge');
     })
 

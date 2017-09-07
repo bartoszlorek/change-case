@@ -10,14 +10,14 @@ function removeItem(array, item) {
     }
 }
 
-const executeScript = (function() {
+const executeScript = (function () {
     let executedTabs = [];
 
-    chrome.tabs.onUpdated.addListener(function(tabId, info) {
-        if (! isCompleted(info)) return;
+    chrome.tabs.onUpdated.addListener(function (tabId, info) {
+        if (!isCompleted(info)) return;
         removeItem(executedTabs, tabId);
     });
-    return function(tabId, callback) {
+    return function (tabId, callback) {
         if (executedTabs.indexOf(tabId) === -1) {
             chrome.tabs.executeScript(tabId, {
                 file: 'content-script.js'
@@ -36,11 +36,11 @@ const executeScript = (function() {
 })();
 
 function handleChangeCase(method) {
-    return function(info, tab) {
-        if (! info.selectionText) {
+    return function (info, tab) {
+        if (!info.selectionText) {
             return;
         }
-        executeScript(tab.id, function() {
+        executeScript(tab.id, function () {
             chrome.tabs.sendMessage(tab.id, {
                 type: 'CHANGE_CASE',
                 value: method
@@ -70,7 +70,7 @@ function createMenu() {
     let length = items.length,
         params;
 
-    for (let i=0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
         if (items[i] === null) {
             params = {
                 type: 'separator'

@@ -1,5 +1,5 @@
 function getAttributes(element, include) {
-    if (! (element && element.attributes)) {
+    if (!(element && element.attributes)) {
         return [];
     }
     let attributes = Array.prototype.slice
@@ -30,7 +30,7 @@ export default function dispatchError() {
         issue += getAttributes(element, ['id', 'class', 'name', 'type'])
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(' ');
-        issue = '<'+ issue.trim() +'>';
+        issue = '<' + issue.trim() + '>';
     }
     prompt("An error occurred. Publish the following informations about issue, on the extension page.",
         window.location.href + issue);

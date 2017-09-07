@@ -5,8 +5,7 @@ function dispatchEvent(element) {
     let params = { 'bubbles': true },
         events = ['input'];
     for (let i = 0; i < events.length; i++) {
-        element.dispatchEvent(
-            new Event(events[i], params));
+        element.dispatchEvent(new Event(events[i], params));
     }
 }
 

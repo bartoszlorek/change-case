@@ -7,7 +7,7 @@ function spliceString(string, index, count, replacement) {
     }
     return (
         string.slice(0, index) +
-        replacement || '' +
+        (replacement || '') +
         string.slice(index + count)
     )
 }

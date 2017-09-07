@@ -11,15 +11,21 @@ function rangeText(range) {
 
     for (let i = 0; i < length; i++) {
         let text = nodeValue(nodes[i]),
-            start = i ? 0 : range.offset[0],
-            end = i === length - 1
-                ? range.offset[1]
-                : text.length;
+            startOffset = 0,
+            endOffset = text.length;
+
+        if (i === 0) {
+            startOffset = range.startOffset;
+        }
+        if (i === length - 1) {
+            endOffset = range.endOffset;
+        }
 
         result.push({
-            element: nodes[i],
-            offset: [start, end],
-            text: text
+            node: nodes[i],
+            startOffset,
+            endOffset,
+            text
         })
     }
     return result;
