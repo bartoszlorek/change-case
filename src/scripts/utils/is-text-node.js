@@ -1,5 +1,5 @@
 function isTextNode(node) {
-    return node && node.nodeType === 3;
+    return !!(node && node.nodeType === 3);
 }
 
 export default isTextNode;
