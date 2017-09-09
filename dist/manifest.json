@@ -15,6 +15,11 @@
         "scripts": ["background.js"],
         "persistent": true
     },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["content-script.js"],
+        "all_frames": true
+    }],
     "options_ui": {
         "page": "options.html",
         "chrome_style": true
