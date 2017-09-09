@@ -1,12 +1,12 @@
 import { sendToContent, createMenu } from './scripts/utils/chrome-utils';
 
-function handleClick(method) {
+function handleClick(methodName) {
     return (info, tab) => {
         if (info.selectionText) {
             sendToContent({
                 id: tab.id,
                 type: 'CHANGE_CASE',
-                data: method
+                data: methodName
             })
         }
     }
