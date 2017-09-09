@@ -1,4 +1,8 @@
-import { sendToContent, createMenu } from './scripts/utils/chrome-utils';
+import {
+    sendToContent,
+    createMenu,
+    setDefaults
+} from './scripts/utils/chrome-utils';
 
 function handleClick(methodName) {
     return (info, tab) => {
@@ -36,3 +40,12 @@ createMenu([
         contexts: ['editable']
     }
 );
+
+setDefaults({
+    shortcuts: {
+        upperCase: 'alt+1',
+        lowerCase: 'alt+2',
+        titleCase: 'alt+3',
+        sentenceCase: 'alt+4'
+    }
+});

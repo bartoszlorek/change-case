@@ -90,7 +90,7 @@ class Options extends React.Component {
                 </Wrap>
                 <Wrap
                     title='Keyboard Shortcuts'
-                    description='press "Delete" to remove assignment'>
+                    description='press "Delete" to remove assignment. Important! You *MUST* reload existing tabs after saving this changes. Tip: do not use shortcuts that collide with browser combinations.'>
                     <Shortcuts
                         items={shortcutsItems}
                         value={this.state.data['shortcuts']}

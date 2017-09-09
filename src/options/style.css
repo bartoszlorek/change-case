@@ -10,6 +10,13 @@ textarea {
 textarea:focus {
     border-color: #009ff1;
 }
+.important {
+    color: #f1002b;
+    font-weight: bold;
+}
+.quote {
+    font-style: italic;
+}
 .app {
     padding-bottom: 53px;
 }

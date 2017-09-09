@@ -1,8 +1,8 @@
 import rangeNodes from './utils/range-nodes';
 import nodeValue from './utils/node-value';
 
-export default (range) => rangeNodes(range)
-    .map((node, index, nodes) => {
+export default range => rangeNodes(range).map(
+    (node, index, nodes) => {
         let text = nodeValue(node),
             startOffset = 0,
             endOffset = text.length;
@@ -19,4 +19,5 @@ export default (range) => rangeNodes(range)
             endOffset,
             text
         }
-    });
+    }
+);

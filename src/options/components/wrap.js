@@ -1,6 +1,11 @@
 import React from 'react';
-import escQuotes from '../utils/esc-quotes';
+import applyMarkdown from '../utils/apply-markdown';
 import style from '../style.css';
+
+const markdown = applyMarkdown(style, {
+    '*': 'important',
+    '"': 'quote'
+});
 
 export default function (props) {
     let { title, description, children } = props;
@@ -8,7 +13,7 @@ export default function (props) {
     return (
         <div className={style.wrap}>
             <p className={style.description}>
-                {title && <b>{title}: </b>}{escQuotes(description)}
+                {title && <b>{title}: </b>}{markdown(description)}
             </p>
             {children}
         </div>

@@ -1,8 +1,11 @@
+import { forEach } from 'lodash';
+
 export {
     onMessage,
     sendMessage,
     sendToContent,
-    createMenu
+    createMenu,
+    setDefaults
 }
 
 const validType = type => {
@@ -78,5 +81,23 @@ function createMenu(items, callback, defaults) {
             );
         }
         chrome.contextMenus.create(params);
+    })
+}
+
+function setDefaults(spec) {
+    chrome.storage.sync.get(null, data => {
+        let result = {},
+            length = 0;
+
+        forEach(spec, (value, name) => {
+            if (!data.hasOwnProperty(name)) {
+                result[name] = value;
+                length += 1;
+            }
+        });
+
+        if (length) {
+            chrome.storage.sync.set(result);
+        }
     })
 }
