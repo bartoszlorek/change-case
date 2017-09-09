@@ -10,8 +10,8 @@ import Message from './components/message';
 import Shortcuts from './components/shortcuts';
 
 const shortcutsItems = [
-    { name: 'uppercase', label: 'UPPERCASE' },
-    { name: 'lowercase', label: 'lowercase' },
+    { name: 'upperCase', label: 'UPPERCASE' },
+    { name: 'lowerCase', label: 'lowercase' },
     { name: 'titleCase', label: 'Title Case' },
     { name: 'sentenceCase', label: 'Sentence case' },
     { name: 'camelCase', label: 'camelCase' },
