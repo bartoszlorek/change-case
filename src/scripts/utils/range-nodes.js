@@ -1,4 +1,5 @@
 import nextNode from './next-node';
+import isTextNode from './is-text-node';
 
 function rangeNodes(range) {
     let nodes = [],
@@ -18,7 +19,10 @@ function rangeNodes(range) {
     }
 
     while (node && node !== endNode) {
-        nodes.push(node = nextNode(node));
+        node = nextNode(node);
+        if (isTextNode(node)) {
+            nodes.push(node);
+        }
     }
     return nodes;
 }
