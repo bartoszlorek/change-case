@@ -11,15 +11,15 @@ describe('apply-method.js', () => {
         endOffset: 12
     }
 
-    it('should return false', () => {
-        expect(applyMethod(10)).toBeFalsy();
-        expect(applyMethod('upperCase', null))
-            .toBeFalsy();
+    it('should return rejected promise', () => {
+        expect(applyMethod(10)).rejects.toBeFalsy();
+        expect(applyMethod('upperCase', null)).rejects.toBeFalsy();
     })
-    it('should change text', () => {
-        applyMethod('upperCase', selected);
-        expect(selected.node.nodeValue)
-            .toEqual('teXT TO CHANge');
+    it('should change text and return it', () => {
+        applyMethod('upperCase', selected).then(value => {
+            expect(selected.node.nodeValue).toBe('teXT TO CHANge');
+            expect(value).toBe('teXT TO CHANge');
+        });
     })
 
 })

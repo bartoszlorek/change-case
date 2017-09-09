@@ -1,21 +1,23 @@
 import CASE_METHODS from './cases';
 import nodeValue from './utils/node-value';
-
-// todo: apply filter 
+import replaceSubstring from './utils/replace-substring';
 
 function applyMethod(methodName, selected, filter) {
     let method = CASE_METHODS[methodName],
         result;
 
     if (typeof method !== 'function' || !selected) {
-        return false;
+        return Promise.reject();
     }
-    let { text, startOffset, endOffset } = selected;
-    result = text.substring(0, startOffset)
-        + method(text.substring(startOffset, endOffset))
-        + text.substring(endOffset);
+    if (typeof filter === 'function') {
+        method = filter(method);
+    }
 
-    return nodeValue(selected.node, result);
+    return Promise.resolve(method).then(resolved => {
+        let { text, startOffset, endOffset } = selected;
+        return nodeValue(selected.node, replaceSubstring(
+            text, startOffset, endOffset, resolved));
+    });
 }
 
 export default applyMethod;
