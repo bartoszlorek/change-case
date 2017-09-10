@@ -9,6 +9,8 @@ import Textarea from './components/textarea';
 import Message from './components/message';
 import Shortcuts from './components/shortcuts';
 
+import { sendToContent } from '../scripts/utils/chrome-utils';
+
 const shortcutsItems = [
     { name: 'upperCase', label: 'UPPERCASE' },
     { name: 'lowerCase', label: 'lowercase' },
@@ -47,6 +49,10 @@ class Options extends React.Component {
     handelSave() {
         chrome.storage.sync.set(this.state.data, () => {
             this.handleMessage('options saved');
+            sendToContent({
+                type: 'BIND_SHORTCUTS',
+                id: -1
+            })
         });
     }
 

@@ -32,8 +32,12 @@ const handleChangeCase = methodName => {
     })
 }
 
-onMessage('CHANGE_CASE', handleChangeCase);
+const handleShortcuts = () => {
+    chrome.storage.sync.get('shortcuts', data => {
+        bindShortcuts(data.shortcuts, handleChangeCase);
+    });
+}
 
-chrome.storage.sync.get('shortcuts', data => {
-    bindShortcuts(data.shortcuts, handleChangeCase);
-});
+onMessage('CHANGE_CASE', handleChangeCase);
+onMessage('BIND_SHORTCUTS', handleShortcuts);
+handleShortcuts();

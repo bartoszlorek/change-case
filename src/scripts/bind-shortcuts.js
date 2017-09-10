@@ -1,11 +1,33 @@
 import { forEach } from 'lodash';
 import Mousetrap from 'mousetrap';
 
-function makeBindLocal(shortcuts, callback) {
-    return _document => {
-        let mousetrap = new Mousetrap(_document.body);
-        mousetrap.stopCallback = () => false;
+let instances = [];
 
+function indexOfInstance(body) {
+    let index = -1;
+    forEach(instances, (item, i) => {
+        if (item.target === body) {
+            index = i;
+            return false;
+        }
+    });
+    return index;
+}
+
+function getMousetrap(body) {
+    let index = indexOfInstance(body);
+    if (index !== -1) {
+        return instances[index].reset();
+    }
+    let mousetrap = new Mousetrap(body);
+    mousetrap.stopCallback = () => false;
+    instances.push(mousetrap);
+    return mousetrap;
+}
+
+function makeBindToLocal(shortcuts, callback) {
+    return body => {
+        let mousetrap = getMousetrap(body);
         forEach(shortcuts, (code, methodName) => {
             if (!code) {
                 return;
@@ -22,15 +44,15 @@ function bindShortcuts(shortcuts, callback) {
     if (!shortcuts) {
         return;
     }
-    let bindLocal = makeBindLocal(
+    let bindToLocal = makeBindToLocal(
         shortcuts,
         callback
     );
-    bindLocal(document);
+    bindToLocal(document.body);
 
     // todo: bind to iframes active long after load
     forEach(document.querySelectorAll('iframe'), iframe => {
-        bindLocal(iframe.contentWindow.document);
+        bindToLocal(iframe.contentWindow.document.body);
     })
 }
 
