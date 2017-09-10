@@ -52,7 +52,13 @@ function sendToContent(spec) {
         );
 
     if (typeof id === 'number') {
-        send(id);
+        if (id < 0) { // send to all tabs
+            chrome.tabs.query({}, tabs => {
+                tabs.forEach(tab => send(tab.id));
+            });
+        } else {
+            send(id);
+        }
     } else {
         chrome.tabs.query({
             currentWindow: true,
