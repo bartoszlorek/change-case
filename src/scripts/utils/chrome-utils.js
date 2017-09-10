@@ -54,7 +54,7 @@ function sendToContent(spec) {
     if (typeof id === 'number') {
         if (id < 0) { // send to all tabs
             chrome.tabs.query({}, tabs => {
-                tabs.forEach(tab => send(tab.id));
+                forEach(tabs, tab => send(tab.id));
             });
         } else {
             send(id);
@@ -70,7 +70,7 @@ function sendToContent(spec) {
 }
 
 function createMenu(items, callback, defaults) {
-    items.forEach(item => {
+    forEach(items, item => {
         let params;
 
         if (item === null) {
