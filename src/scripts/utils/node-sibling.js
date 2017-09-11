@@ -1,6 +1,28 @@
+const nextNode = checkType(getNode('nextSibling'));
+const prevNode = checkType(getNode('previousSibling'));
+
 export {
     nextNode,
     prevNode
+}
+
+function getNode(direction) {
+    return node => {
+        if (!node) {
+            return null;
+        }
+        if (node.hasChildNodes()) {
+            return node.firstChild;
+        } else {
+            while (node && !node[direction]) {
+                node = node.parentNode;
+            }
+            if (node !== null) {
+                node = node[direction];
+            }
+            return node;
+        }
+    }
 }
 
 function isType(node, type) {
@@ -10,48 +32,10 @@ function isType(node, type) {
     return true;
 }
 
-function nextNode(node, type) {
-    let result = null;
-    if (!node) {
-        return result;
+function checkType(func) {
+    return (node, type) => {
+        do node = func(node);
+        while (!isType(node, type));
+        return node;
     }
-
-    if (node.hasChildNodes()) {
-        result = node.firstChild;
-    } else {
-        while (node && !node.nextSibling) {
-            node = node.parentNode;
-        }
-        if (node !== null) {
-            result = node.nextSibling;
-        }
-    }
-
-    if (!isType(result, type)) {
-        return nextNode(result, type);
-    }
-    return result;
-}
-
-function prevNode(node, type) {
-    let result = null;
-    if (!node) {
-        return result;
-    }
-
-    if (node.hasChildNodes()) {
-        result = node.firstChild;
-    } else {
-        while (node && !node.previousSibling) {
-            node = node.parentNode;
-        }
-        if (node !== null) {
-            result = node.previousSibling;
-        }
-    }
-
-    if (!isType(result, type)) {
-        return prevNode(result, type);
-    }
-    return result;
 }

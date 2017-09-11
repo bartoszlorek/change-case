@@ -1,4 +1,4 @@
-import { nextNode } from '../../src/scripts/utils/node-sibling';
+import { nextNode, prevNode } from '../../src/scripts/utils/node-sibling';
 
 describe('next-node.js', () => {
 
@@ -8,9 +8,11 @@ describe('next-node.js', () => {
         '<p id="third">the lazy dog</p>';
 
     const first = document.getElementById('first');
+    const second = document.getElementById('second');
 
     it('should return null', () => {
         expect(nextNode()).toBe(null);
+        expect(prevNode()).toBe(null);
     })
 
     it('should return 4 next nodes', () => {
@@ -36,6 +38,16 @@ describe('next-node.js', () => {
         expect(nextB.nodeValue).toBe('fox jumps over');
         expect(nextC.nodeValue).toBe('the lazy dog');
         expect(nextD).toBe(null);
+    })
+
+    it('should return prev node', () => {
+        let prev = prevNode(second);
+        expect(prev.id).toBe('first');
+    })
+
+    it('should return prev TEXT node', () => {
+        let prev = prevNode(second, 3);
+        expect(prev.nodeValue).toBe('the quick brown');
     })
 
 })
