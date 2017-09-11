@@ -1,3 +1,6 @@
+import { nextNode, prevNode } from './node-sibling';
+import isTextNode from './is-text-node';
+
 function selectionRange(_window, _document) {
     _window = _window || window;
     _document = _document || document;
@@ -33,12 +36,30 @@ function selectionRange(_window, _document) {
     if (selection.rangeCount === 0) {
         return false;
     }
-    let range = selection.getRangeAt(0);
+    return validRange(selection.getRangeAt(0));
+}
+
+function validRange(range) {
+    let {
+        startContainer,
+        startOffset,
+        endContainer,
+        endOffset
+    } = range;
+
+    if (!isTextNode(startContainer)) {
+        startContainer = nextNode(startContainer, 3);
+        startOffset = 0;
+    }
+    if (!isTextNode(endContainer)) {
+        endContainer = prevNode(endContainer, 3);
+        endOffset = endContainer.nodeValue.length;
+    }
     return {
-        startContainer: range.startContainer,
-        startOffset: range.startOffset,
-        endContainer: range.endContainer,
-        endOffset: range.endOffset
+        startContainer,
+        startOffset,
+        endContainer,
+        endOffset
     }
 }
 
