@@ -1,4 +1,4 @@
-import nextNode from './next-node';
+import { nextNode } from './node-sibling';
 import isTextNode from './is-text-node';
 
 function rangeNodes(range) {

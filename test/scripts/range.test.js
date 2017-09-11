@@ -1,5 +1,4 @@
 import isTextNode from '../../src/scripts/utils/is-text-node';
-import nextNode from '../../src/scripts/utils/next-node';
 import rangeNodes from '../../src/scripts/utils/range-nodes';
 import rangeText from '../../src/scripts/range-text';
 
@@ -19,22 +18,6 @@ describe('range', () => {
 
     it('range is working', () => {
         expect(range.startContainer.nodeValue).toEqual('the quick brown');
-    })
-
-    describe('nextNode', () => {
-        let first = nextNode(range.startContainer.parentElement),
-            second = nextNode(first),
-            third = nextNode(second);
-
-        it('should return first text node', () => {
-            expect(first.nodeValue).toEqual('the quick brown');
-        })
-        it('should return second paragraph', () => {
-            expect(second.id).toEqual('second');
-        })
-        it('should return second text node', () => {
-            expect(third.nodeValue).toEqual('fox jumps over');
-        })
     })
 
     describe('rangeNodes', () => {
