@@ -43,13 +43,14 @@ function sendToContent(spec) {
     let { id, type, data, callback } = spec;
     validType(type);
 
-    let send = tabId =>
+    let send = tabId => {
         chrome.tabs.sendMessage(
             tabId, {
                 type,
                 data
             }, callback
-        );
+        )
+    }
 
     if (typeof id === 'number') {
         if (id < 0) { // send to all tabs
