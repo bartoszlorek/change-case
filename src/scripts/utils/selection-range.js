@@ -1,18 +1,14 @@
 import { nextNode, prevNode } from './node-sibling';
 import isTextNode from './is-text-node';
 
-function selectionRange(_window, _document) {
-    _window = _window || window;
-    _document = _document || document;
-
+function selectionRange(_window = window, _document = document) {
     let selection = _window.getSelection(),
-        element = _document.activeElement,
-        tagName = element.tagName && element.tagName.toLowerCase();
+        element = _document.activeElement;
 
-    if (!tagName) {
-        return false;
+    if (!element) {
+        return null;
     }
-
+    let tagName = element.tagName.toLowerCase();
     if (tagName === 'textarea' || tagName === 'input') {
         try {
             return {
@@ -22,24 +18,22 @@ function selectionRange(_window, _document) {
                 endOffset: element.selectionEnd
             }
         } catch (e) {
-            return false;
+            return null;
         }
     }
-
     if (tagName === 'iframe' || tagName === 'frame') {
         return selectionRange(
             element.contentWindow,
             element.contentDocument
         )
     }
-
-    if (selection.rangeCount === 0) {
-        return false;
+    if (selection.rangeCount > 0) {
+        return validNativeRange(selection.getRangeAt(0));
     }
-    return validRange(selection.getRangeAt(0));
+    return null;
 }
 
-function validRange(range) {
+function validNativeRange(range) {
     let {
         startContainer,
         startOffset,
