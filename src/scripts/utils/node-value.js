@@ -1,16 +1,18 @@
 import isTextNode from './is-text-node';
+import isTextElement from './is-text-element';
 
 function nodeValue(node, value) {
-    let prop = isTextNode(node)
-        ? 'nodeValue'
-        : 'value';
-
-    if (typeof node[prop] === 'undefined') {
-        return;
+    if (isTextNode(node)) {
+        return typeof value === 'string' ?
+            node.nodeValue = value :
+            node.nodeValue;
     }
-    return value !== undefined
-        ? node[prop] = value
-        : node[prop];
+    if (isTextElement(node)) {
+        return typeof value === 'string' ?
+            node.value = value :
+            node.value;
+    }
+    return '';
 }
 
 export default nodeValue;
