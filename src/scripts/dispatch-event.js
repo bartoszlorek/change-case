@@ -1,21 +1,20 @@
+const events = [
+    'change',
+    'input'
+].map(event =>
+    new Event(event, {
+        bubbles: true,
+        cancelable: false
+    })
+);
+
 function dispatchEvent(element) {
     if (element.nodeType !== 1) {
         element = element.parentElement;
     }
-    let params = { 'bubbles': true },
-        events = ['input'];
-    for (let i = 0; i < events.length; i++) {
-        element.dispatchEvent(new Event(events[i], params));
-    }
+    events.forEach(event => {
+        element.dispatchEvent(event)
+    })
 }
 
 export default dispatchEvent;
-
-
-// if ("createEvent" in document) {
-//     var evt = document.createEvent("HTMLEvents");
-//     evt.initEvent("change", false, true);
-//     element.dispatchEvent(evt);
-// }
-// else
-//     element.fireEvent("onchange");
