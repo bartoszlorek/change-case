@@ -25,17 +25,15 @@ function getNode(direction) {
     }
 }
 
-function isType(node, type) {
-    if (node && typeof type === 'number') {
-        return node.nodeType === type;
-    }
-    return true;
-}
-
 function checkType(func) {
     return (node, type) => {
-        do node = func(node);
-        while (!isType(node, type));
+        node = func(node);
+
+        if (typeof type === 'number') {
+            while (node && node.nodeType !== type) {
+                node = func(node);
+            }
+        }
         return node;
     }
 }
