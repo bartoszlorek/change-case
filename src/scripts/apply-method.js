@@ -1,6 +1,6 @@
 import CASE_METHODS from './cases';
 import nodeValue from './utils/node-value';
-import replaceSubstring from './utils/replace-substring';
+import spliceString from './utils/splice-string';
 
 function applyMethod(methodName, selected, filter) {
     let method = CASE_METHODS[methodName],
@@ -15,7 +15,7 @@ function applyMethod(methodName, selected, filter) {
 
     return Promise.resolve(method).then(resolved => {
         let { text, startOffset, endOffset } = selected;
-        return nodeValue(selected.node, replaceSubstring(
+        return nodeValue(selected.node, spliceString(
             text, startOffset, endOffset, resolved));
     });
 }

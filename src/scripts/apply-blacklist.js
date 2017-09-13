@@ -32,7 +32,7 @@ function applyBlacklist(method, value, list) {
             count = element.match.length,
             replace = srcMatches[i].match;
 
-        outValue = spliceString(outValue, start, count, replace);
+        outValue = spliceString(outValue, start, start + count, replace);
         offset += replace.length - count;
     });
 
