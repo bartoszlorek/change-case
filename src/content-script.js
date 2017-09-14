@@ -2,15 +2,13 @@ import selectionRange from './scripts/utils/selection-range';
 import isSelectedText from './scripts/utils/is-selected-text';
 import { onMessage } from './scripts/utils/chrome-utils';
 
-import rangeText from './scripts/range-text';
+import rangeContent from './scripts/range-content';
 import dispatchEvent from './scripts/dispatch-event';
 import dispatchError from './scripts/dispatch-error';
 
 import applyMethod from './scripts/apply-method';
 import applyBlacklist from './scripts/apply-blacklist';
 import bindShortcuts from './scripts/bind-shortcuts';
-
-const selectionText = () => rangeText(selectionRange());
 
 const filter = method => new Promise(resolve => {
     chrome.storage.sync.get('blacklist', data => resolve(
@@ -19,16 +17,17 @@ const filter = method => new Promise(resolve => {
 });
 
 const handleChangeCase = methodName => {
-    let selection = selectionText();
-    if (selection.length === 0) {
-        return dispatchError();
-    }
-    if (!isSelectedText(selection)) {
+    let range = selectionRange();
+    if (range.collapsed) {
         return;
     }
-    selection.forEach(selected => {
-        applyMethod(methodName, selected, filter);
-        dispatchEvent(selected.node);
+    let content = rangeContent(range);
+    if (content.length === 0) {
+        return dispatchError(range);
+    }
+    content.forEach(element => {
+        applyMethod(methodName, element, filter);
+        dispatchEvent(element.node);
     })
 }
 

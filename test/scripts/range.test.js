@@ -1,6 +1,6 @@
 import isTextNode from '../../src/scripts/utils/is-text-node';
 import rangeNodes from '../../src/scripts/utils/range-nodes';
-import rangeText from '../../src/scripts/range-text';
+import rangeContent from '../../src/scripts/range-content';
 
 describe('range', () => {
 
@@ -34,12 +34,12 @@ describe('range', () => {
         })
     })
 
-    describe('rangeText', () => {
+    describe('rangeContent', () => {
         it('should return empty array', () => {
-            expect(rangeText(null)).toEqual([]);
+            expect(rangeContent(null)).toEqual([]);
         })
         it('first item offset should be [2,15]', () => {
-            let first = rangeText(range)[0];
+            let first = rangeContent(range)[0];
             expect(first.startOffset).toBe(2);
             expect(first.endOffset).toBe(15);
         })
