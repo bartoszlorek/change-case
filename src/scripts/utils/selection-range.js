@@ -11,11 +11,14 @@ function selectionRange(_window = window, _document = document) {
     let tagName = element.tagName.toLowerCase();
     if (tagName === 'textarea' || tagName === 'input') {
         try {
+            let { selectionStart, selectionEnd } = element;
             return {
+                commonAncestorContainer: element,
+                collapsed: selectionStart === selectionEnd,
                 startContainer: element,
-                startOffset: element.selectionStart,
+                startOffset: selectionStart,
                 endContainer: element,
-                endOffset: element.selectionEnd
+                endOffset: selectionEnd
             }
         } catch (e) {
             return null;
@@ -49,12 +52,30 @@ function validNativeRange(range) {
         endContainer = prevNode(endContainer, 3);
         endOffset = endContainer.nodeValue.length;
     }
+    let collapsed = startContainer === endContainer
+        && startOffset === endOffset;
+
     return {
+        commonAncestorContainer: validAncestor(
+            startContainer,
+            endContainer
+        ),
+        collapsed,
         startContainer,
         startOffset,
         endContainer,
         endOffset
     }
+}
+
+function validAncestor(start, end) {
+    if (start === end) {
+        return start;
+    }
+    return validAncestor(
+        start.parentElement,
+        end.parentElement
+    );
 }
 
 export default selectionRange;
