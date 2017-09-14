@@ -1,12 +1,12 @@
 function spliceString(string, start, end, replacement) {
-    if (typeof string !== 'string') {
+    let length = string == null ? 0 : string.length;
+    if (!length) {
         return '';
     }
-    // replacement instead of omitted end
-    if (typeof end !== 'number') {
+    if (replacement === undefined && typeof end === 'function') {
         replacement = end;
+        end = length;
     }
-    let length = string.length;
     start = index(start, length, 0);
     end = index(end, length, length);
 
@@ -25,11 +25,15 @@ function spliceString(string, start, end, replacement) {
         + string.substring(end);
 }
 
-function index(pos, length, fallback) {
-    if (typeof pos === 'number') {
-        return pos < 0 ? Math.max(length + pos, 0) : pos;
+function index(value, length, fallback) {
+    if (value == null) {
+        return fallback;
     }
-    return fallback;
+    if (value < 0) {
+        value = -value > length ?
+            0 : (length + value);
+    }
+    return value;
 }
 
 export default spliceString;
