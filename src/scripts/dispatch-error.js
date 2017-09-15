@@ -1,37 +1,37 @@
-function getAttributes(element, include) {
-    if (!(element && element.attributes)) {
-        return [];
-    }
-    let attributes = Array.prototype.slice
-        .call(element.attributes);
+import isTextNode from './utils/is-text-node';
+import getAttributes from './utils/get-attributes';
+import URL from 'url-parse';
 
-    if (include && include.length &&
-        include.constructor === Array) {
-        attributes = attributes.filter(attr =>
-            include.indexOf(attr.name) > -1);
-    }
-    return attributes;
+const include = ['id', 'class', 'name', 'type'];
+const message = 'An error occurred. Publish the following informations on the extension page.';
+
+function commonElement(range) {
+    let element = range.commonAncestorContainer;
+    return isTextNode(element)
+        ? element.parentElement
+        : element;
 }
 
-function activeElement(localDocument) {
-    let element = (localDocument || document).activeElement,
-        tagName = element.tagName.toLowerCase();
-    if (tagName === 'iframe' || tagName === 'frame')
-        return activeElement(element.contentDocument);
-    return element;
+function currentUrl() {
+    let { origin, href } = new URL(window.location.href);
+    return origin !== 'null' ? origin : href;
 }
 
-export default function dispatchError() {
-    let element = activeElement(),
+function dispatchError(range) {
+    let element = commonElement(range),
         issue = '';
 
-    if (element && element.tagName) {
-        issue += element.tagName.toLowerCase() + ' ';
-        issue += getAttributes(element, ['id', 'class', 'name', 'type'])
-            .map(attr => `${attr.name}="${attr.value}"`)
-            .join(' ');
-        issue = '<' + issue.trim() + '>';
+    if (element != null) {
+        issue = [].concat(
+            element.tagName.toLowerCase(),
+            getAttributes(element, include).map(
+                attr => `${attr.name}="${attr.value}"`
+            )
+        );
+        issue = `<${issue.join(' ')}>`;
     }
-    prompt("An error occurred. Publish the following informations about issue, on the extension page.",
-        window.location.href + issue);
+
+    prompt(message, issue + currentUrl());
 }
+
+export default dispatchError;
