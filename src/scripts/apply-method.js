@@ -12,11 +12,12 @@ function applyMethod(methodName, element, filter) {
     if (typeof filter === 'function') {
         method = filter(method);
     }
-    return Promise.resolve(method).then(resolved => {
-        let { text, startOffset, endOffset } = element;
-        return nodeValue(element.node, spliceString(
-            text, startOffset, endOffset, resolved));
-    });
+    let { text, startOffset, endOffset } = element;
+    return Promise.resolve(method).then(resolved =>
+        nodeValue(element.node, spliceString(
+            text, startOffset, endOffset, resolved
+        ))
+    );
 }
 
 export default applyMethod;
