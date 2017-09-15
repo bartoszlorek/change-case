@@ -1,5 +1,5 @@
-import rangeNodes from './utils/range-nodes';
-import nodeValue from './utils/node-value';
+import rangeNodes from './range-nodes';
+import nodeValue from './node-value';
 
 export default range => rangeNodes(range).map(
     (node, index, nodes) => {

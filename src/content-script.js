@@ -1,14 +1,12 @@
 import selectionRange from './scripts/utils/selection-range';
-import isSelectedText from './scripts/utils/is-selected-text';
+import rangeContent from './scripts/utils/range-content';
 import { onMessage } from './scripts/utils/chrome-utils';
-
-import rangeContent from './scripts/range-content';
-import dispatchEvent from './scripts/dispatch-event';
-import dispatchError from './scripts/dispatch-error';
 
 import applyMethod from './scripts/apply-method';
 import applyBlacklist from './scripts/apply-blacklist';
 import bindShortcuts from './scripts/bind-shortcuts';
+import dispatchEvent from './scripts/dispatch-event';
+import dispatchError from './scripts/dispatch-error';
 
 const filter = method => new Promise(resolve => {
     chrome.storage.sync.get('blacklist', data => resolve(
