@@ -64,7 +64,8 @@ class Options extends React.Component {
             }
         });
         if (text) {
-            setTimeout(() => {
+            clearTimeout(this.messageTimer);
+            this.messageTimer = setTimeout(() => {
                 this.handleMessage(null);
             }, 3000);
         }
@@ -96,7 +97,7 @@ class Options extends React.Component {
                 </Wrap>
                 <Wrap
                     title='Keyboard Shortcuts'
-                    description='press "Delete" to remove assignment. Tip: do not use shortcuts that collide with browser combinations.'>
+                    description='press *Delete* to remove assignment. Tip: do not use shortcuts that collide with browser combinations.'>
                     <Shortcuts
                         items={shortcutsItems}
                         value={this.state.data['shortcuts']}
