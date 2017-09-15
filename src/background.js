@@ -49,3 +49,10 @@ setDefaults({
         sentenceCase: 'alt+4'
     }
 });
+
+chrome.runtime.onInstalled.addListener(details => {
+    let { reason } = details;
+    if (reason === 'install' || reason === 'update') {
+        chrome.runtime.openOptionsPage();
+    }
+});
