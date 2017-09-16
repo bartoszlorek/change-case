@@ -3,11 +3,13 @@ import style from '../style.css';
 
 function Message(props) {
     let { data } = props;
-    let type, text;
+    let text, type;
 
     if (data) {
-        type = data.type === 'error' ? style.error : style.info;
         text = data.text;
+        type = data.type === 'error'
+            ? style.error
+            : style.info;
     }
     return (
         <div className={type}>{text}</div>

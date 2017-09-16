@@ -56,19 +56,15 @@ class Options extends React.Component {
         });
     }
 
-    handleMessage(text, type) {
-        this.setState({
-            message: !text ? null : {
-                type: type || 'info',
-                text
-            }
-        });
-        if (text) {
+    handleMessage(text = null, type = 'info') {
+        let message = text && { type, text };
+        if (message != null) {
             clearTimeout(this.messageTimer);
             this.messageTimer = setTimeout(() => {
                 this.handleMessage(null);
             }, 3000);
         }
+        this.setState({ message });
     }
 
     handleData(name) {

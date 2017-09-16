@@ -1,11 +1,33 @@
 import React from 'react';
+import onClickOutside from 'react-onclickoutside';
 import classNames from 'classnames';
 import { uniq } from 'lodash';
 import { bind } from '../utils/react-utils';
 import style from '../style.css';
 
-const Mousetrap = require('mousetrap-record')(require('mousetrap'));
-const escKeys = code => code && uniq(code.split(/[\+\s]/)).join('+');
+const record = require('mousetrap-record');
+const mousetrap = record(require('mousetrap'));
+
+const dots = (
+    <div className={style.dots}>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+);
+
+const escKeys = code => {
+    if (code != null) {
+        return uniq(code
+            .split(/[\+\s]/))
+            .join('+');
+    }
+}
+
+const containsClass = className => event => {
+    return event.target.classList.contains(className);
+}
+const isItem = containsClass(style.item);
 
 class ShortcutsItem extends React.Component {
     constructor(props) {
@@ -19,7 +41,7 @@ class ShortcutsItem extends React.Component {
         if (nextProps.active === false) {
             return;
         }
-        Mousetrap.record(code => {
+        mousetrap.record(code => {
             this.props.onClick();
             this.props.onAssign(
                 this.props.data.name,
@@ -31,7 +53,13 @@ class ShortcutsItem extends React.Component {
 
     handleClick() {
         this.props.onClick(this.props.data.name);
-        Mousetrap.record(() => false);
+        mousetrap.record(() => false);
+    }
+
+    handleClickOutside(e) {
+        if (this.props.active && !isItem(e)) {
+            this.handleClick();
+        }
     }
 
     render() {
@@ -46,9 +74,10 @@ class ShortcutsItem extends React.Component {
                 onClick={this.handleClick}>
                 <div>{data.label}</div>
                 <div>{escKeys(value)}</div>
+                {active && dots}
             </div>
         )
     }
 }
 
-export default ShortcutsItem;
+export default onClickOutside(ShortcutsItem);

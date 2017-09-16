@@ -62,7 +62,7 @@ class Shortcuts extends React.Component {
             return false;
         }
 
-        onMessage(null);
+        onMessage('correctly assigned');
         return code;
     }
 

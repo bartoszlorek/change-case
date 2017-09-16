@@ -74,3 +74,33 @@ textarea:focus {
     color: #009ff1;
     font-weight: bold;
 }
+.dots {
+    position: absolute;
+    top: 50%; left: 50%;
+    margin: 0 0 0 -15px;
+    display: flex;
+}
+.dots span {
+    position: relative;
+    width: 6px; height: 6px;
+    margin: 0 2px 0;
+    border-radius: 100%;
+    background: rgba(255,255,255,.6);
+    display: inline-block;
+    animation: wave 1.4s linear infinite;
+    animation-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000)
+}
+.dots span:nth-child(2) {
+    animation-delay: .35s;
+}
+.dots span:nth-child(3) {
+    animation-delay: .7s;
+}
+@keyframes wave {
+	0%, 60%, 100% {
+		transform: initial;
+	}
+	30% {
+		transform: translateY(-75%);
+	}
+}
