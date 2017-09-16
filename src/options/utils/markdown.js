@@ -5,14 +5,12 @@ function markdown(string = '', marks) {
             text: string
         }]
     }
-
     let offset = 0,
         count = 0,
         regex = new RegExp(marks
             .map(a => '\\' + a)
             .join('|')
         );
-
     return string
         .split(regex)
         .map(text => {
