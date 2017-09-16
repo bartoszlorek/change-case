@@ -85,7 +85,7 @@ class Options extends React.Component {
             <div className={style.app}>
                 <Wrap
                     title='Blacklist'
-                    description='comma-separated list of words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
+                    description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
                     <Textarea
                         value={this.state.data['blacklist']}
                         onChange={this.handleData('blacklist')}>
