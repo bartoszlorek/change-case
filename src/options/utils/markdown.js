@@ -1,7 +1,5 @@
-function markdown(string, marks) {
-    string = string || '';
-
-    if (!(marks && marks.length)) {
+function markdown(string = '', marks) {
+    if (marks == null) {
         return [{
             mark: null,
             text: string
@@ -15,8 +13,9 @@ function markdown(string, marks) {
             .join('|')
         );
 
-    return string.split(regex).map(
-        (text) => {
+    return string
+        .split(regex)
+        .map(text => {
             let index = offset - 1,
                 mark = null;
 
@@ -34,7 +33,8 @@ function markdown(string, marks) {
                     text
                 }
             }
-        }).filter(a => a);
+        })
+        .filter(a => a);
 }
 
 export default markdown;
