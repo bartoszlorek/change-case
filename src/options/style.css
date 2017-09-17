@@ -10,15 +10,24 @@ textarea {
 textarea:focus {
     border-color: #009ff1;
 }
-.important {
-    color: #f1002b;
-    font-weight: bold;
-}
-.quote {
-    font-style: italic;
+.button {
+    margin: 0 0 0 6px;
+    flex-shrink: 0;
 }
 .app {
     padding-bottom: 53px;
+}
+.ribbon {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #d1d6e0;
+    box-shadow: 0 0 6px rgba(0,159,241,0);
+    transition: all .2s ease;
+    height: 3px;
+}
+.ribbonActive {
+    background: #009ff1;
+    box-shadow: 0 0 6px rgba(0,159,241,0.85);
 }
 .wrap {
     padding: 14px 17px;
@@ -66,6 +75,12 @@ textarea:focus {
     align-items: center;
     box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
 }
+.message {
+    margin: 0 auto 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.important,
 .error {
     color: #f1002b;
     font-weight: bold;
@@ -73,6 +88,9 @@ textarea:focus {
 .info {
     color: #009ff1;
     font-weight: bold;
+}
+.quote {
+    font-style: italic;
 }
 .dots {
     position: absolute;

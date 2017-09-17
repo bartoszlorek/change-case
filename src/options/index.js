@@ -1,9 +1,11 @@
 import React from 'react';
-import { isPlainObject } from 'lodash';
+import { isPlainObject, isEqual } from 'lodash';
 import { bind } from './utils/react-utils';
 import style from './style.css';
 
 import Wrap from './components/wrap';
+import Ribbon from './components/ribbon';
+import Button from './components/button';
 import Input from './components/input';
 import Textarea from './components/textarea';
 import Message from './components/message';
@@ -26,34 +28,52 @@ const shortcutsItems = [
     { name: 'noCase', label: 'no case' }
 ];
 
+const addValue = (data, value) => {
+    if (isPlainObject(value)) {
+        return Object.assign({}, data, value);
+    }
+    return value;
+}
+
 class Options extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             message: null,
+            upToDate: true,
+            savedData: {},
             data: {}
         }
         bind(this, [
             'handelSave',
             'handleMessage',
-            'handleData'
+            'handleData',
+            'handleReject'
         ]);
     }
 
     componentDidMount() {
         chrome.storage.sync.get(null, data => {
-            this.setState({ data });
+            this.setState({
+                upToDate: true,
+                savedData: data,
+                data
+            });
         });
     }
 
     handelSave() {
         chrome.storage.sync.set(this.state.data, () => {
             this.handleMessage('options saved');
+            this.setState({
+                upToDate: true,
+                savedData: this.state.data
+            });
             sendToContent({
                 type: 'BIND_SHORTCUTS',
                 id: -1
-            })
-        });
+            });
+        })
     }
 
     handleMessage(text = null, type = 'info') {
@@ -68,26 +88,40 @@ class Options extends React.Component {
     }
 
     handleData(name) {
-        return (value) => {
-            this.setState(prevState => ({
-                data: Object.assign({}, prevState.data, {
-                    [name]: addValue(
-                        prevState.data[name],
-                        value
-                    )
-                })
-            }));
-        }
+        return value => this.setState(prevState => {
+            let { savedData, data } = prevState;
+            let nextData = Object.assign({}, data, {
+                [name]: addValue(
+                    data[name],
+                    value
+                )
+            });
+            return {
+                data: nextData,
+                upToDate: isEqual(
+                    savedData,
+                    nextData
+                )
+            }
+        });
+    }
+
+    handleReject() {
+        this.setState(prevState => ({
+            data: prevState.savedData,
+            upToDate: true
+        }))
     }
 
     render() {
+        let { data, upToDate, message } = this.state;
         return (
             <div className={style.app}>
                 <Wrap
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
                     <Textarea
-                        value={this.state.data['blacklist']}
+                        value={data['blacklist']}
                         onChange={this.handleData('blacklist')}>
                     </Textarea>
                 </Wrap>
@@ -96,25 +130,27 @@ class Options extends React.Component {
                     description='press *Delete* to remove assignment. Tip: do not use shortcuts that collide with browser combinations.'>
                     <Shortcuts
                         items={shortcutsItems}
-                        value={this.state.data['shortcuts']}
+                        value={data['shortcuts']}
                         onChange={this.handleData('shortcuts')}
                         onMessage={this.handleMessage}
                     />
                 </Wrap>
                 <div className={style.controls}>
-                    <Message data={this.state.message} />
-                    <button onClick={this.handelSave}>Save</button>
+                    <Message data={message} />
+                    <Button
+                        label='Reject'
+                        visible={!upToDate}
+                        onClick={this.handleReject}
+                    />
+                    <Button
+                        label='Save'
+                        onClick={this.handelSave}
+                    />
                 </div>
+                <Ribbon active={!upToDate} />
             </div >
         )
     }
-}
-
-export function addValue(data, value) {
-    if (isPlainObject(value)) {
-        return Object.assign({}, data, value);
-    }
-    return value;
 }
 
 export default Options;
