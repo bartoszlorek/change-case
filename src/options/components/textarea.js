@@ -17,6 +17,7 @@ class Textarea extends React.Component {
         return (
             <textarea
                 {...this.props}
+                value={this.props.value || ''}
                 rows={this.props.rows || '5'}
                 onChange={this.handleChange}>
             </textarea>

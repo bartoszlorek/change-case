@@ -18,6 +18,7 @@ class Input extends React.Component {
             <input
                 {...this.props}
                 type='text'
+                value={this.props.value || ''}
                 onChange={this.handleChange}
             />
         )
