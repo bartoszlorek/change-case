@@ -3,7 +3,7 @@ import markdown from './markdown';
 
 function applyMarkdown(style, spec) {
     if (style == null || spec == null) {
-        return string => string;
+        return (string) => string;
     }
     let marks = Object.keys(spec);
     return (string) => {

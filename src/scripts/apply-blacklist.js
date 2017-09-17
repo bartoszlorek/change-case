@@ -6,17 +6,17 @@ const validList = list => {
     if (isArray(list)) {
         return list;
     }
-    if (typeof list === 'string') {
+    if (typeof list === 'string' && list.trim() !== '') {
         return list.split(/\s*\,\s*/);
     }
-    return false;
+    return null;
 }
 
 function applyBlacklist(method, value, list) {
     let outValue = method(value);
     list = validList(list);
 
-    if (!list) {
+    if (list === null) {
         return outValue;
     }
     let srcMatches = findAll(value, list);

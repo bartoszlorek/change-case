@@ -9,8 +9,8 @@ function markdown(string = '', marks) {
         count = 0,
         regex = new RegExp(marks
             .map(a => '\\' + a)
-            .join('|')
-        );
+            .join('|'));
+
     return string
         .split(regex)
         .map(text => {

@@ -3,16 +3,18 @@ import style from '../style.css';
 
 function Message(props) {
     let { data } = props;
-    let text, type;
+    let className = style.message,
+        text;
 
-    if (data) {
+    if (data != null) {
         text = data.text;
-        type = data.type === 'error'
+        className += ' ' + (data.type === 'error'
             ? style.error
-            : style.info;
+            : style.info
+        )
     }
     return (
-        <div className={type}>{text}</div>
+        <div className={className}>{text}</div>
     )
 }
 
