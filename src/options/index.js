@@ -96,6 +96,7 @@ class Options extends React.Component {
                     value
                 )
             });
+            console.log(savedData, nextData)
             return {
                 data: nextData,
                 upToDate: isEqual(
