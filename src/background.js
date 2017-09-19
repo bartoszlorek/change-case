@@ -1,17 +1,22 @@
 import {
     sendToContent,
     createMenu,
-    setDefaults
+    setDefaults,
+    scriptableTab
 } from './.utils/chrome/chrome-utils';
+
+const scriptable = scriptableTab();
 
 function handleClick(methodName) {
     return (info, tab) => {
         if (info.selectionText) {
-            sendToContent({
-                id: tab.id,
-                type: 'CHANGE_CASE',
-                data: methodName
-            })
+            scriptable(tab).then(id =>
+                sendToContent({
+                    type: 'CHANGE_CASE',
+                    data: methodName,
+                    id
+                })
+            ).catch(error => alert(error));
         }
     }
 }
