@@ -1,24 +1,33 @@
 import isTextNode from '../.utils/is-text-node';
-import getAttributes from '../.utils/get-attributes';
 
 const validUrl = url => url.split('?')[0];
 const include = ['id', 'class', 'name', 'type'];
 const message = 'An error occurred. Publish the following informations on the extension page.';
 
-function commonElement(range) {
+function commonAncestor(range) {
     let element = range.commonAncestorContainer;
     return isTextNode(element)
         ? element.parentElement
         : element;
 }
 
+function getAttributes(element) {
+    if (element == null) {
+        return [];
+    }
+    return [].slice.call(
+        element.attributes
+    )
+}
+
 function dispatchError(range) {
-    let element = commonElement(range),
+    let element = commonAncestor(range),
         props = '';
 
     if (element != null) {
         let tagName = element.tagName.toLowerCase();
-        props = getAttributes(element, include)
+        props = getAttributes(element)
+            .filter(attr => include.indexOf(attr.name) > -1)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(' ');
 
