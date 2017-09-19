@@ -2,6 +2,8 @@ import React from 'react';
 import { isPlainObject, isEqual } from 'lodash';
 import { sendToContent } from '../.utils/chrome/chrome-utils';
 import { bind } from '../.utils/react/react-utils';
+import deepFilter from '../.utils/deep-filter';
+import { isTruthy } from '../.utils/type-conversion';
 import style from './style.css';
 
 import Wrap from './components/wrap';
@@ -58,7 +60,9 @@ class Options extends React.Component {
     }
 
     handelSave() {
-        chrome.storage.sync.set(this.state.data, () => {
+        let { sync } = chrome.storage;
+        sync.clear();
+        sync.set(this.state.data, () => {
             this.handleMessage('options saved');
             this.setState({
                 upToDate: true,
@@ -85,13 +89,15 @@ class Options extends React.Component {
     handleData(name) {
         return value => this.setState(prevState => {
             let { savedData, data } = prevState;
-            let nextData = Object.assign({}, data, {
-                [name]: addValue(
-                    data[name],
-                    value
-                )
-            });
-            console.log(savedData, nextData)
+            let nextData = deepFilter(
+                Object.assign({}, data, {
+                    [name]: addValue(
+                        data[name],
+                        value
+                    )
+                }),
+                isTruthy
+            )
             return {
                 data: nextData,
                 upToDate: isEqual(
