@@ -1,4 +1,4 @@
-import getAttributes from '../../src/scripts/utils/get-attributes';
+import getAttributes from '../../src/.utils/get-attributes';
 
 describe('get-attributes.js', () => {
 

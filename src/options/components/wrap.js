@@ -1,5 +1,5 @@
 import React from 'react';
-import applyMarkdown from '../utils/apply-markdown';
+import applyMarkdown from '../../.utils/react/apply-markdown';
 import style from '../style.css';
 
 const markdown = applyMarkdown(style, {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { isPlainObject, isEqual } from 'lodash';
-import { bind } from './utils/react-utils';
+import { sendToContent } from '../.utils/chrome/chrome-utils';
+import { bind } from '../.utils/react/react-utils';
 import style from './style.css';
 
 import Wrap from './components/wrap';
@@ -10,8 +11,6 @@ import Input from './components/input';
 import Textarea from './components/textarea';
 import Message from './components/message';
 import Shortcuts from './components/shortcuts';
-
-import { sendToContent } from '../scripts/utils/chrome-utils';
 
 const shortcutsItems = [
     { name: 'upperCase', label: 'UPPERCASE' },
@@ -28,12 +27,8 @@ const shortcutsItems = [
     { name: 'noCase', label: 'no case' }
 ];
 
-const addValue = (data, value) => {
-    if (isPlainObject(value)) {
-        return Object.assign({}, data, value);
-    }
-    return value;
-}
+const addValue = (data, value) => isPlainObject(value)
+    ? Object.assign({}, data, value) : value;
 
 class Options extends React.Component {
     constructor(props) {
@@ -149,7 +144,7 @@ class Options extends React.Component {
                     />
                 </div>
                 <Ribbon active={!upToDate} />
-            </div >
+            </div>
         )
     }
 }

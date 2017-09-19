@@ -1,5 +1,5 @@
-import deepFilter from '../../src/options/utils/deep-filter';
-import { isTruthy } from '../../src/options/utils/type-conversion';
+import deepFilter from '../../src/.utils/deep-filter';
+import { isTruthy } from '../../src/.utils/type-conversion';
 
 describe('deep-filter.js', () => {
 

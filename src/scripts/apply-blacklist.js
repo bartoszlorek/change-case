@@ -1,6 +1,6 @@
 import { isArray } from 'lodash';
-import findAll from './utils/find-all';
-import spliceString from './utils/splice-string';
+import findAll from '../.utils/find-all';
+import spliceString from '../.utils/splice-string';
 
 const validList = list => {
     if (isArray(list)) {

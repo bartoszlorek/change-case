@@ -1,4 +1,4 @@
-import markdown from '../../src/options/utils/markdown';
+import markdown from '../../src/.utils/react/markdown';
 
 const sentence = 'press "Delete" to remove assignment. Important! You *MUST* reload existing tabs after saving changes. Tip: do not use codes colliding with browser or language combinations.'
 

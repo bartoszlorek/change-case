@@ -15,6 +15,7 @@ describe('apply-method.js', () => {
         expect(applyMethod(10)).rejects.toBeFalsy();
         expect(applyMethod('upperCase', null)).rejects.toBeFalsy();
     })
+    
     it('should change text and return it', () => {
         applyMethod('upperCase', selected).then(value => {
             expect(selected.node.nodeValue).toBe('teXT TO CHANge');

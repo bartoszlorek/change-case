@@ -1,5 +1,5 @@
 import React from 'react';
-import { bind } from '../utils/react-utils';
+import { bind } from '../../.utils/react/react-utils';
 
 class Textarea extends React.Component {
     constructor(props) {

@@ -1,6 +1,6 @@
-import selectionRange from './scripts/utils/selection-range';
-import rangeContent from './scripts/utils/range-content';
-import { onMessage } from './scripts/utils/chrome-utils';
+import selectionRange from './.utils/selection-range';
+import rangeContent from './.utils/range-content';
+import { onMessage } from './.utils/chrome/chrome-utils';
 
 import applyMethod from './scripts/apply-method';
 import applyBlacklist from './scripts/apply-blacklist';

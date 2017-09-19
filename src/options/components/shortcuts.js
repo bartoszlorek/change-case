@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { bind } from '../utils/react-utils';
+import { bind } from '../../.utils/react/react-utils';
 import { forEach } from 'lodash';
 import style from '../style.css';
 

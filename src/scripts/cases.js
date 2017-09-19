@@ -3,9 +3,9 @@
  * https://github.com/blakeembrey/change-case
  */
 
-import NON_WORD_REGEXP from './vendor/non-word-regexp';
-import CAMEL_CASE_REGEXP from './vendor/camel-case-regexp';
-import CAMEL_CASE_UPPER_REGEXP from './vendor/camel-case-upper-regexp';
+import NON_WORD_REGEXP from './internal/non-word-regexp';
+import CAMEL_CASE_REGEXP from './internal/camel-case-regexp';
+import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp';
 
 export default {
     upperCase,

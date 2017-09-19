@@ -1,4 +1,4 @@
-import { nextNode, prevNode } from '../../src/scripts/utils/node-sibling';
+import { nextNode, prevNode } from '../../src/.utils/node-sibling';
 
 describe('next-node.js', () => {
 

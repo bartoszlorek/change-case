@@ -2,7 +2,7 @@ import React from 'react';
 import onClickOutside from 'react-onclickoutside';
 import classNames from 'classnames';
 import { uniq } from 'lodash';
-import { bind } from '../utils/react-utils';
+import { bind } from '../../.utils/react/react-utils';
 import style from '../style.css';
 
 const record = require('mousetrap-record');

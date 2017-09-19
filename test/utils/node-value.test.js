@@ -1,4 +1,4 @@
-import nodeValue from '../../src/scripts/utils/node-value';
+import nodeValue from '../../src/.utils/node-value';
 
 describe('node-value.js', () => {
 

@@ -2,7 +2,7 @@ import {
     sendToContent,
     createMenu,
     setDefaults
-} from './scripts/utils/chrome-utils';
+} from './.utils/chrome/chrome-utils';
 
 function handleClick(methodName) {
     return (info, tab) => {

@@ -1,5 +1,5 @@
-import isTextNode from './utils/is-text-node';
-import getAttributes from './utils/get-attributes';
+import isTextNode from '../.utils/is-text-node';
+import getAttributes from '../.utils/get-attributes';
 
 const validUrl = url => url.split('?')[0];
 const include = ['id', 'class', 'name', 'type'];

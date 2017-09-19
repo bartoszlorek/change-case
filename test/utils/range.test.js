@@ -1,6 +1,6 @@
-import isTextNode from '../../src/scripts/utils/is-text-node';
-import rangeNodes from '../../src/scripts/utils/range-nodes';
-import rangeContent from '../../src/scripts/utils/range-content';
+import isTextNode from '../../src/.utils/is-text-node';
+import rangeNodes from '../../src/.utils/range-nodes';
+import rangeContent from '../../src/.utils/range-content';
 
 describe('range', () => {
 

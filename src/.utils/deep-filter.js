@@ -1,8 +1,8 @@
 import { isArray, isPlainObject, forEach } from 'lodash';
 
-// Base functions should return 'next' value or undefined
-// to get omitted in outer recursive context. Elements
-// behave similarly, however inside the inner context.
+// The base function that returns undefined is omitted in outer
+// recursive context. Inner elements behave similarly.
+// baseFilter (outer) => baseMethod => baseFilter (inner) => ...
 
 function baseArray(context, array, predicate) {
     let result = [],
@@ -33,12 +33,12 @@ function baseObject(context, object, predicate) {
     }
 }
 
-function filter(data, predicate, parent) {
+function baseFilter(data, predicate, parent) {
     if (isArray(data)) {
-        return baseArray(filter, data, predicate) || parent && [];
+        return baseArray(baseFilter, data, predicate) || parent && [];
     }
     if (isPlainObject(data)) {
-        return baseObject(filter, data, predicate) || parent && {};
+        return baseObject(baseFilter, data, predicate) || parent && {};
     }
     if (predicate(data)) {
         return data;
@@ -49,7 +49,7 @@ function deepFilter(data, predicate) {
     if (predicate == null) {
         return data;
     }
-    let result = filter(data, predicate, true);
+    let result = baseFilter(data, predicate, true);
     return result !== undefined ? result : null;
 }
 
