@@ -1,6 +1,6 @@
 import { isArray, isPlainObject, forEach } from 'lodash';
 
-// The base function that returns undefined is omitted in outer
+// The base function that returns `undefined` is omitted in outer
 // recursive context. Inner elements behave similarly.
 // baseFilter (outer) => baseMethod => baseFilter (inner) => ...
 
