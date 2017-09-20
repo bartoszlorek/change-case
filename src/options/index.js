@@ -1,6 +1,6 @@
 import React from 'react';
 import { isPlainObject, isEqual } from 'lodash';
-import { sendToContent } from '../.utils/chrome/chrome-utils';
+import { sendToContent } from '../.utils/chrome/message';
 import { bind } from '../.utils/react/react-utils';
 import deepFilter from '../.utils/deep-filter';
 import { isTruthy } from '../.utils/type-conversion';
@@ -60,6 +60,9 @@ class Options extends React.Component {
     }
 
     handelSave() {
+        if (this.state.upToDate) {
+            return false;
+        }
         let { sync } = chrome.storage;
         sync.clear();
         sync.set(this.state.data, () => {
@@ -118,7 +121,7 @@ class Options extends React.Component {
     render() {
         let { data, upToDate, message } = this.state;
         return (
-            <div className={style.app}>
+            <div className={style['app']}>
                 <Wrap
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
@@ -137,15 +140,16 @@ class Options extends React.Component {
                         onMessage={this.handleMessage}
                     />
                 </Wrap>
-                <div className={style.controls}>
+                <div className={style['controls']}>
                     <Message data={message} />
                     <Button
                         label='Reject'
-                        visible={!upToDate}
+                        state={upToDate && 'hidden'}
                         onClick={this.handleReject}
                     />
                     <Button
                         label='Save'
+                        state={upToDate ? 'disabled' : 'primary'}
                         onClick={this.handelSave}
                     />
                 </div>

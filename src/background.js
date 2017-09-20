@@ -1,9 +1,7 @@
-import {
-    sendToContent,
-    createMenu,
-    setDefaults,
-    scriptableTab
-} from './.utils/chrome/chrome-utils';
+import { sendToContent } from './.utils/chrome/message';
+import scriptableTab from './.utils/chrome/scriptable-tab';
+import setDefaults from './.utils/chrome/set-defaults';
+import createMenu from './.utils/chrome/create-menu';
 
 const scriptable = scriptableTab();
 
