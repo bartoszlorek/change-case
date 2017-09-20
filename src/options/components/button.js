@@ -16,6 +16,7 @@ function Button(props) {
             {...newProps}
             className={classNames(
                 style['button'],
+                props.className,
                 modifier
             )}>
             {label}

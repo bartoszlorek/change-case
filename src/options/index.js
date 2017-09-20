@@ -145,11 +145,13 @@ class Options extends React.Component {
                     <Button
                         label='Reject'
                         state={upToDate && 'hidden'}
+                        className={style['controls-button']}
                         onClick={this.handleReject}
                     />
                     <Button
                         label='Save'
                         state={upToDate ? 'disabled' : 'primary'}
+                        className={style['controls-button']}
                         onClick={this.handelSave}
                     />
                 </div>

@@ -15,10 +15,6 @@ textarea:focus {
     border-color: #009ff1;
 }
 .button {
-    margin: 0 0 0 6px;
-    flex-shrink: 0; 
-}
-.button {
     display: inline-block;
     font-weight: normal;
     text-align: center;
@@ -112,6 +108,10 @@ textarea:focus {
     align-items: center;
     box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
 }
+.controls-button {
+    margin: 0 0 0 6px;
+    flex-shrink: 0; 
+}
 .message {
     margin: 0 auto 0 0;
     white-space: nowrap;
@@ -143,8 +143,6 @@ textarea:focus {
 .item--active + .item {
     border-top: 1px solid #009ff1;
 }
-
-/* additional */
 .dots {
     position: absolute;
     top: 50%; left: 50%;
@@ -168,12 +166,12 @@ textarea:focus {
     animation-delay: .7s;
 }
 @keyframes wave {
-	0%, 60%, 100% {
-		transform: initial;
-	}
-	30% {
-		transform: translateY(-75%);
-	}
+    0%, 60%, 100% {
+        transform: initial;
+    }
+    30% {
+        transform: translateY(-75%);
+    }
 }
 
 .ribbon {
