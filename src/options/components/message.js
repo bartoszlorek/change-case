@@ -1,20 +1,20 @@
 import React from 'react';
+import classNames from 'classnames';
 import style from '../style.css';
 
 function Message(props) {
-    let { data } = props;
-    let className = style.message,
-        text;
-
-    if (data != null) {
-        text = data.text;
-        className += ' ' + (data.type === 'error'
-            ? style.error
-            : style.info
-        )
+    if (props.data == null) {
+        return null;
     }
+    let { type, text } = props.data;
     return (
-        <div className={className}>{text}</div>
+        <div
+            className={classNames(
+                style['message'],
+                style[type]
+            )}>
+            {text}
+        </div>
     )
 }
 

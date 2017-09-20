@@ -1,16 +1,23 @@
 import React from 'react';
+import { omit } from 'lodash';
+import classNames from 'classnames';
 import style from '../style.css';
 
 function Button(props) {
-    let { label, visible, onClick } = props;
+    let { state, label } = props;
 
-    if (visible === false) {
+    if (state === 'hidden') {
         return null;
     }
+    let modifier = style['button--' + state],
+        newProps = omit(props, ['state', 'label']);
     return (
         <button
-            className={style.button}
-            onClick={onClick}>
+            {...newProps}
+            className={classNames(
+                style['button'],
+                modifier
+            )}>
             {label}
         </button>
     )

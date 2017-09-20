@@ -9,7 +9,7 @@ const record = require('mousetrap-record');
 const mousetrap = record(require('mousetrap'));
 
 const dots = (
-    <div className={style.dots}>
+    <div className={style['dots']}>
         <span></span>
         <span></span>
         <span></span>
@@ -27,7 +27,7 @@ const escKeys = code => {
 const containsClass = className => event => {
     return event.target.classList.contains(className);
 }
-const isItem = containsClass(style.item);
+const isItem = containsClass(style['item']);
 
 class ShortcutsItem extends React.Component {
     constructor(props) {
@@ -68,8 +68,8 @@ class ShortcutsItem extends React.Component {
             <div
                 className={classNames(
                     active &&
-                    style.itemActive,
-                    style.item
+                    style['item--active'],
+                    style['item']
                 )}
                 onClick={this.handleClick}>
                 <div>{data.label}</div>

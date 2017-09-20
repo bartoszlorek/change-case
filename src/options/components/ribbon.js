@@ -1,13 +1,17 @@
 import React from 'react';
+import classNames from 'classnames';
 import style from '../style.css';
 
 function Ribbon(props) {
-    let className = style.ribbon;
-    if (props.active) {
-        className += ' ' + style.ribbonActive;
-    }
+    let { active } = props;
     return (
-        <div className={className}></div>
+        <div
+            className={classNames(
+                active &&
+                style['ribbon--active'],
+                style['ribbon']
+            )}>
+        </div>
     )
 }
 
