@@ -64,9 +64,6 @@ textarea:focus {
 .button--primary:focus {
     border-color: #007ebd;
 }
-.button__test--active {
-    border-color: #007ebd;
-}
 @keyframes show-in {
     from { opacity: 0; }
     to { opacity: 1; }

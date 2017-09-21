@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import makeBem from '../../.utils/react/make-bem';
 import style from '../style.css';
 
-let block = makeBem('button', style);
-console.log(block(null, 'primary'));
+const button = makeBem('button', style);
 
 function Button(props) {
     let { state, label } = props;
@@ -13,15 +12,15 @@ function Button(props) {
     if (state === 'hidden') {
         return null;
     }
-    let modifier = style['button--' + state],
-        newProps = omit(props, ['state', 'label']);
+    let newProps = omit(props, ['state', 'label']),
+        modifier = button.mod(state);
     return (
         <button
             {...newProps}
             className={classNames(
-                style['button'],
-                props.className,
-                modifier
+                button(),
+                modifier,
+                props.className
             )}>
             {label}
         </button>

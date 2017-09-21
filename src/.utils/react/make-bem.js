@@ -1,45 +1,52 @@
-function matchSelector(string) {
-    let parts = string.split('--');
-    parts[0] = parts[0].split('__');
+// make BEM methodology
+// block__element--modifier
+
+function parseEntities(string) {
+    let a = string.split('--'),
+        b = a[0].split('__');
     return {
-        block: parts[0][0],
-        element: parts[0][1] || '',
-        modifier: parts[1] || ''
+        block: b[0],
+        element: b[1] || '',
+        modifier: a[1] || ''
     }
 }
 
-function blockSelectors(name, style) {
-    let length = name.length,
-        result = [],
-        match;
-
+function getEntities(block, style) {
+    let result = [];
     for (let selector in style) {
-        if (selector.substr(0, length) === name) {
-            match = matchSelector(selector);
-            match.hash = style[selector];
+        let match = parseEntities(selector);
+        if (match.block === block) {
+            match.identifier = style[selector];
             result.push(match);
         }
     }
     return result;
 }
 
-function makeBem(blockName, style) {
-    if (blockName == null) {
+function makeBem(block, style) {
+    if (block == null) {
         return () => '';
     }
-    let selectors = blockSelectors(
-        blockName,
-        style
-    )
-    return (element, modifier) => {
+    const entities = getEntities(block, style);
+    const length = entities.length;
+
+    const func = (element, modifier) => {
         element = element || '';
         modifier = modifier || '';
-        let result = selectors.filter(a =>
-            a.element === element &&
-            a.modifier === modifier
-        )
-        return result.length ? result[0].hash : '';
+
+        let index = -1;
+        while (++index < length) {
+            let entity = entities[index];
+            if (entity.element === element &&
+                entity.modifier === modifier) {
+                return entity.identifier;
+            }
+        }
+        return '';
     }
+    func.elem = func;
+    func.mod = modifier => func(null, modifier);
+    return func;
 }
 
 export default makeBem;
