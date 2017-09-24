@@ -1,52 +1,59 @@
-// make BEM methodology
+import classNames from 'classnames';
+
+// make bem, not mess.
 // block__element--modifier
 
-function parseEntities(string) {
-    let a = string.split('--'),
-        b = a[0].split('__');
-    return {
-        block: b[0],
-        element: b[1] || '',
-        modifier: a[1] || ''
-    }
+function add(value) {
+    return value ? ' ' + value : '';
 }
 
-function getEntities(block, style) {
-    let result = [];
-    for (let selector in style) {
-        let match = parseEntities(selector);
-        if (match.block === block) {
-            match.identifier = style[selector];
-            result.push(match);
-        }
+function selector(block, element, modifier) {
+    let result = block || '';
+    if (element) {
+        result += '__' + element;
+    }
+    if (modifier) {
+        result += '--' + modifier;
     }
     return result;
 }
 
-function makeBem(block, style) {
-    if (block == null) {
-        return () => '';
+function makeBem(style) {
+    if (style == null) {
+        throw 'making bem, first argument should be style';
     }
-    const entities = getEntities(block, style);
-    const length = entities.length;
+    return (block) => {
+        let output = style[block] || '';
 
-    const func = (element, modifier) => {
-        element = element || '';
-        modifier = modifier || '';
-
-        let index = -1;
-        while (++index < length) {
-            let entity = entities[index];
-            if (entity.element === element &&
-                entity.modifier === modifier) {
-                return entity.identifier;
-            }
+        const self = {
+            class: (classes) => {
+                output += add(classNames(classes));
+                return self;
+            },
+            elem: (element, modifier) => {
+                output += add(
+                    style[selector(
+                        block,
+                        element,
+                        modifier
+                    )]
+                )
+                return self;
+            },
+            mod: (modifier) => {
+                output += add(
+                    style[selector(
+                        block,
+                        null,
+                        modifier
+                    )]
+                )
+                return self;
+            },
+            toString: () => output
         }
-        return '';
+        return self;
     }
-    func.elem = func;
-    func.mod = modifier => func(null, modifier);
-    return func;
 }
 
 export default makeBem;
