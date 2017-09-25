@@ -13,9 +13,8 @@ function Button(props) {
         <button
             {...newProps}
             className={bem('button')
-                .class(props.className)
-                .mod(state)
-            }>
+                .extra(props.className)
+                .mod(state)}>
             {label}
         </button>
     )
