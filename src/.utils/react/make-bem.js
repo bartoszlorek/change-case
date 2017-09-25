@@ -77,14 +77,16 @@ function makeBem(style) {
                     _element
                 )] || '';
 
-                result += add(modifierNames(_modifiers)
-                    .map(name => style[selector(
-                        _block,
-                        _element,
-                        name
-                    )])
-                    .join(' ')
-                )
+                let modifier = modifierNames(_modifiers);
+                if (modifier.length > 0) {
+                    result += add(modifier.map(
+                        name => style[selector(
+                            _block,
+                            _element,
+                            name
+                        )]
+                    ).join(' '))
+                }
                 result += add(_extra);
                 return result;
             }
