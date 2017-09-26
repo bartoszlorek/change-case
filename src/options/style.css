@@ -69,19 +69,6 @@ textarea:focus {
     to { opacity: 1; }
 }
 
-.info {
-    color: #009ff1;
-    font-weight: bold;
-}
-.important,
-.error {
-    color: #f1002b;
-    font-weight: bold;
-}
-.quote {
-    font-style: italic;
-}
-
 /* layout */
 .app {
     padding-bottom: 59px;
@@ -116,6 +103,19 @@ textarea:focus {
     margin: 0 auto 0 0;
     white-space: nowrap;
     overflow: hidden;
+}
+.info,
+.message--info {
+    color: #009ff1;
+    font-weight: bold;
+}
+.important,
+.message--error {
+    color: #f1002b;
+    font-weight: bold;
+}
+.quote {
+    font-style: italic;
 }
 
 /* shortcuts */

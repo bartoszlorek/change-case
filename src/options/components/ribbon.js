@@ -1,15 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
-import style from '../style.css';
+import bem from '../bem';
 
 function Ribbon(props) {
-    let { active } = props;
     return (
         <div
-            className={classNames(
-                active &&
-                style['ribbon--active'],
-                style['ribbon']
+            className={bem('ribbon').mod(
+                'active', props.active
             )}>
         </div>
     )

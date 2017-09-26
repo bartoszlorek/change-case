@@ -1,6 +1,7 @@
 import React from 'react';
 import applyMarkdown from '../../.utils/react/apply-markdown';
 import style from '../style.css';
+import bem from '../bem';
 
 const markdown = applyMarkdown(style, {
     '*': 'important',
@@ -11,8 +12,8 @@ export default function (props) {
     let { title, description, children } = props;
 
     return (
-        <div className={style['wrap']}>
-            <p className={style['description']}>
+        <div className={bem('wrap')}>
+            <p className={bem('description')}>
                 {title && <b>{title}: </b>}{markdown(description)}
             </p>
             {children}

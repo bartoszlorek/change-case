@@ -2,9 +2,9 @@ import React from 'react';
 import { isPlainObject, isEqual } from 'lodash';
 import { sendToContent } from '../.utils/chrome/message';
 import { bind } from '../.utils/react/react-utils';
-import deepFilter from '../.utils/deep-filter';
 import { isTruthy } from '../.utils/type-conversion';
-import style from './style.css';
+import deepFilter from '../.utils/deep-filter';
+import bem from './bem';
 
 import Wrap from './components/wrap';
 import Ribbon from './components/ribbon';
@@ -121,7 +121,7 @@ class Options extends React.Component {
     render() {
         let { data, upToDate, message } = this.state;
         return (
-            <div className={style['app']}>
+            <div className={bem('app')}>
                 <Wrap
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
@@ -140,18 +140,18 @@ class Options extends React.Component {
                         onMessage={this.handleMessage}
                     />
                 </Wrap>
-                <div className={style['controls']}>
+                <div className={bem('controls')}>
                     <Message data={message} />
                     <Button
                         label='Reject'
                         state={upToDate && 'hidden'}
-                        className={style['controls__button']}
+                        className={bem('controls', 'button')}
                         onClick={this.handleReject}
                     />
                     <Button
                         label='Save'
                         state={upToDate ? 'disabled' : 'primary'}
-                        className={style['controls__button']}
+                        className={bem('controls', 'button')}
                         onClick={this.handelSave}
                     />
                 </div>

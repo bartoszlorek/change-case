@@ -1,6 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
-import style from '../style.css';
+import bem from '../bem';
 
 function Message(props) {
     if (props.data == null) {
@@ -9,10 +8,7 @@ function Message(props) {
     let { type, text } = props.data;
     return (
         <div
-            className={classNames(
-                style['message'],
-                style[type]
-            )}>
+            className={bem('message').mod(type)}>
             {text}
         </div>
     )
