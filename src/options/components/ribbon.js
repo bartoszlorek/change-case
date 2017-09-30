@@ -1,12 +1,10 @@
 import React from 'react';
 import bem from '../bem';
 
-function Ribbon(props) {
+function Ribbon({ active }) {
     return (
         <div
-            className={bem('ribbon').mod(
-                'active', props.active
-            )}>
+            className={bem('ribbon').mod('active', active)}>
         </div>
     )
 }

@@ -8,9 +8,7 @@ const markdown = applyMarkdown(style, {
     '"': 'quote'
 });
 
-export default function (props) {
-    let { title, description, children } = props;
-
+export default function ({ title, description, children }) {
     return (
         <div className={bem('wrap')}>
             <p className={bem('description')}>
