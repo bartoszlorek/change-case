@@ -35,7 +35,7 @@ textarea:focus {
     cursor: pointer;
 }
 .button:hover {
-    background: #f6f7f9;
+    background: rgba(111, 127, 159, 0.075);
 }
 .button:focus {
     border-color: #009ff1;
@@ -185,4 +185,27 @@ textarea:focus {
 .ribbon--active {
     background: #009ff1;
     box-shadow: 0 0 6px rgba(0,159,241,0.85);
+}
+
+/* dialog */
+.dialog {
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(42,45,53,0.4);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: show-in .5s normal forwards;
+}
+.dialog__window {
+    background: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    width: 60%;
+}
+.dialog__buttons {
+    background: #f6f7f9;
+    display: flex;
+    justify-content: space-between;
 }

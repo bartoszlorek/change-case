@@ -4,7 +4,9 @@ import { sendToContent } from '../.utils/chrome/message';
 import { bind } from '../.utils/react/react-utils';
 import { isTruthy } from '../.utils/type-conversion';
 import deepFilter from '../.utils/deep-filter';
+
 import bem from './bem';
+import confirm from './functions/confirm';
 
 import Wrap from './components/wrap';
 import Ribbon from './components/ribbon';
@@ -112,10 +114,12 @@ class Options extends React.Component {
     }
 
     handleReject() {
-        this.setState(prevState => ({
-            data: prevState.savedData,
-            upToDate: true
-        }))
+        confirm('Do you want to discard unsaved changes?').then(() => {
+            this.setState(prevState => ({
+                data: prevState.savedData,
+                upToDate: true
+            }))
+        })
     }
 
     render() {
