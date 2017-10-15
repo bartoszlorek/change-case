@@ -3,7 +3,7 @@ import { isPlainObject, isEqual } from 'lodash';
 import { sendToContent } from '../.utils/chrome/message';
 import { bind } from '../.utils/react/react-utils';
 import { isTruthy } from '../.utils/type-conversion';
-import deepFilter from '../.utils/deep-filter';
+import { deepFilter } from '../.utils/deep.min';
 
 import bem from './bem';
 import confirm from './functions/confirm';

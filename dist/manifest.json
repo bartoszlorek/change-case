@@ -18,8 +18,7 @@
     "content_scripts": [{
         "matches": [
             "http://*/*",
-            "https://*/*",
-            "file:///*/*"
+            "https://*/*"
         ],
         "js": ["content-script.js"],
         "all_frames": false
