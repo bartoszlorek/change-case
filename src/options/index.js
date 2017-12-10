@@ -28,6 +28,7 @@ const shortcutsItems = [
     { name: 'snakeCase', label: 'snake_case' },
     { name: 'dotCase', label: 'dot.case' },
     { name: 'toggleCase', label: 'tOGGLE cASE' },
+    { name: 'noAccents', label: 'no accents' },
     { name: 'noCase', label: 'no case' }
 ];
 

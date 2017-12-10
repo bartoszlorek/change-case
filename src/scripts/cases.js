@@ -6,6 +6,7 @@
 import NON_WORD_REGEXP from './internal/non-word-regexp';
 import CAMEL_CASE_REGEXP from './internal/camel-case-regexp';
 import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp';
+import removeAccents from './internal/remove-accents';
 
 export default {
     upperCase,
@@ -22,6 +23,7 @@ export default {
     dotCase,
 
     toggleCase,
+    noAccents: removeAccents,
     noCase: value => noCase(value, ' ')
 }
 

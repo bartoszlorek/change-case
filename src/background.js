@@ -34,6 +34,7 @@ createMenu([
     ['dotCase', 'dot.case'],
     null,
     ['toggleCase', 'tOGGLE cASE'],
+    ['noAccents', 'no accents'],
     ['noCase', 'no case']
 ],
     item => ({
