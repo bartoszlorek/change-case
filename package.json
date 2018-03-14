@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ubery/change-case.git"
+    "url": "git+https://github.com/bartoszlorek/change-case.git"
   },
   "author": "Bartosz Lorek",
   "license": "MIT",
