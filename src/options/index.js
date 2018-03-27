@@ -1,20 +1,20 @@
-import React from 'react';
-import { isPlainObject, isEqual } from 'lodash';
-import { sendToContent } from '../.utils/chrome/message';
-import { bind } from '../.utils/react/react-utils';
-import { isTruthy } from '../.utils/type-conversion';
-import { deepFilter } from '../.utils/deep.min';
+import React from 'react'
+import { isPlainObject, isEqual } from 'lodash'
+import { sendToContent } from '../.utils/chrome/message'
+import { bind } from '../.utils/react/react-utils'
+import { isTruthy } from '../.utils/type-conversion'
+import { deepFilter } from '../.utils/deep.min'
 
-import bem from './bem';
-import confirm from './functions/confirm';
+import bem from './bem'
+import confirm from './functions/confirm'
 
-import Wrap from './components/wrap';
-import Ribbon from './components/ribbon';
-import Button from './components/button';
-import Input from './components/input';
-import Textarea from './components/textarea';
-import Message from './components/message';
-import Shortcuts from './components/shortcuts';
+import Wrap from './components/wrap'
+import Ribbon from './components/ribbon'
+import Button from './components/button'
+import Input from './components/input'
+import Textarea from './components/textarea'
+import Message from './components/message'
+import Shortcuts from './components/shortcuts'
 
 const shortcutsItems = [
     { name: 'upperCase', label: 'UPPERCASE' },
@@ -30,14 +30,14 @@ const shortcutsItems = [
     { name: 'toggleCase', label: 'tOGGLE cASE' },
     { name: 'noAccents', label: 'no accents' },
     { name: 'noCase', label: 'no case' }
-];
+]
 
 const addValue = (data, value) => isPlainObject(value)
-    ? Object.assign({}, data, value) : value;
+    ? Object.assign({}, data, value) : value
 
 class Options extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             message: null,
             upToDate: true,
@@ -49,7 +49,7 @@ class Options extends React.Component {
             'handleMessage',
             'handleData',
             'handleReject'
-        ]);
+        ])
     }
 
     componentDidMount() {
@@ -58,43 +58,43 @@ class Options extends React.Component {
                 upToDate: true,
                 savedData: data,
                 data
-            });
-        });
+            })
+        })
     }
 
     handelSave() {
         if (this.state.upToDate) {
-            return false;
+            return false
         }
-        let { sync } = chrome.storage;
-        sync.clear();
+        let { sync } = chrome.storage
+        sync.clear()
         sync.set(this.state.data, () => {
-            this.handleMessage('options saved');
+            this.handleMessage('options saved')
             this.setState({
                 upToDate: true,
                 savedData: this.state.data
-            });
+            })
             sendToContent({
                 type: 'BIND_SHORTCUTS',
                 id: -1
-            });
+            })
         })
     }
 
     handleMessage(text = null, type = 'info') {
-        let message = text && { type, text };
+        let message = text && { type, text }
         if (message != null) {
-            clearTimeout(this.messageTimer);
+            clearTimeout(this.messageTimer)
             this.messageTimer = setTimeout(() => {
-                this.handleMessage(null);
-            }, 3000);
+                this.handleMessage(null)
+            }, 3000)
         }
-        this.setState({ message });
+        this.setState({ message })
     }
 
     handleData(name) {
         return value => this.setState(prevState => {
-            let { savedData, data } = prevState;
+            let { savedData, data } = prevState
             let nextData = deepFilter(
                 Object.assign({}, data, {
                     [name]: addValue(
@@ -111,7 +111,7 @@ class Options extends React.Component {
                     nextData
                 )
             }
-        });
+        })
     }
 
     handleReject() {
@@ -124,7 +124,7 @@ class Options extends React.Component {
     }
 
     render() {
-        let { data, upToDate, message } = this.state;
+        let { data, upToDate, message } = this.state
         return (
             <div className={bem('app')}>
                 <Wrap
@@ -166,4 +166,4 @@ class Options extends React.Component {
     }
 }
 
-export default Options;
+export default Options

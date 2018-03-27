@@ -1,9 +1,9 @@
-import { sendToContent } from './.utils/chrome/message';
-import scriptableTab from './.utils/chrome/scriptable-tab';
-import setDefaults from './.utils/chrome/set-defaults';
-import createMenu from './.utils/chrome/create-menu';
+import { sendToContent } from './.utils/chrome/message'
+import scriptableTab from './.utils/chrome/scriptable-tab'
+import setDefaults from './.utils/chrome/set-defaults'
+import createMenu from './.utils/chrome/create-menu'
 
-const scriptable = scriptableTab();
+const scriptable = scriptableTab()
 
 function handleClick(methodName) {
     return (info, tab) => {
@@ -14,7 +14,7 @@ function handleClick(methodName) {
                     data: methodName,
                     id
                 })
-            ).catch(error => alert(error));
+            ).catch(error => alert(error))
         }
     }
 }
@@ -43,7 +43,7 @@ createMenu([
     }), {
         contexts: ['editable']
     }
-);
+)
 
 setDefaults({
     shortcuts: {
@@ -52,11 +52,10 @@ setDefaults({
         titleCase: 'alt+3',
         sentenceCase: 'alt+4'
     }
-});
+})
 
-chrome.runtime.onInstalled.addListener(details => {
-    let { reason } = details;
+chrome.runtime.onInstalled.addListener(({ reason }) => {
     if (reason === 'install' || reason === 'update') {
-        chrome.runtime.openOptionsPage();
+        chrome.runtime.openOptionsPage()
     }
-});
+})

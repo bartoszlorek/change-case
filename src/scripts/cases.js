@@ -3,10 +3,10 @@
  * https://github.com/blakeembrey/change-case
  */
 
-import NON_WORD_REGEXP from './internal/non-word-regexp';
-import CAMEL_CASE_REGEXP from './internal/camel-case-regexp';
-import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp';
-import removeAccents from './internal/remove-accents';
+import NON_WORD_REGEXP from './internal/non-word-regexp'
+import CAMEL_CASE_REGEXP from './internal/camel-case-regexp'
+import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp'
+import removeAccents from './internal/remove-accents'
 
 export default {
     upperCase,
@@ -34,77 +34,75 @@ function noCase(value, replacement) {
 
     if (typeof replacement === 'string') {
         value = value.replace(NON_WORD_REGEXP, (match, index, value) => {
-            if (index === 0 || index === (value.length - match.length)) {
-                return ' ';
+            if (index === 0 || index === value.length - match.length) {
+                return ' '
             }
-            return replacement;
+            return replacement
         })
     }
-    return lowerCase(value);
+    return lowerCase(value)
 }
 
 function upperCase(value) {
-    return value.toUpperCase();
+    return value.toUpperCase()
 }
 
 function upperCaseFirst(value) {
-    value = String(value);
-    return upperCase(value.charAt(0)) + value.substr(1);
+    value = String(value)
+    return upperCase(value.charAt(0)) + value.substr(1)
 }
 
 function lowerCase(value) {
-    return value.toLowerCase();
+    return value.toLowerCase()
 }
 
 function titleCase(value) {
-    return noCase(value).replace(/^.| ./g, a => upperCase(a));
+    return noCase(value).replace(/^.| ./g, a => upperCase(a))
 }
 
 function sentenceCase(value) {
-    return upperCaseFirst(noCase(value));
+    return upperCaseFirst(noCase(value))
 }
 
 function camelCase(value, mergeNumbers) {
-    value = noCase(value);
+    value = noCase(value)
 
     if (!mergeNumbers) {
-        value = value.replace(/ (?=\d)/g, '_');
+        value = value.replace(/ (?=\d)/g, '_')
     }
-    return value.replace(/ (.)/g, function (m, $1) {
-        return upperCase($1);
-    });
+    return value.replace(/ (.)/g, function(m, $1) {
+        return upperCase($1)
+    })
 }
 
 function pascalCase(value, mergeNumbers) {
-    return upperCaseFirst(camelCase(value, mergeNumbers));
+    return upperCaseFirst(camelCase(value, mergeNumbers))
 }
 
 function constantCase(value) {
-    return upperCase(snakeCase(value));
+    return upperCase(snakeCase(value))
 }
 
 function paramCase(value) {
-    return noCase(value, '-');
+    return noCase(value, '-')
 }
 
 function snakeCase(value) {
-    return noCase(value, '_');
+    return noCase(value, '_')
 }
 
 function dotCase(value) {
-    return noCase(value, '.');
+    return noCase(value, '.')
 }
 
 function toggleCase(value) {
     let length = value.length,
-        result = '';
+        result = ''
 
     for (let i = 0; i < length; i++) {
         let char = value[i],
-            upper = upperCase(char);
-        result += char === upper
-            ? lowerCase(char)
-            : upper;
+            upper = upperCase(char)
+        result += char === upper ? lowerCase(char) : upper
     }
-    return result;
+    return result
 }

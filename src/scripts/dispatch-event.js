@@ -6,15 +6,15 @@ const events = [
         bubbles: true,
         cancelable: false
     })
-);
+)
 
 function dispatchEvent(element) {
     if (element.nodeType !== 1) {
-        element = element.parentElement;
+        element = element.parentElement
     }
     events.forEach(event => {
         element.dispatchEvent(event)
     })
 }
 
-export default dispatchEvent;
+export default dispatchEvent
