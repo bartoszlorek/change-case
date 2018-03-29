@@ -1,16 +1,16 @@
-import React from 'react';
-import { bind } from '../../.utils/react/react-utils';
+import React from 'react'
+import { bind } from '../../.utils/react/react-utils'
 
 class Textarea extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         bind(this, [
             'handleChange'
-        ]);
+        ])
     }
 
     handleChange(e) {
-        this.props.onChange(e.target.value);
+        this.props.onChange(e.target.value)
     }
 
     render() {
@@ -25,4 +25,4 @@ class Textarea extends React.Component {
     }
 }
 
-export default Textarea;
+export default Textarea
