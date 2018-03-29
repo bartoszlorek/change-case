@@ -1,5 +1,5 @@
-import React from 'react';
-import bem from '../bem';
+import React from 'react'
+import bem from '../bem'
 
 function Ribbon({ active }) {
     return (
@@ -9,4 +9,4 @@ function Ribbon({ active }) {
     )
 }
 
-export default Ribbon;
+export default Ribbon
