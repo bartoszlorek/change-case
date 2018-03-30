@@ -1,7 +1,7 @@
-import React from 'react';
-import { confirmable } from 'react-confirm';
-import Button from './button';
-import bem from '../bem';
+import React from 'react'
+import { confirmable } from 'react-confirm'
+import Button from './button'
+import bem from '../bem'
 
 function Dialog({ proceed, dismiss, message }) {
     return (
@@ -10,18 +10,18 @@ function Dialog({ proceed, dismiss, message }) {
                 <div className={bem('wrap')}>{message}</div>
                 <div className={bem('wrap').extra(bem('dialog', 'buttons'))}>
                     <Button
-                        label='No'
-                        onClick={dismiss}
-                    />
+                        onClick={dismiss}>
+                        No
+                    </Button>
                     <Button
-                        label='Yes'
                         className={bem('button').mod('primary')}
-                        onClick={proceed}
-                    />
+                        onClick={proceed}>
+                        Yes
+                    </Button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default confirmable(Dialog);
+export default confirmable(Dialog)
