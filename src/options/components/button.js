@@ -1,23 +1,23 @@
-import React from 'react';
-import { omit } from 'lodash';
-import bem from '../bem';
+import React from 'react'
+import bem from '../bem'
 
 function Button(props) {
-    let { state, label } = props;
-
-    if (state === 'hidden') {
-        return null;
+    if (props.state === 'hidden') {
+        return null
     }
-    let newProps = omit(props, ['state', 'label']);
+    let newProps = Object.assign({}, props)
+    newProps.state = null
+
     return (
         <button
             {...newProps}
             className={bem('button')
                 .extra(props.className)
-                .mod(state)}>
-            {label}
+                .mod(state)}
+        >
+            {props.children}
         </button>
     )
 }
 
-export default Button;
+export default Button
