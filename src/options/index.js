@@ -148,17 +148,17 @@ class Options extends React.Component {
                 <div className={bem('controls')}>
                     <Message data={message} />
                     <Button
-                        label='Reject'
                         state={upToDate && 'hidden'}
                         className={bem('controls', 'button')}
-                        onClick={this.handleReject}
-                    />
+                        onClick={this.handleReject}>
+                        Reject
+                    </Button>
                     <Button
-                        label='Save'
                         state={upToDate ? 'disabled' : 'primary'}
                         className={bem('controls', 'button')}
-                        onClick={this.handelSave}
-                    />
+                        onClick={this.handelSave}>
+                        Save
+                    </Button>
                 </div>
                 <Ribbon active={!upToDate} />
             </div>
