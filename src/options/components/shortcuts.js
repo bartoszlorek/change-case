@@ -1,12 +1,12 @@
-import React from 'react';
-import { bind } from '../../.utils/react/react-utils';
-import { forEach } from 'lodash';
+import React from 'react'
+import { bind } from '../../.utils/react/react-utils'
+import { forEach } from 'lodash'
 
-import ShortcutsItem from './shortcuts-item';
+import ShortcutsItem from './shortcuts-item'
 
 class Shortcuts extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         bind(this, [
             'handelActive',
             'handleAssign',
@@ -19,53 +19,53 @@ class Shortcuts extends React.Component {
 
     handelActive(itemName) {
         this.setState(prevState => {
-            let active = null;
+            let active = null
             if (itemName && itemName !== prevState.active) {
-                active = itemName;
+                active = itemName
             }
             return { active }
-        });
+        })
     }
 
     handleAssign(itemName, code) {
-        let result = this.validKeys(itemName, code);
+        let result = this.validKeys(itemName, code)
         if (result !== false) {
             this.props.onChange({
                 [itemName]: result
-            });
+            })
         }
     }
 
     validKeys(itemName, code) {
         if (code[0] === 'del') {
-            return '';
+            return ''
         }
-        let { value, onMessage } = this.props;
+        let { value, onMessage } = this.props
 
         // don't press too long
         let last = code.length - 1;
         if (code[last] === code[last - 1]) {
-            onMessage('invalid keys', 'error');
-            return false;
+            onMessage('invalid keys', 'error')
+            return false
         }
 
-        code = code.join(' ');
-        let result = isAssigned(code, value);
+        code = code.join(' ')
+        let result = isAssigned(code, value)
         if (result !== false) {
-            let message = 'already assigned';
+            let message = 'already assigned'
             if (result !== itemName) {
-                message += ` to ${result}`;
+                message += ` to ${result}`
             }
-            onMessage(message, 'error');
-            return false;
+            onMessage(message, 'error')
+            return false
         }
 
-        onMessage('correctly assigned');
-        return code;
+        onMessage('correctly assigned')
+        return code
     }
 
     render() {
-        let { items, value } = this.props;
+        let { items, value } = this.props
         return (
             <div>
                 {items && items.map(item =>
@@ -74,7 +74,6 @@ class Shortcuts extends React.Component {
                         data={item}
                         value={value && value[item.name]}
                         active={this.state.active === item.name}
-
                         onClick={this.handelActive}
                         onAssign={this.handleAssign}
                     />
@@ -85,14 +84,14 @@ class Shortcuts extends React.Component {
 }
 
 function isAssigned(code, state) {
-    let result = false;
+    let result = false
     forEach(state, (value, name) => {
         if (code === value) {
-            result = name;
-            return false;
+            result = name
+            return false
         }
-    });
-    return result;
+    })
+    return result
 }
 
-export default Shortcuts;
+export default Shortcuts
