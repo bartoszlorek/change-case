@@ -1,11 +1,11 @@
-import React from 'react';
-import bem from '../bem';
+import React from 'react'
+import bem from '../bem'
 
 function Message({ data }) {
     if (data == null) {
-        return null;
+        return null
     }
-    let { type, text } = data;
+    let { type, text } = data
     return (
         <div
             className={bem('message').mod(type)}>
@@ -14,4 +14,4 @@ function Message({ data }) {
     )
 }
 
-export default Message;
+export default Message
