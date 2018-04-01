@@ -67,4 +67,18 @@ describe('markdown.js', () => {
             text: ' reload'
         })
     })
+
+    it('should handle marks next to each other', () => {
+        const result = markdown('"first"*second*', ['"', '*'])
+
+        expect(result.length).toBe(2)
+        expect(result[0]).toEqual({
+            mark: '"',
+            text: 'first'
+        })
+        expect(result[1]).toEqual({
+            mark: '*',
+            text: 'second'
+        })
+    })
 })
