@@ -31,7 +31,7 @@ function markdown(string, marks) {
                 }
             }
         })
-        .filter(a => a);
+        .filter(a => a)
 }
 
-export default markdown;
+export default markdown
