@@ -1,12 +1,11 @@
 import React from 'react'
+import styled from 'styled-components'
 import { bind } from '../../.utils/react/react-utils'
 
 class Textarea extends React.Component {
     constructor(props) {
         super(props)
-        bind(this, [
-            'handleChange'
-        ])
+        bind(this, ['handleChange'])
     }
 
     handleChange(e) {
@@ -19,10 +18,21 @@ class Textarea extends React.Component {
                 {...this.props}
                 value={this.props.value || ''}
                 rows={this.props.rows || '5'}
-                onChange={this.handleChange}>
-            </textarea>
+                onChange={this.handleChange}
+            />
         )
     }
 }
 
-export default Textarea
+export default styled(Textarea)`
+    width: 100%;
+    resize: vertical;
+    border: 1px solid #dddfe2;
+    padding: 4px 6px;
+    box-sizing: border-box;
+    outline: 0;
+
+    &:focus {
+        border-color: #009ff1;
+    }
+`

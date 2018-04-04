@@ -8,12 +8,12 @@ import { deepFilter } from '../.utils/deep.min'
 import bem from './bem'
 import confirm from './functions/confirm'
 
-import Wrap from './components/wrap'
-import Ribbon from './components/ribbon'
-import Button from './components/button'
-import Input from './components/input'
-import Textarea from './components/textarea'
-import Message from './components/message'
+import Section from './components/Section'
+import Ribbon from './components/Ribbon'
+import Button, { PrimaryButton } from './components/Button'
+import Input from './components/Input'
+import Textarea from './components/Textarea'
+import Message from './components/Message'
 import Shortcuts from './components/shortcuts'
 
 const shortcutsItems = [
@@ -127,15 +127,15 @@ class Options extends React.Component {
         let { data, upToDate, message } = this.state
         return (
             <div className={bem('app')}>
-                <Wrap
+                <Section
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
                     <Textarea
                         value={data['blacklist']}
                         onChange={this.handleData('blacklist')}>
                     </Textarea>
-                </Wrap>
-                <Wrap
+                </Section>
+                <Section
                     title='Keyboard Shortcuts'
                     description='press *Delete* to remove assignment. Tip: do not use shortcuts that collide with browser combinations.'>
                     <Shortcuts
@@ -144,21 +144,19 @@ class Options extends React.Component {
                         onChange={this.handleData('shortcuts')}
                         onMessage={this.handleMessage}
                     />
-                </Wrap>
+                </Section>
                 <div className={bem('controls')}>
                     <Message data={message} />
                     <Button
-                        state={upToDate && 'hidden'}
-                        className={bem('controls', 'button')}
+                        hidden={upToDate}
                         onClick={this.handleReject}>
                         Reject
                     </Button>
-                    <Button
-                        state={upToDate ? 'disabled' : 'primary'}
-                        className={bem('controls', 'button')}
+                    <PrimaryButton
+                        disabled={upToDate}
                         onClick={this.handelSave}>
                         Save
-                    </Button>
+                    </PrimaryButton>
                 </div>
                 <Ribbon active={!upToDate} />
             </div>

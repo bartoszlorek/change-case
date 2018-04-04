@@ -1,20 +1,10 @@
-import React from 'react'
-import applyMarkdown from '../../.utils/react/apply-markdown'
-import style from '../style.css'
-import bem from '../bem'
+import styled from 'styled-components'
 
-const markdown = applyMarkdown(style, {
-    '*': 'important',
-    '"': 'quote'
-})
+export default styled.div`
+    padding: 14px 17px;
+    border-top: 1px solid #dddfe2;
 
-export default function ({ title, description, children }) {
-    return (
-        <div className={bem('wrap')}>
-            <p className={bem('description')}>
-                {title && <b>{title}: </b>}{markdown(description)}
-            </p>
-            {children}
-        </div>
-    )
-}
+    &:first-child {
+        border-top: 0;
+    }
+`
