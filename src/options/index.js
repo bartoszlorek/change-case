@@ -1,12 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 import { sendToContent } from '../.utils/chrome/message'
 import { bind } from '../.utils/react/react-utils'
 import { isTruthy } from '../.utils/type-conversion'
 import { deepFilter } from '../.utils/deep.min'
 
-import bem from './bem'
-import confirm from './functions/confirm'
+import confirm from './confirm'
 
 import Section from './components/Section'
 import Ribbon from './components/Ribbon'
@@ -34,6 +34,23 @@ const shortcutsItems = [
 
 const addValue = (data, value) => isPlainObject(value)
     ? Object.assign({}, data, value) : value
+
+const Controls = styled.div`
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px 17px;
+    background: #fff;
+    border-top: 1px solid #dddfe2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
+
+    & > button {
+        margin: 0 0 0 6px;
+        flex-shrink: 0; 
+    }
+`
 
 class Options extends React.Component {
     constructor(props) {
@@ -124,9 +141,9 @@ class Options extends React.Component {
     }
 
     render() {
-        let { data, upToDate, message } = this.state
+        let { className, data, upToDate, message } = this.state
         return (
-            <div className={bem('app')}>
+            <div className={className}>
                 <Section
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
@@ -145,7 +162,7 @@ class Options extends React.Component {
                         onMessage={this.handleMessage}
                     />
                 </Section>
-                <div className={bem('controls')}>
+                <Controls>
                     <Message data={message} />
                     <Button
                         hidden={upToDate}
@@ -157,11 +174,13 @@ class Options extends React.Component {
                         onClick={this.handelSave}>
                         Save
                     </PrimaryButton>
-                </div>
+                </Controls>
                 <Ribbon active={!upToDate} />
             </div>
         )
     }
 }
 
-export default Options
+export default styled(Options)`
+    padding-bottom: 59px;
+`

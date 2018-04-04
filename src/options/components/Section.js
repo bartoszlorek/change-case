@@ -23,16 +23,19 @@ const mark = applyMarkdown({
     '"': Quote
 })
 
-function Section({ title, description, children }) {
-    return (
-        <Wrap>
-            <Description>
-                {title && <b>{title}: </b>}
-                {mark(description)}
-            </Description>
-            {children}
-        </Wrap>
-    )
+class Section extends React.PureComponent {
+    render() {
+        let { title, description, children } = this.props
+        return (
+            <Wrap>
+                <Description>
+                    {title && <b>{title}: </b>}
+                    {mark(description)}
+                </Description>
+                {children}
+            </Wrap>
+        )
+    }
 }
 
 export default Section
