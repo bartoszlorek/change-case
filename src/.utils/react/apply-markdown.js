@@ -8,7 +8,7 @@ function applyMarkdown(spec) {
     }
 
     let marks = Object.keys(spec)
-    return string => {
+    return (string) => {
         if (string == null) {
             return null
         }
@@ -48,7 +48,20 @@ function applyMarkdown(spec) {
 }
 
 function useStyle(style, spec) {
-
+    if (spec == null) {
+        return null
+    }
+    if (style == null) {
+        return spec
+    }
+    let result = {}
+    Object.keys(spec).forEach(prop => {
+        let styleProp = style[spec[prop]]
+        if (styleProp !== undefined) {
+            result[prop] = styleProp
+        }
+    })
+    return result
 }
 
 export default applyMarkdown
