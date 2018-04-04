@@ -1,5 +1,15 @@
-const get = (obj, path) => {
-    return path.split('.').reduce((acc, x) => acc && acc[x], obj)
+const get = (object, path) => {
+    return path.split('.').reduce(
+        (prev, prop) => prev && prev[prop],
+        object
+    )
+}
+
+export function choose(path, cases) {
+    return object => {
+        let value = get(object, path)
+        return cases[String(value)]
+    }
 }
 
 export function bind(context, methods) {
@@ -8,24 +18,18 @@ export function bind(context, methods) {
     })
 }
 
-// returns one case by props value
-export function choose(valuePath, cases) {
-    return props => cases[String(get(props, valuePath))]
-}
-
-// returns new props object without values
-export function omit(props, values) {
-    if (props == null) {
+export function omit(object, props) {
+    if (object == null) {
         return null
     }
-    if (values == null || !values.length) {
-        return props
+    if (props == null || !props.length) {
+        return object
     }
-    let newProps = {}
-    Object.keys(props).forEach(prop => {
-        if (values.indexOf(prop) < 0) {
-            newProps[prop] = props[prop]
+    let newObject = {}
+    Object.keys(object).forEach(prop => {
+        if (props.indexOf(prop) < 0) {
+            newObject[prop] = object[prop]
         }
     })
-    return newProps
+    return newObject
 }
