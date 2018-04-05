@@ -1,4 +1,9 @@
 {
     "presets": ["es2015", "react"],
-    "plugins": ["lodash"]
+    "plugins": ["lodash"],
+    "env": {
+        "development": {
+            "plugins": ["babel-plugin-styled-components"]
+        }
+    }
 }
