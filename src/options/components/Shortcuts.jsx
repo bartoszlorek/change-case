@@ -1,6 +1,6 @@
 import React from 'react'
+import { findKey } from 'lodash'
 import { bind } from '../../.utils/react/react-utils'
-import { forEach } from 'lodash'
 
 import ShortcutsItem from './Shortcuts-Item'
 
@@ -10,21 +10,18 @@ class Shortcuts extends React.PureComponent {
         bind(this, [
             'handelActive',
             'handleAssign',
+            'isAssigned',
             'validKeys'
-        ]);
+        ])
         this.state = {
             active: null
         }
     }
 
     handelActive(itemName) {
-        this.setState(prevState => {
-            let active = null
-            if (itemName && itemName !== prevState.active) {
-                active = itemName
-            }
-            return { active }
-        })
+        this.setState(({ active }) => ({
+            active: itemName && itemName !== active ? itemName : null
+        }))
     }
 
     handleAssign(itemName, code) {
@@ -36,28 +33,30 @@ class Shortcuts extends React.PureComponent {
         }
     }
 
+    isAssigned(code) {
+        return findKey(this.props.value, key => key === code) || false
+    }
+
     validKeys(itemName, code) {
         if (code[0] === 'del') {
             return ''
         }
-        let { value, onMessage } = this.props
+        let { onMessage } = this.props
 
         // don't press too long
-        let last = code.length - 1;
+        let last = code.length - 1
         if (code[last] === code[last - 1]) {
-            onMessage('invalid keys', 'error')
-            return false
+            return onMessage('invalid keys', 'error')
         }
 
         code = code.join(' ')
-        let result = isAssigned(code, value)
+        let result = this.isAssigned(code)
         if (result !== false) {
-            let message = 'already assigned'
+            let text = 'already assigned'
             if (result !== itemName) {
-                message += ` to ${result}`
+                text += ` to ${result}`
             }
-            onMessage(message, 'error')
-            return false
+            return onMessage(text, 'error')
         }
 
         onMessage('correctly assigned')
@@ -68,7 +67,7 @@ class Shortcuts extends React.PureComponent {
         let { items, value } = this.props
         return (
             <div>
-                {items && items.map(item =>
+                {items && items.map(item => (
                     <ShortcutsItem
                         key={item.name}
                         data={item}
@@ -77,21 +76,10 @@ class Shortcuts extends React.PureComponent {
                         onClick={this.handelActive}
                         onAssign={this.handleAssign}
                     />
-                )}
+                ))}
             </div>
         )
     }
-}
-
-function isAssigned(code, state) {
-    let result = false
-    forEach(state, (value, name) => {
-        if (code === value) {
-            result = name
-            return false
-        }
-    })
-    return result
 }
 
 export default Shortcuts

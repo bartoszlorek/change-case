@@ -1,6 +1,6 @@
 import React from 'react'
-import applyMarkdown from '../../.utils/react/apply-markdown'
 import styled from 'styled-components'
+import applyMarkdown from '../../.utils/react/apply-markdown'
 
 import Wrap from './Wrap'
 

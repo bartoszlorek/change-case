@@ -9,7 +9,7 @@ class Button extends React.PureComponent {
         }
         return (
             <button {...this.props}>
-                {this.props.children}
+                {this.props.value}
             </button>
         )
     }

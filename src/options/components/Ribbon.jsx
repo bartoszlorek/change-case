@@ -12,11 +12,10 @@ const Ribbon = styled.div`
     transition: all 0.2s ease;
     height: 3px;
 
-    ${choose('active', {
-        true: css`
-            background: #009ff1;
-            box-shadow: 0 0 6px rgba(0, 159, 241, 0.85);`
-    })};
+    ${choose('active', css`
+        background: #009ff1;
+        box-shadow: 0 0 6px rgba(0, 159, 241, 0.85);
+    `)};
 `
 
 export default Ribbon

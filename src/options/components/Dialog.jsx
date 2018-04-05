@@ -1,8 +1,8 @@
 import React from 'react'
-import { confirmable } from 'react-confirm'
 import styled from 'styled-components'
-
+import { confirmable } from 'react-confirm'
 import { showIn } from '../animation'
+
 import Button, { PrimaryButton } from './Button'
 import Wrap from './Wrap'
 
@@ -27,8 +27,8 @@ class Dialog extends React.PureComponent {
                 <Window>
                     <Wrap>{message}</Wrap>
                     <WrapButtons>
-                        <Button onClick={dismiss}>No</Button>
-                        <PrimaryButton onClick={proceed}>Yes</PrimaryButton>
+                        <Button value="No" onClick={dismiss} />
+                        <PrimaryButton value="Yes" onClick={proceed} />
                     </WrapButtons>
                 </Window>
             </div>

@@ -16,6 +16,8 @@ import Textarea from './components/Textarea'
 import Message from './components/Message'
 import Shortcuts from './components/shortcuts'
 
+const MESSAGE_TIMEOUT = 3000
+
 const shortcutsItems = [
     { name: 'upperCase', label: 'UPPERCASE' },
     { name: 'lowerCase', label: 'lowercase' },
@@ -32,8 +34,11 @@ const shortcutsItems = [
     { name: 'noCase', label: 'no case' }
 ]
 
-const addValue = (data, value) => isPlainObject(value)
-    ? Object.assign({}, data, value) : value
+const addValue = (data, value) => {
+    return isPlainObject(value)
+        ? Object.assign({}, data, value)
+        : value
+}
 
 const Controls = styled.div`
     position: fixed;
@@ -99,19 +104,23 @@ class Options extends React.Component {
     }
 
     handleMessage(text = null, type = 'info') {
-        let message = text && { type, text }
-        if (message != null) {
+        let message = null
+        if (text != null) {
+            message = {
+                type,
+                text
+            }
             clearTimeout(this.messageTimer)
             this.messageTimer = setTimeout(() => {
                 this.handleMessage(null)
-            }, 3000)
+            }, MESSAGE_TIMEOUT)
         }
         this.setState({ message })
+        return type !== 'error'
     }
 
     handleData(name) {
-        return value => this.setState(prevState => {
-            let { savedData, data } = prevState
+        return value => this.setState(({ savedData, data }) => {
             let nextData = deepFilter(
                 Object.assign({}, data, {
                     [name]: addValue(
@@ -133,17 +142,17 @@ class Options extends React.Component {
 
     handleReject() {
         confirm('Do you want to discard unsaved changes?').then(() => {
-            this.setState(prevState => ({
-                data: prevState.savedData,
+            this.setState(({ savedData }) => ({
+                data: savedData,
                 upToDate: true
             }))
         })
     }
 
     render() {
-        let { className, data, upToDate, message } = this.state
+        let { data, upToDate, message } = this.state
         return (
-            <div className={className}>
+            <div className={this.props.className}>
                 <Section
                     title='Blacklist'
                     description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
@@ -154,7 +163,7 @@ class Options extends React.Component {
                 </Section>
                 <Section
                     title='Keyboard Shortcuts'
-                    description='press *Delete* to remove assignment. Tip: do not use shortcuts that collide with browser combinations.'>
+                    description='Click below to assign keys. Tip: do not use shortcuts that collide with browser combinations.'>
                     <Shortcuts
                         items={shortcutsItems}
                         value={data['shortcuts']}
@@ -165,15 +174,15 @@ class Options extends React.Component {
                 <Controls>
                     <Message data={message} />
                     <Button
+                        value="Reject"
                         hidden={upToDate}
-                        onClick={this.handleReject}>
-                        Reject
-                    </Button>
+                        onClick={this.handleReject}
+                    />
                     <PrimaryButton
+                        value="Save"
                         disabled={upToDate}
-                        onClick={this.handelSave}>
-                        Save
-                    </PrimaryButton>
+                        onClick={this.handelSave}
+                    />
                 </Controls>
                 <Ribbon active={!upToDate} />
             </div>

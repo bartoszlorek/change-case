@@ -8,12 +8,3 @@ export const showIn = keyframes`
         opacity: 1;
     }
 `
-
-export const wave = keyframes`
-    0%, 60%, 100% {
-        transform: initial;
-    }
-    30% {
-        transform: translateY(-75%);
-    }
-`

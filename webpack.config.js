@@ -10,9 +10,12 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js'
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     module: {
         loaders: [{
-            test: /\.js$/,
+            test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: 'babel-loader'
         }, {
