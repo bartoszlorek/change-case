@@ -1,50 +1,49 @@
 import React from 'react'
-import styled, { keyframes, css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import onClickOutside from 'react-onclickoutside'
 import { bind, choose } from '../../.utils/react/react-utils'
-import { wave } from '../animation'
 import { uniq } from 'lodash'
+
+import Dots from './Shortcuts-Dots'
+import Badge from './Badge'
 
 const record = require('mousetrap-record')
 const mousetrap = record(require('mousetrap'))
 
-const Dots = styled(props => (
-    <div {...props}>
-        <span />
-        <span />
-        <span />
-    </div>
-))`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: 0 0 0 -15px;
-    display: flex;
+const Block = styled.div`
+    padding: 0.75em;
+    height: 36px;
+    box-sizing: border-box;
+`
 
-    & > span {
-        position: relative;
-        width: 6px;
-        height: 6px;
-        margin: 0 2px 0;
-        border-radius: 100%;
-        background: rgba(255, 255, 255, 0.6);
-        display: inline-block;
-        animation: ${wave} 1.4s linear infinite;
-        animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+const AddBadge = Badge.extend`
+    & span {
+        font-weight: normal;
+        color: #666;
+    }
+`
 
-        &:nth-child(2) {
-            animation-delay: 0.35s;
-        }
-        &:nth-child(3) {
-            animation-delay: 0.7s;
-        }
+const RemoveBadge = Badge.extend`
+    & span {
+        font-weight: normal;
+        color: #f1002b;
+    }
+    &:hover span,
+    &:focus span {
+        background: #f1002b;
+    }
+    &:active span {
+        background: #bf0022;
     }
 `
 
 class ShortcutsItem extends React.PureComponent {
     constructor(props) {
         super(props)
-        bind(this, ['handleClick'])
+        bind(this, [
+            'handleClick',
+            'handleRemoveBadge'
+        ])
     }
 
     componentWillReceiveProps(nextProps) {
@@ -72,13 +71,21 @@ class ShortcutsItem extends React.PureComponent {
         }
     }
 
+    handleRemoveBadge(e) {
+        e.stopPropagation()
+        this.props.onAssign(
+            this.props.data.name,
+            ['del']
+        )
+    }
+
     isItem(e) {
         return !this.props.className.indexOf(
             e.target.classList[0]
         )
     }
 
-    toValue() {
+    displayValue() {
         let value = this.props.value
         if (value == null) {
             return ''
@@ -90,13 +97,15 @@ class ShortcutsItem extends React.PureComponent {
 
     render() {
         let { className, data, active } = this.props
+        let value = this.displayValue()
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div>{data.label}</div>
-                <div>{this.toValue()}</div>
+            <div className={className} onClick={this.handleClick} >
+                <Block>{data.label}</Block>
+                <Block>{value}</Block>
+                {!active && (value
+                    ? <RemoveBadge value="×" onClick={this.handleRemoveBadge} />
+                    : <AddBadge value="+"/>
+                )}
                 {active && <Dots />}
             </div>
         )
@@ -105,10 +114,9 @@ class ShortcutsItem extends React.PureComponent {
 
 export default styled(onClickOutside(ShortcutsItem))`
     position: relative;
-    padding: 0.75em;
     border-top: 1px dashed #dddfe2;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     &:first-child {
         border-top: 0;
@@ -117,17 +125,20 @@ export default styled(onClickOutside(ShortcutsItem))`
         background: #eaedf0;
         cursor: pointer;
     }
-    ${choose('active', {
-        true: css`
-            &,
-            &:hover {
-                color: #fff;
-                background: #009ff1;
-                border-top-color: #009ff1;
-                border-top-style: solid;
-            }
-            & + * {
-                border-top: 1px solid #009ff1;
-            }`
-    })};
+    & > *:first-child {
+        margin-right: auto
+    }
+
+    ${choose('active', css`
+        &,
+        &:hover {
+            color: #fff;
+            background: #009ff1;
+            border-top-color: #009ff1;
+            border-top-style: solid;
+        }
+        & + * {
+            border-top: 1px solid #009ff1;
+        }
+    `)};
 `
