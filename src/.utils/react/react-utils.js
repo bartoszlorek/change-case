@@ -1,14 +1,15 @@
-const get = (object, path) => {
-    return path.split('.').reduce(
-        (prev, prop) => prev && prev[prop],
-        object
-    )
-}
+import { get, isPlainObject } from 'lodash'
 
 export function choose(path, cases) {
+    if (isPlainObject(cases)) {
+        return object => {
+            let value = get(object, path)
+            return cases[String(value)]
+        }
+    }
     return object => {
         let value = get(object, path)
-        return cases[String(value)]
+        return value && cases
     }
 }
 
