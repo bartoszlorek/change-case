@@ -10,6 +10,7 @@ const Ribbon = styled.div`
     background: #d1d6e0;
     box-shadow: 0 0 6px rgba(0, 159, 241, 0);
     transition: all 0.2s ease;
+    flex-shrink: 0;
     height: 3px;
 
     ${choose('active', css`

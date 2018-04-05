@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { injectGlobal  } from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 import { sendToContent } from '../.utils/chrome/message'
 import { bind } from '../.utils/react/react-utils'
@@ -40,13 +40,18 @@ const addValue = (data, value) => {
         : value
 }
 
+const Sections = styled.div`
+    position: relative;
+    overflow: auto;
+    flex-shrink: 1;
+`
+
 const Controls = styled.div`
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
     padding: 14px 17px;
     background: #fff;
     border-top: 1px solid #dddfe2;
     display: flex;
+    flex-shrink: 0;
     justify-content: flex-end;
     align-items: center;
     box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
@@ -153,24 +158,26 @@ class Options extends React.Component {
         let { data, upToDate, message } = this.state
         return (
             <div className={this.props.className}>
-                <Section
-                    title='Blacklist'
-                    description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
-                    <Textarea
-                        value={data['blacklist']}
-                        onChange={this.handleData('blacklist')}>
-                    </Textarea>
-                </Section>
-                <Section
-                    title='Keyboard Shortcuts'
-                    description='Click below to assign keys. Tip: do not use shortcuts that collide with browser combinations.'>
-                    <Shortcuts
-                        items={shortcutsItems}
-                        value={data['shortcuts']}
-                        onChange={this.handleData('shortcuts')}
-                        onMessage={this.handleMessage}
-                    />
-                </Section>
+                <Sections>
+                    <Section
+                        title='Blacklist'
+                        description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
+                        <Textarea
+                            value={data['blacklist']}
+                            onChange={this.handleData('blacklist')}>
+                        </Textarea>
+                    </Section>
+                    <Section
+                        title='Keyboard Shortcuts'
+                        description='Click below to assign keys. Tip: do not use shortcuts that collide with browser combinations.'>
+                        <Shortcuts
+                            items={shortcutsItems}
+                            value={data['shortcuts']}
+                            onChange={this.handleData('shortcuts')}
+                            onMessage={this.handleMessage}
+                        />
+                    </Section>
+                </Sections>
                 <Controls>
                     <Message data={message} />
                     <Button
@@ -191,5 +198,14 @@ class Options extends React.Component {
 }
 
 export default styled(Options)`
-    padding-bottom: 59px;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+`
+
+injectGlobal`
+    body {
+        margin: 0;
+        background: #f6f7f9;
+    }
 `

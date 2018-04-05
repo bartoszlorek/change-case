@@ -47,5 +47,5 @@ export default styled(confirmable(Dialog))`
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: ${showIn} 0.5s normal forwards;
+    animation: ${showIn} 0.3s normal forwards;
 `
