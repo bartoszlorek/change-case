@@ -1,69 +1,61 @@
-import { forEach } from 'lodash';
-
-export {
-    onMessage,
-    sendMessage,
-    sendToContent
-}
-
-const validType = type => {
+const validMessageType = type => {
     if (typeof type !== 'string') {
-        throw 'message needs type';
+        throw 'message requires `type` as a String'
     }
 }
 
-function onMessage(type, callback) {
-    validType(type);
-    chrome.runtime.onMessage.addListener(
-        (request, sender, response) => {
-            if (request.type !== type) return;
-            callback(request.data, sender, response);
+const validTabId = id => {
+    if (typeof id !== 'number') {
+        throw 'tab requires `id` as a Number'
+    }
+}
+
+const sendToBack = (spec, callback) => {
+    if (spec != null) {
+        validMessageType(spec.type)
+        chrome.runtime.sendMessage(spec, callback)
+    }
+}
+
+const sendToFront = (id, spec, callback) => {
+    if (spec != null) {
+        validTabId(id)
+        validMessageType(spec.type)
+        chrome.tabs.sendMessage(id, spec, callback)
+    }
+}
+
+sendToFront.all = (spec, callback) => {
+    chrome.tabs.query({}, tabs => {
+        tabs.forEach(tab => sendToFront(tab.id, spec, callback))
+    })
+}
+
+sendToFront.current = (spec, callback) => {
+    chrome.tabs.query({
+        currentWindow: true,
+        active: true
+    }, tabs => {
+        sendToFront(tabs[0].id, spec, callback)
+    })
+}
+
+const message = {
+    on: (type, callback) => {
+        validMessageType(type)
+        if (chrome.runtime.onMessage === undefined) {
+            console.warn('Cannot add listener to `chrome.runtime.onMessage`.')
+            return
         }
-    )
+        chrome.runtime.onMessage.addListener((request, sender, response) => {
+            if (request.type === type) {
+                callback(request, sender, response)
+            }
+        })
+    },
+    toBackground: sendToBack,
+    toPopup: sendToBack,
+    toTab: sendToFront
 }
 
-function sendMessage(spec) {
-    if (!spec) {
-        return;
-    }
-    let { type, data, callback } = spec;
-    validType(type);
-
-    chrome.runtime.sendMessage({
-        type, data
-    }, callback);
-}
-
-function sendToContent(spec) {
-    if (!spec) {
-        return;
-    }
-    let { id, type, data, callback } = spec;
-    validType(type);
-
-    let send = tabId => {
-        chrome.tabs.sendMessage(
-            tabId, {
-                type,
-                data
-            }, callback
-        )
-    }
-
-    if (typeof id === 'number') {
-        if (id < 0) { // send to all tabs
-            chrome.tabs.query({}, tabs => {
-                forEach(tabs, tab => send(tab.id));
-            });
-        } else {
-            send(id);
-        }
-    } else {
-        chrome.tabs.query({
-            currentWindow: true,
-            active: true
-        }, tabs => {
-            send(tabs[0].id);
-        });
-    }
-}
+export default message
