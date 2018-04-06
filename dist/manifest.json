@@ -9,7 +9,9 @@
     "permissions": [
         "contextMenus",
         "activeTab",
-        "storage"
+        "storage",
+        "http://*/",
+        "https://*/"
     ],
     "background": {
         "scripts": ["background.js"],

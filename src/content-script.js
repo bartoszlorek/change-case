@@ -1,5 +1,5 @@
 import { selectionRange, rangeContent } from './.utils/selection.min'
-import { onMessage } from './.utils/chrome/message'
+import message from './.utils/chrome/message'
 
 import applyMethod from './scripts/apply-method'
 import applyBlacklist from './scripts/apply-blacklist'
@@ -34,6 +34,6 @@ const handleShortcuts = () => {
     })
 }
 
-onMessage('CHANGE_CASE', handleChangeCase)
-onMessage('BIND_SHORTCUTS', handleShortcuts)
+message.on('CHANGE_CASE', ({ data }) => handleChangeCase(data))
+message.on('BIND_SHORTCUTS', handleShortcuts)
 handleShortcuts()

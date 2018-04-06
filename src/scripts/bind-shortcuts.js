@@ -44,10 +44,7 @@ function bindShortcuts(shortcuts, callback) {
     if (!shortcuts) {
         return
     }
-    let bindToLocal = makeBindToLocal(
-        shortcuts,
-        callback
-    )
+    let bindToLocal = makeBindToLocal(shortcuts, callback)
     bindToLocal(document.body)
 
     // todo: bind to iframes active long after load
