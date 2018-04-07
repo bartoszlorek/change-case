@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { injectGlobal  } from 'styled-components'
+import message from '../.utils/chrome/message'
 import { isPlainObject, isEqual } from 'lodash'
-import { sendToContent } from '../.utils/chrome/message'
 import { bind } from '../.utils/react/react-utils'
 import { isTruthy } from '../.utils/type-conversion'
 import { deepFilter } from '../.utils/deep.min'
@@ -14,7 +14,8 @@ import Button, { PrimaryButton } from './components/Button'
 import Input from './components/Input'
 import Textarea from './components/Textarea'
 import Message from './components/Message'
-import Shortcuts from './components/shortcuts'
+import Shortcuts from './components/Shortcuts'
+import UpdateBar from './components/UpdateBar'
 
 const MESSAGE_TIMEOUT = 3000
 
@@ -66,6 +67,7 @@ class Options extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            showUpdateBar: false,
             message: null,
             upToDate: true,
             savedData: {},
@@ -77,6 +79,13 @@ class Options extends React.Component {
             'handleData',
             'handleReject'
         ])
+        message.toBackground({
+            type: 'OPEN_OPTIONS'
+        }, showUpdateBar => {
+            this.setState({
+                showUpdateBar
+            })
+        })
     }
 
     componentDidMount() {
@@ -101,9 +110,8 @@ class Options extends React.Component {
                 upToDate: true,
                 savedData: this.state.data
             })
-            sendToContent({
-                type: 'BIND_SHORTCUTS',
-                id: -1
+            message.toTab.all({
+                type: 'BIND_SHORTCUTS'
             })
         })
     }
@@ -155,10 +163,11 @@ class Options extends React.Component {
     }
 
     render() {
-        let { data, upToDate, message } = this.state
+        let { data, upToDate, showUpdateBar, message } = this.state
         return (
             <div className={this.props.className}>
                 <Sections>
+                    {showUpdateBar && <UpdateBar />}
                     <Section
                         title='Blacklist'
                         description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
@@ -169,7 +178,7 @@ class Options extends React.Component {
                     </Section>
                     <Section
                         title='Keyboard Shortcuts'
-                        description='Click below to assign keys. Tip: do not use shortcuts that collide with browser combinations.'>
+                        description="Click below, then hold the chosen combination to assign keys. Tip: do not use shortcuts that collide with browser's defaults.">
                         <Shortcuts
                             items={shortcutsItems}
                             value={data['shortcuts']}

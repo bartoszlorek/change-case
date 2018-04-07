@@ -61,8 +61,17 @@ setDefaults({
 
 initialize()
 
+let showUpdateBar = false
 chrome.runtime.onInstalled.addListener(({ reason }) => {
     if (reason === 'install' || reason === 'update') {
+        if (reason === 'update') {
+            showUpdateBar = true
+        }
         chrome.runtime.openOptionsPage()
     }
+})
+
+message.on('OPEN_OPTIONS', (request, sender, response) => {
+    response(showUpdateBar)
+    showUpdateBar = false
 })
