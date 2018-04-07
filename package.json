@@ -38,6 +38,7 @@
     "react-confirm": "^0.1.16",
     "react-dom": "^15.6.1",
     "react-onclickoutside": "^6.5.0",
-    "styled-components": "^3.2.5"
+    "styled-components": "^3.2.5",
+    "to-title-case": "^1.0.0"
   }
 }

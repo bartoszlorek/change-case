@@ -7,11 +7,12 @@ import NON_WORD_REGEXP from './internal/non-word-regexp'
 import CAMEL_CASE_REGEXP from './internal/camel-case-regexp'
 import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp'
 import removeAccents from './internal/remove-accents'
+import toTitleCase from 'to-title-case'
 
 export default {
     upperCase,
     lowerCase,
-    titleCase,
+    titleCase: toTitleCase,
     sentenceCase,
 
     camelCase,
@@ -56,9 +57,9 @@ function lowerCase(value) {
     return value.toLowerCase()
 }
 
-function titleCase(value) {
-    return noCase(value).replace(/^.| ./g, a => upperCase(a))
-}
+// function titleCase(value) {
+//     return noCase(value).replace(/^.| ./g, a => upperCase(a))
+// }
 
 function sentenceCase(value) {
     return upperCaseFirst(noCase(value))
