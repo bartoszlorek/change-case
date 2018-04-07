@@ -1,29 +1,50 @@
 import findAll from '../../src/.utils/find-all'
 
-const sentence = 'The lazy brown fox jumps over the Lazy dog.'
-const search = ['Brown Fox', 'LAZY']
+const source = 'The lazy brown fox jumps over the LAZY dog.'
 
 describe('find-all.js', () => {
     it('should return empty array', () => {
-        const withoutSearch = findAll(sentence)
-        const wrongSearch = findAll(sentence, ['not', 'found'])
-        expect(withoutSearch).toEqual([])
-        expect(wrongSearch).toEqual([])
+        expect(findAll(source, null)).toEqual([])
+        expect(findAll(source, 'not')).toEqual([])
+        expect(findAll(source, [])).toEqual([])
     })
 
-    it('should match two by string', () => {
-        const result = findAll(sentence, 'LAZY')
-        expect(result.length).toBe(2)
+    it('should match case sensitive by default', () => {
+        expect(findAll(source, 'lazy')).toEqual([
+            {
+                match: 'lazy',
+                index: 4
+            }
+        ])
     })
 
-    it('should match three by array', () => {
-        const result = findAll(sentence, search)
-        expect(result.length).toBe(3)
+    it('should match all occurrences (CI)', () => {
+        expect(findAll(source, 'lazy', true)).toEqual([
+            {
+                match: 'lazy',
+                index: 4
+            },
+            {
+                match: 'LAZY',
+                index: 34
+            }
+        ])
     })
 
-    it('should match `lazy` two times', () => {
-        const result = findAll(sentence, search)
-        expect(result[0].match).toBe('lazy')
-        expect(result[2].match).toBe('Lazy')
+    it('should match all occurrences by array', () => {
+        expect(findAll(source, ['lazy', 'FOX'], true)).toEqual([
+            {
+                match: 'lazy',
+                index: 4
+            },
+            {
+                match: 'fox',
+                index: 15
+            },
+            {
+                match: 'LAZY',
+                index: 34
+            }
+        ])
     })
 })

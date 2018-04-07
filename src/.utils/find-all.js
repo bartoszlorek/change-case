@@ -1,29 +1,31 @@
 import indicesOf from './indices-of'
 
-function findAll(string, search) {
+function findAll(string = '', search = '', insensitive = false) {
     if (!string || !(search && search.length)) {
         return []
     }
     if (typeof search === 'string') {
         search = [search]
     }
-    let tmpString = string.toLowerCase(),
-        matches = []
+    let buffer = insensitive ? string.toLowerCase() : string,
+        result = []
 
     search.forEach(value => {
-        value = value.toLowerCase()
-        indicesOf(tmpString, value).forEach(index => {
-            matches.push({
+        if (insensitive) {
+            value = value.toLowerCase()
+        }
+        indicesOf(buffer, value).forEach(index => {
+            result.push({
                 match: string.slice(index, index + value.length),
-                index: index
+                index
             })
         })
     })
 
-    if (matches.length) {
-        matches.sort((a, b) => a.index - b.index)
+    if (result.length) {
+        result.sort((a, b) => a.index - b.index)
     }
-    return matches
+    return result
 }
 
 export default findAll
