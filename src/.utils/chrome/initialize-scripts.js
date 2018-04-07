@@ -22,20 +22,18 @@ function injectScripts(tab, scripts) {
         return
     }
     exec(tab)
-        .then(() => {
-            scripts.forEach(({ js, all_frames }) => {
-                if (js == null) {
-                    return
-                }
-                js.forEach(file =>
-                    chrome.tabs.executeScript(tab.id, {
-                        allFrames: !!all_frames,
-                        file
-                    })
-                )
-            })
-        })
         .catch(err => console.warn(err))
+        .then(id => scripts.forEach(({ js, all_frames }) => {
+            if (js == null) {
+                return
+            }
+            js.forEach(file =>
+                chrome.tabs.executeScript(id, {
+                    allFrames: !!all_frames,
+                    file
+                })
+            )
+        }))
 }
 
 function initializeScripts() {

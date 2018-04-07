@@ -1,8 +1,8 @@
 import executableTab from './.utils/chrome/executable-tab'
 import message from './.utils/chrome/message'
 
-import setDefaults from './.utils/chrome/set-defaults'
 import createMenu from './.utils/chrome/create-menu'
+import setDefaults from './.utils/chrome/set-defaults'
 import initialize from './.utils/chrome/initialize-scripts'
 
 const exec = executableTab()
@@ -11,13 +11,13 @@ function handleClick(methodName) {
     return (info, tab) => {
         if (info.selectionText) {
             exec(tab)
-                .then(id =>
+                .catch(error => alert(error))
+                .then(id => {
                     message.toTab(id, {
                         type: 'CHANGE_CASE',
                         data: methodName
                     })
-                )
-                .catch(error => alert(error))
+                })
         }
     }
 }
