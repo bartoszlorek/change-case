@@ -1,42 +1,41 @@
-import { isArray } from 'lodash'
 import findAll from '../.utils/find-all'
-import spliceString from '../.utils/splice-string'
+import explode from '../.utils/explode'
 
-const validList = list => {
-    if (isArray(list)) {
-        return list
-    }
-    if (typeof list === 'string' && list.trim() !== '') {
-        return list.split(/\s*\,\s*/)
-    }
-    return null
+const uniqArray = (a, i, arr) => a !== arr[i - 1]
+
+const breakPoints = matches => {
+    let points = matches.map(({ match, index }) => [
+        index, index + match.length
+    ])
+    return [].concat(...points).filter(uniqArray)
 }
 
 function applyBlacklist(method, value, list) {
-    let outValue = method(value)
-    list = validList(list)
-
-    if (list === null) {
-        return outValue
+    let nextValue = method(value)
+    if (list == null) {
+        return nextValue
     }
-    let srcMatches = findAll(value, list)
-    if (srcMatches.length === 0) {
-        return outValue
+    let currMatch = findAll(value, list, true)
+    if (currMatch.length === 0) {
+        return nextValue
     }
-    let outList = list.map(element => method(element)),
-        outMatches = findAll(outValue, outList),
-        offset = 0
 
-    outMatches.forEach((element, i) => {
-        let start = element.index + offset,
-            count = element.match.length,
-            replace = srcMatches[i].match
+    // there might be changes of whitespace
+    let nextMatch = findAll(nextValue, list.map(a => method(a)), true),
+        nextParts = explode(nextValue, breakPoints(nextMatch)),
+        length = nextMatch.length,
+        indexMatch = 0,
+        index = 0
 
-        outValue = spliceString(outValue, start, start + count, replace)
-        offset += replace.length - count
-    })
+    while (indexMatch < length) {
+        if (nextParts[index] === nextMatch[indexMatch].match) {
+            nextParts[index] = currMatch[indexMatch].match
+            indexMatch++
+        }
+        index++
+    }
 
-    return outValue
+    return nextParts.join('')
 }
 
 export default applyBlacklist

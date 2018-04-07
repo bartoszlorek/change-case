@@ -9,13 +9,6 @@ describe('apply-blacklist.js', () => {
         expect(result).toEqual('LAZY BROWN FOX')
     })
 
-    it('should ignore given words by string', () => {
-        let source = 'The lazy brown fox jumps over the lazy dog.',
-            output = 'THE lazy brown fox JUMPS OVER THE lazy DOG.',
-            result = applyBlacklist(upperCase, source, 'Brown Fox, LAZY')
-        expect(result).toEqual(output)
-    })
-
     it('should ignore given words by array', () => {
         let source = 'The lazy brown fox jumps over the lazy dog.',
             output = 'THE lazy brown fox JUMPS OVER THE lazy DOG.',
