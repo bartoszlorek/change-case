@@ -1,17 +1,18 @@
+// The filter wraps around method function
+// const filter = method => value => {}
+
 import CASE_METHODS from './cases'
 
-function applyMethod(item, methodName, filter) {
+function applyMethod(methodName, filter) {
     let method = CASE_METHODS[methodName]
 
-    if (typeof method !== 'function' || item == null) {
+    if (typeof method !== 'function') {
         return Promise.reject()
     }
     if (typeof filter === 'function') {
         method = filter(method)
     }
-    return Promise.resolve(method).then(resolved =>
-        item.selectedText = resolved(item.selectedText)
-    )
+    return Promise.resolve(method)
 }
 
 export default applyMethod

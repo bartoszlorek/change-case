@@ -9,12 +9,10 @@ import dispatchError from './scripts/dispatch-error'
 import parseList from './scripts/parse-list'
 
 const filter = method => new Promise(resolve => {
-    chrome.storage.sync.get('blacklist', data => resolve(
-        value => {
-            let list = parseList(data.blacklist)
-            return applyBlacklist(method, value, list)
-        }
-    ))
+    chrome.storage.sync.get('blacklist', data => resolve(value => {
+        let list = parseList(data.blacklist)
+        return applyBlacklist(method, value, list)
+    }))
 })
 
 const handleChangeCase = methodName => {
@@ -27,7 +25,9 @@ const handleChangeCase = methodName => {
         return dispatchError(range)
     }
     content.forEach(item => {
-        applyMethod(item, methodName, filter)
+        applyMethod(methodName, filter).then(method => {
+            item.selectedText = method(item.selectedText)
+        })
         dispatchEvent(item.node)
     })
 }
