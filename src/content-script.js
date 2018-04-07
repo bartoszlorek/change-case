@@ -6,10 +6,14 @@ import applyBlacklist from './scripts/apply-blacklist'
 import bindShortcuts from './scripts/bind-shortcuts'
 import dispatchEvent from './scripts/dispatch-event'
 import dispatchError from './scripts/dispatch-error'
+import parseList from './scripts/parse-list'
 
 const filter = method => new Promise(resolve => {
     chrome.storage.sync.get('blacklist', data => resolve(
-        value => applyBlacklist(method, value, data.blacklist)
+        value => {
+            let list = parseList(data.blacklist)
+            return applyBlacklist(method, value, list)
+        }
     ))
 })
 

@@ -1,16 +1,16 @@
 function indicesOf(string = '', value = '') {
-    let startIndex = 0,
-        indices = [],
+    let offset = 0,
+        result = [],
         index
 
     if (!string || !value) {
         return []
     }
-    while ((index = string.indexOf(value, startIndex)) > -1) {
-        indices.push(index)
-        startIndex = index + value.length
+    while ((index = string.indexOf(value, offset)) > -1) {
+        offset = index + value.length
+        result.push(index)
     }
-    return indices
+    return result
 }
 
 export default indicesOf
