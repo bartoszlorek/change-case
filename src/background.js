@@ -1,9 +1,9 @@
-import executableTab from './.utils/chrome/executable-tab'
 import message from './.utils/chrome/message'
-
+import executableTab from './.utils/chrome/executable-tab'
 import createMenu from './.utils/chrome/create-menu'
 import setDefaults from './.utils/chrome/set-defaults'
-import initialize from './.utils/chrome/initialize-scripts'
+import initScripts from './.utils/chrome/initialize-scripts'
+import { listenOptions } from './.utils/chrome/options-page'
 
 const exec = executableTab()
 
@@ -59,19 +59,5 @@ setDefaults({
     }
 })
 
-initialize()
-
-let showUpdateBar = false
-chrome.runtime.onInstalled.addListener(({ reason }) => {
-    if (reason === 'install' || reason === 'update') {
-        if (reason === 'update') {
-            showUpdateBar = true
-        }
-        chrome.runtime.openOptionsPage()
-    }
-})
-
-message.on('OPEN_OPTIONS', (request, sender, response) => {
-    response(showUpdateBar)
-    showUpdateBar = false
-})
+listenOptions()
+initScripts()
