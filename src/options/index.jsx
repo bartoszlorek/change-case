@@ -1,11 +1,14 @@
 import React from 'react'
 import styled, { injectGlobal  } from 'styled-components'
-import message from '../.utils/chrome/message'
 import { isPlainObject, isEqual } from 'lodash'
+
+import message from '../.utils/chrome/message'
+import { emitOptions } from '../.utils/chrome/options-page'
 import { bind } from '../.utils/react/react-utils'
 import { isTruthy } from '../.utils/type-conversion'
 import { deepFilter } from '../.utils/deep.min'
 
+import notifications from './notifications'
 import confirm from './confirm'
 
 import Section from './components/Section'
@@ -15,7 +18,7 @@ import Input from './components/Input'
 import Textarea from './components/Textarea'
 import Message from './components/Message'
 import Shortcuts from './components/Shortcuts'
-import UpdateBar from './components/UpdateBar'
+import Notifications from './components/Notifications'
 
 const MESSAGE_TIMEOUT = 3000
 
@@ -67,11 +70,11 @@ class Options extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            showUpdateBar: false,
-            message: null,
+            extState: null,
             upToDate: true,
             savedData: {},
-            data: {}
+            data: {},
+            message: null
         }
         bind(this, [
             'handelSave',
@@ -79,11 +82,9 @@ class Options extends React.Component {
             'handleData',
             'handleReject'
         ])
-        message.toBackground({
-            type: 'OPEN_OPTIONS'
-        }, showUpdateBar => {
+        emitOptions(extState => {
             this.setState({
-                showUpdateBar
+                extState
             })
         })
     }
@@ -163,11 +164,14 @@ class Options extends React.Component {
     }
 
     render() {
-        let { data, upToDate, showUpdateBar, message } = this.state
+        let { data, upToDate, extState, message } = this.state
         return (
             <div className={this.props.className}>
                 <Sections>
-                    {showUpdateBar && <UpdateBar />}
+                    <Notifications
+                        values={notifications}
+                        state={extState}
+                    />
                     <Section
                         title='Blacklist'
                         description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>

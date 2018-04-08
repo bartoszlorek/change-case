@@ -1,21 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-class UpdateBar extends React.PureComponent {
+class Notification extends React.PureComponent {
     render() {
         return (
             <div {...this.props}>
-                <h2>The extension has been successfully updated!</h2>
+                <h2>{this.props.value}</h2>
             </div>
         )
     }
 }
 
-export default styled(UpdateBar)`
+export default styled(Notification)`
     position: relative;
     padding: 18px;
+    margin-top: 4px;
     text-align: center;
-    background: #858a8e;
+    background: #009ff1;
     color: #fff;
 
     & h2 {
