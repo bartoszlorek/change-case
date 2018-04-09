@@ -1,37 +1,96 @@
-function markdown(string, marks) {
-    string = string == null ? '' : string
-    marks = marks == null ? [] : marks
+const openingTag = mark => mark !== null && mark[0]
+const closingTag = mark => mark[mark.length-1]
 
-    if (!string || !marks.length) {
+const matchMark = (char, marks) => {
+    let length = marks.length,
+        mark
+
+    while (mark = marks[--length]) {
+        if (mark[0] === char) {
+            return mark
+        }
+    }
+    return null
+}
+
+function markdown(string, marks, propTag) {
+    marks = marks == null ? [] : marks
+    
+    let length = string == null ? 0 : string.length
+    if (length === 0 || !marks.length) {
         return [{
             mark: null,
+            prop: null,
             text: string
         }]
     }
-    const regex = new RegExp(marks
-        .map(a => '\\' + a)
-        .join('|'))
 
-    let offset = 0
+    let results = [],
+        matched = null,
+        closing = '',
+        charset = '',
+        index = 0
 
-    return string
-        .split(regex)
-        .map((text, index) => {
-            let mark = null
+    const addCharset = prop => {
+        if (charset !== '') {
+            results.push({
+                mark: matched,
+                prop: prop || null,
+                text: charset
+            })
+            charset = ''
+        }
+    }
 
-            if (index % 2 !== 0) {
-                mark = string[offset - 1]
+    const getPropValue = () => {
+        let prop = '',
+            char = ''
+
+        while (index < length) {
+            char = string[index++]
+            if (char === propTag[1]) {
+                return prop
             }
-            offset += text.length + 1
+            prop += char
+        }
+        return null
+    }
 
-            if (text !== '') {
-                return {
-                    mark,
-                    text
-                }
+    while (index < length) {
+        let char = string[index++],
+            mark = matchMark(char, marks)
+
+        // if current char is matching with opening tag
+        // of registered mark then add existing charset
+        // to the result and save match with closing tag
+        // for upcoming chars
+        if (matched === null && openingTag(mark)) {
+            addCharset()
+            matched = mark
+            closing = closingTag(mark)
+
+        // if current char is matching with closing tag
+        // of mark matched before then add existing
+        // charset to the result
+        } else if (closing === char) {
+
+            // skip opening tag of optional property and get its value
+            if (propTag && string[index] === propTag[0]) {
+                index++
+                addCharset(getPropValue())
+            } else {
+                addCharset()
             }
-        })
-        .filter(a => a)
+            matched = null
+
+        // form charset from non-mark chars
+        } else {
+            charset += char
+        }
+    }
+
+    addCharset()
+    return results
 }
 
 export default markdown

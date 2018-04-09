@@ -3,46 +3,80 @@ import markdown from '../../src/.utils/react/markdown'
 describe('markdown.js', () => {
     it('should return whole string', () => {
         const sentence = 'press "Delete"'
-        const failed = [{ mark: null, text: sentence }]
+        const failed = [{
+            mark: null,
+            prop: null,
+            text: sentence
+        }]
         expect(markdown('', ['*'])[0].text).toBe('')
         expect(markdown(sentence)).toEqual(failed)
         expect(markdown(sentence, null)).toEqual(failed)
         expect(markdown(sentence, [])).toEqual(failed)
     })
 
-    it('should return mark at the begin', () => {
-        const result = markdown('"Delete" to remove', ['"'])
+    it('string starts with no mark', () => {
+        let result = markdown('not *asterisk*', ['*'])
         expect(result).toEqual([
-            { mark: '"', text: 'Delete' },
-            { mark: null, text: ' to remove' }
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '*', prop: null, text: 'asterisk' }
         ])
     })
 
-    it('should return mark at the end', () => {
-        const result = markdown('press "Delete"', ['"'])
+    it('string starts with mark', () => {
+        let result = markdown('*asterisk* to end', ['*'])
         expect(result).toEqual([
-            { mark: null, text: 'press ' },
-            { mark: '"', text: 'Delete' }
+            { mark: '*', prop: null, text: 'asterisk' },
+            { mark: null, prop: null, text: ' to end' }
         ])
     })
 
-    it('should handle multiple marks', () => {
-        const sentence = 'press "Delete" to remove and you *MUST* reload'
-        const result = markdown(sentence, ['"', '*'])
+    it('string with multiple marks', () => {
+        let result = markdown('not "quote" and "again" to end', ['"'])
         expect(result).toEqual([
-            { mark: null, text: 'press ' },
-            { mark: '"', text: 'Delete' },
-            { mark: null, text: ' to remove and you ' },
-            { mark: '*', text: 'MUST' },
-            { mark: null, text: ' reload' }
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '"', prop: null, text: 'quote' },
+            { mark: null, prop: null, text: ' and ' },
+            { mark: '"', prop: null, text: 'again' },
+            { mark: null, prop: null, text: ' to end' }
         ])
     })
 
-    it('should handle marks next to each other', () => {
-        const result = markdown('"first"*second*', ['"', '*'])
+    it('string with multiple different marks', () => {
+        let result = markdown('not *asterisk* "quote" to end', ['*', '"'])
         expect(result).toEqual([
-            { mark: '"', text: 'first' },
-            { mark: '*', text: 'second' }
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '*', prop: null, text: 'asterisk' },
+            { mark: null, prop: null, text: ' ' },
+            { mark: '"', prop: null, text: 'quote' },
+            { mark: null, prop: null, text: ' to end' }
+        ])
+    })
+
+    it('string with multiple marks next to each other', () => {
+        let result = markdown('not *asterisk*"quote" to end', ['*', '"'])
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '*', prop: null, text: 'asterisk' },
+            { mark: '"', prop: null, text: 'quote' },
+            { mark: null, prop: null, text: ' to end' }
+        ])
+    })
+
+    it('marks with different open and close tag', () => {
+        let result = markdown('not (parentheses) to end', ['()'])
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '()', prop: null, text: 'parentheses' },
+            { mark: null, prop: null, text: ' to end' }
+        ])
+    })
+
+    it('mark with prop', () => {
+        let result = markdown('not [click](url) to end', ['[]'], '()')
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '[]', prop: 'url', text: 'click' },
+            { mark: null, prop: null, text: ' to end' }
         ])
     })
 })
