@@ -14,6 +14,12 @@ describe('markdown.js', () => {
         expect(markdown(sentence, [])).toEqual(failed)
     })
 
+    it('throws on opening tag without closing', () => {
+        expect(() => {
+            markdown('not *asterisk "quote" end', ['*', '"'])
+        }).toThrow()
+    })
+
     it('string starts with no mark', () => {
         let result = markdown('not *asterisk*', ['*'])
         expect(result).toEqual([
@@ -62,12 +68,30 @@ describe('markdown.js', () => {
         ])
     })
 
-    it('marks with different open and close tag', () => {
+    it('marks with different opening and closing tag', () => {
         let result = markdown('not (parentheses) to end', ['()'])
         expect(result).toEqual([
             { mark: null, prop: null, text: 'not ' },
             { mark: '()', prop: null, text: 'parentheses' },
             { mark: null, prop: null, text: ' to end' }
+        ])
+    })
+
+    it('mark with double opening tag', () => {
+        let result = markdown('not ((parentheses) to end', ['()'])
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '()', prop: null, text: '(parentheses' },
+            { mark: null, prop: null, text: ' to end' }
+        ])
+    })
+
+    it('mark with double closing tag', () => {
+        let result = markdown('not (parentheses)) to end', ['()'])
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '()', prop: null, text: 'parentheses' },
+            { mark: null, prop: null, text: ') to end' }
         ])
     })
 
