@@ -1,7 +1,7 @@
-const openingTag = mark => mark !== null && mark[0]
-const closingTag = mark => mark[mark.length-1]
+const openingTag = tag => tag && tag[0]
+const closingTag = tag => tag && tag[tag.length-1]
 
-const matchMark = (char, marks) => {
+const getMark = (char, marks) => {
     let length = marks.length,
         mark
 
@@ -13,11 +13,15 @@ const matchMark = (char, marks) => {
     return null
 }
 
-function markdown(string, marks, propTag) {
-    marks = marks == null ? [] : marks
-    
+const isProperClosed = (prev, next) => {
+    return prev !== next && prev !== null && next !== null
+}
+
+function markdown(string, markTags, propTag) {
+    markTags = markTags == null ? [] : markTags
+
     let length = string == null ? 0 : string.length
-    if (length === 0 || !marks.length) {
+    if (length === 0 || !markTags.length) {
         return [{
             mark: null,
             prop: null,
@@ -25,8 +29,11 @@ function markdown(string, marks, propTag) {
         }]
     }
 
+    let openingProp = openingTag(propTag),
+        closingProp = closingTag(propTag)
+
     let results = [],
-        matched = null,
+        current = null,
         closing = '',
         charset = '',
         index = 0
@@ -34,7 +41,7 @@ function markdown(string, marks, propTag) {
     const addCharset = prop => {
         if (charset !== '') {
             results.push({
-                mark: matched,
+                mark: current,
                 prop: prop || null,
                 text: charset
             })
@@ -42,13 +49,17 @@ function markdown(string, marks, propTag) {
         }
     }
 
-    const getPropValue = () => {
+    const getProp = () => {
+        if (string[index] !== openingProp) {
+            return null
+        }
         let prop = '',
             char = ''
 
+        index++ // skip opening tag
         while (index < length) {
             char = string[index++]
-            if (char === propTag[1]) {
+            if (char === closingProp) {
                 return prop
             }
             prop += char
@@ -58,32 +69,25 @@ function markdown(string, marks, propTag) {
 
     while (index < length) {
         let char = string[index++],
-            mark = matchMark(char, marks)
+            mark = getMark(char, markTags)
 
-        // if current char is matching with opening tag
-        // of registered mark then add existing charset
-        // to the result and save match with closing tag
-        // for upcoming chars
-        if (matched === null && openingTag(mark)) {
+        if (isProperClosed(current, mark)) {
+            throw `There is opening tag '${mark}' instead of closing '${current}' at index ${index - 1}.`
+        }
+
+        // charset before opening tag
+        if (current === null && openingTag(mark)) {
             addCharset()
-            matched = mark
+            current = mark
             closing = closingTag(mark)
 
-        // if current char is matching with closing tag
-        // of mark matched before then add existing
-        // charset to the result
+        // charset before closing tag
         } else if (closing === char) {
+            addCharset(getProp())
+            current = null
+            closing = ''
 
-            // skip opening tag of optional property and get its value
-            if (propTag && string[index] === propTag[0]) {
-                index++
-                addCharset(getPropValue())
-            } else {
-                addCharset()
-            }
-            matched = null
-
-        // form charset from non-mark chars
+        // charset from non-mark chars
         } else {
             charset += char
         }
