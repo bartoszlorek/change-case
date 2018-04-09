@@ -26,7 +26,7 @@ class Shortcuts extends React.PureComponent {
 
     handleAssign(itemName, code) {
         let result = this.validKeys(itemName, code)
-        if (result !== false) {
+        if (result != null) {
             this.props.onChange({
                 [itemName]: result
             })
@@ -41,12 +41,12 @@ class Shortcuts extends React.PureComponent {
         if (code[0] === 'del') {
             return ''
         }
-        let { onMessage } = this.props
+        let { onLog } = this.props
 
         // don't press too long
         let last = code.length - 1
         if (code[last] === code[last - 1]) {
-            return onMessage('invalid keys', 'error')
+            return onLog('invalid keys', 'error')
         }
 
         code = code.join(' ')
@@ -56,10 +56,10 @@ class Shortcuts extends React.PureComponent {
             if (result !== itemName) {
                 text += ` to ${result}`
             }
-            return onMessage(text, 'error')
+            return onLog(text, 'error')
         }
 
-        onMessage('correctly assigned')
+        onLog('correctly assigned')
         return code
     }
 

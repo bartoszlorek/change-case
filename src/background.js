@@ -3,7 +3,7 @@ import executableTab from './.utils/chrome/executable-tab'
 import createMenu from './.utils/chrome/create-menu'
 import setDefaults from './.utils/chrome/set-defaults'
 import initScripts from './.utils/chrome/initialize-scripts'
-import { listenOptions } from './.utils/chrome/options-page'
+import { listenStates } from './.utils/chrome/extension-state'
 
 const exec = executableTab()
 
@@ -59,5 +59,5 @@ setDefaults({
     }
 })
 
-listenOptions()
+listenStates()
 initScripts()

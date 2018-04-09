@@ -1,14 +1,14 @@
 import React from 'react'
-import styled, { injectGlobal  } from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 
 import message from '../.utils/chrome/message'
-import { emitOptions } from '../.utils/chrome/options-page'
 import { bind } from '../.utils/react/react-utils'
-import { isTruthy } from '../.utils/type-conversion'
+import { getStateOnce } from '../.utils/chrome/extension-state'
 import { deepFilter } from '../.utils/deep.min'
 
-import notifications from './notifications'
+import { isTruthy } from './types'
+import messages from './messages'
 import confirm from './confirm'
 
 import Section from './components/Section'
@@ -16,11 +16,11 @@ import Ribbon from './components/Ribbon'
 import Button, { PrimaryButton } from './components/Button'
 import Input from './components/Input'
 import Textarea from './components/Textarea'
-import Message from './components/Message'
+import Console, { log } from './components/Console'
 import Shortcuts from './components/Shortcuts'
 import Notifications from './components/Notifications'
 
-const MESSAGE_TIMEOUT = 3000
+const LOG_TIMEOUT = 3000
 
 const shortcutsItems = [
     { name: 'upperCase', label: 'UPPERCASE' },
@@ -39,9 +39,10 @@ const shortcutsItems = [
 ]
 
 const addValue = (data, value) => {
-    return isPlainObject(value)
-        ? Object.assign({}, data, value)
-        : value
+    if (isPlainObject(value)) {
+        return Object.assign({}, data, value)
+    }
+    return value
 }
 
 const Sections = styled.div`
@@ -62,7 +63,7 @@ const Controls = styled.div`
 
     & > button {
         margin: 0 0 0 6px;
-        flex-shrink: 0; 
+        flex-shrink: 0;
     }
 `
 
@@ -70,19 +71,19 @@ class Options extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            updated: true,
             extState: null,
-            upToDate: true,
             savedData: {},
             data: {},
-            message: null
+            logs: null
         }
         bind(this, [
-            'handelSave',
-            'handleMessage',
+            'handleLogs',
             'handleData',
+            'handelSave',
             'handleReject'
         ])
-        emitOptions(extState => {
+        getStateOnce(extState => {
             this.setState({
                 extState
             })
@@ -92,24 +93,47 @@ class Options extends React.Component {
     componentDidMount() {
         chrome.storage.sync.get(null, data => {
             this.setState({
-                upToDate: true,
+                updated: true,
                 savedData: data,
                 data
             })
         })
     }
 
+    handleLogs(text, type) {
+        this.setState({
+            logs: log(text, type)
+        })
+    }
+
+    handleData(name) {
+        return value => {
+            this.setState(({ savedData, data }) => {
+                let nextData = deepFilter(
+                    Object.assign({}, data, {
+                        [name]: addValue(data[name], value)
+                    }),
+                    isTruthy
+                )
+                return {
+                    data: nextData,
+                    updated: isEqual(savedData, nextData)
+                }
+            })
+        }
+    }
+
     handelSave() {
-        if (this.state.upToDate) {
+        if (this.state.updated) {
             return false
         }
         let { sync } = chrome.storage
         sync.clear()
         sync.set(this.state.data, () => {
-            this.handleMessage('options saved')
+            this.handleLogs('options saved')
             this.setState({
-                upToDate: true,
-                savedData: this.state.data
+                savedData: this.state.data,
+                updated: true
             })
             message.toTab.all({
                 type: 'BIND_SHORTCUTS'
@@ -117,94 +141,63 @@ class Options extends React.Component {
         })
     }
 
-    handleMessage(text = null, type = 'info') {
-        let message = null
-        if (text != null) {
-            message = {
-                type,
-                text
-            }
-            clearTimeout(this.messageTimer)
-            this.messageTimer = setTimeout(() => {
-                this.handleMessage(null)
-            }, MESSAGE_TIMEOUT)
-        }
-        this.setState({ message })
-        return type !== 'error'
-    }
-
-    handleData(name) {
-        return value => this.setState(({ savedData, data }) => {
-            let nextData = deepFilter(
-                Object.assign({}, data, {
-                    [name]: addValue(
-                        data[name],
-                        value
-                    )
-                }),
-                isTruthy
-            )
-            return {
-                data: nextData,
-                upToDate: isEqual(
-                    savedData,
-                    nextData
-                )
-            }
-        })
-    }
-
     handleReject() {
         confirm('Do you want to discard unsaved changes?').then(() => {
             this.setState(({ savedData }) => ({
                 data: savedData,
-                upToDate: true
+                updated: true
             }))
         })
     }
 
     render() {
-        let { data, upToDate, extState, message } = this.state
+        let { updated, extState, data, logs } = this.state
         return (
             <div className={this.props.className}>
                 <Sections>
                     <Notifications
-                        values={notifications}
+                        values={messages}
                         state={extState}
                     />
                     <Section
-                        title='Blacklist'
-                        description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'>
+                        title="Blacklist"
+                        description="comma-separated list of case-insensitive words to ignore during conversion, &quot;e.g. Hello World, New York, John, ...&quot;"
+                    >
                         <Textarea
                             value={data['blacklist']}
-                            onChange={this.handleData('blacklist')}>
-                        </Textarea>
+                            onChange={this.handleData('blacklist')}
+                        />
                     </Section>
                     <Section
-                        title='Keyboard Shortcuts'
-                        description="Click below, then hold the chosen combination to assign keys. Tip: do not use shortcuts that collide with browser's defaults.">
+                        title="Keyboard Shortcuts"
+                        description="Click below, then hold the chosen combination to assign keys. Tip: do not use shortcuts that collide with browser's defaults."
+                    >
                         <Shortcuts
                             items={shortcutsItems}
                             value={data['shortcuts']}
                             onChange={this.handleData('shortcuts')}
-                            onMessage={this.handleMessage}
+                            onLog={this.handleLogs}
                         />
                     </Section>
                 </Sections>
                 <Controls>
-                    <Message data={message} />
+                    <Console
+                        value={logs}
+                        timeout={LOG_TIMEOUT}
+                        handler={this.handleLogs}
+                    />
                     <Button
                         value="Reject"
-                        hidden={upToDate}
+                        hidden={updated}
                         onClick={this.handleReject}
                     />
                     <PrimaryButton
                         value="Save"
-                        disabled={upToDate}
+                        disabled={updated}
                         onClick={this.handelSave}
                     />
                 </Controls>
-                <Ribbon active={!upToDate} />
+                <Ribbon active={!updated} />
             </div>
         )
     }

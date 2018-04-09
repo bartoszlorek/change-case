@@ -5,15 +5,13 @@ import Notification from './Notification'
 
 class Notifications extends React.PureComponent {
     render() {
-        const { values, state } = this.props
-
-        if (!values.length) {
+        if (!this.props.values.length) {
             return null
         }
         return (
             <div>
-                {values
-                    .filter(a => a.state == state)
+                {this.props.values
+                    .filter(a => a.state == this.props.state)
                     .map((a, i) => (
                         <Notification
                             key={i}
@@ -27,11 +25,13 @@ class Notifications extends React.PureComponent {
 }
 
 Notifications.propTypes = {
-    values: PropTypes.array
+    values: PropTypes.array,
+    state: PropTypes.string
 }
 
 Notifications.defaultProps = {
-    values: []
+    values: [],
+    state: null
 }
 
 export default Notifications

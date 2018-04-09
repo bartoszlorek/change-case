@@ -2,9 +2,9 @@ export const INSTALL_STATE = 'install'
 export const UPDATE_STATE = 'update'
 export const NORMAL_STATE = 'normal'
 
-const OPEN_OPTIONS = 'EMIT_OPEN_OPTIONS'
+const GET_STATE_ONCE = 'GET_STATE_ONCE'
 
-function listenOptions() {
+function listenStates() {
     let state = NORMAL_STATE
 
     chrome.runtime.onInstalled.addListener(({ reason }) => {
@@ -15,20 +15,22 @@ function listenOptions() {
     })
 
     chrome.runtime.onMessage.addListener((request, sender, response) => {
-        if (request.type === OPEN_OPTIONS) {
+        if (request.type === GET_STATE_ONCE) {
             response(state)
             state = NORMAL_STATE
         }
     })
 }
 
-function emitOptions(callback) {
+// at this moment only once, because in persistent
+// world something must change state back to normal
+function getStateOnce(callback) {
     chrome.runtime.sendMessage({
-        type: OPEN_OPTIONS
+        type: GET_STATE_ONCE
     }, callback)
 }
 
-export { 
-    listenOptions,
-    emitOptions
+export {
+    listenStates,
+    getStateOnce
 }
