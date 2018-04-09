@@ -4,7 +4,7 @@
 
 ![change-case-screen-1280_800](https://user-images.githubusercontent.com/13873576/31599271-f7fa3c3e-b251-11e7-88a5-ec8574d55abf.png)
 
-![change-case-screen-1280_800-2](https://user-images.githubusercontent.com/13873576/31599281-ffafe096-b251-11e7-9c8f-62f648a747d2.png)
+![change-case-screen-1280_800-2](https://user-images.githubusercontent.com/13873576/38525493-d9e4364c-3c52-11e8-8e6e-a92e599c9cc4.png)
 
 ## Available methods:
 - UPPERCASE
@@ -18,9 +18,22 @@
 - snake_case
 - dot.case
 - tOGGLE cASE
+- no accents
 - no case
 
 ## Limitations:
 - input `type="email"` (doesn't support selection start/end)
-- undo/redo in editors based on `contentEditable`
 - some unidirectional data flow apps override changes
+
+## Changelog:
+
+**2.1.0**
+- buttons for managing shortcuts
+- proper English title case
+- fixed initialization problems
+- minor optimization changes
+
+**2.0.0**
+- options page
+- blacklist words/phrases
+- keyboard shortcuts
