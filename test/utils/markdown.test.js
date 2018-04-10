@@ -103,4 +103,13 @@ describe('markdown.js', () => {
             { mark: null, prop: null, text: ' to end' }
         ])
     })
+
+    it('ignore parentheses not being mark props', () => {
+        let result = markdown('not [click] (not url) to end', ['[]'], '()')
+        expect(result).toEqual([
+            { mark: null, prop: null, text: 'not ' },
+            { mark: '[]', prop: null, text: 'click' },
+            { mark: null, prop: null, text: ' (not url) to end' }
+        ])
+    })
 })

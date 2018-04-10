@@ -1,5 +1,5 @@
-const openingTag = tag => tag && tag[0]
-const closingTag = tag => tag && tag[tag.length-1]
+const opening = a => a && a[0]
+const closing = a => a && a[a.length-1]
 
 const getMark = (char, marks) => {
     let length = marks.length,
@@ -14,14 +14,13 @@ const getMark = (char, marks) => {
 }
 
 const isProperClosed = (prev, next) => {
-    return prev !== next && prev !== null && next !== null
+    return !(prev !== next && prev !== null && next !== null)
 }
 
 function markdown(string, markTags, propTag) {
     markTags = markTags == null ? [] : markTags
 
-    let length = string == null ? 0 : string.length
-    if (length === 0 || !markTags.length) {
+    if (!string || !markTags.length) {
         return [{
             mark: null,
             prop: null,
@@ -29,19 +28,24 @@ function markdown(string, markTags, propTag) {
         }]
     }
 
-    let openingProp = openingTag(propTag),
-        closingProp = closingTag(propTag)
-
     let results = [],
-        current = null,
-        closing = '',
+        currentMark = null,
+        closingMark = '',
         charset = '',
+        char = '',
         index = 0
+
+    const openingProp = opening(propTag)
+    const closingProp = closing(propTag)
+
+    const nextChar = () => {
+        return char = string[index++]
+    }
 
     const addCharset = prop => {
         if (charset !== '') {
             results.push({
-                mark: current,
+                mark: currentMark,
                 prop: prop || null,
                 text: charset
             })
@@ -53,12 +57,10 @@ function markdown(string, markTags, propTag) {
         if (string[index] !== openingProp) {
             return null
         }
-        let prop = '',
-            char = ''
+        let prop = ''
 
         index++ // skip opening tag
-        while (index < length) {
-            char = string[index++]
+        while (nextChar()) {
             if (char === closingProp) {
                 return prop
             }
@@ -67,25 +69,24 @@ function markdown(string, markTags, propTag) {
         return null
     }
 
-    while (index < length) {
-        let char = string[index++],
-            mark = getMark(char, markTags)
+    while (nextChar()) {
+        let nextMark = getMark(char, markTags)
 
-        if (isProperClosed(current, mark)) {
-            throw `There is opening tag '${mark}' instead of closing '${current}' at index ${index - 1}.`
+        if (!isProperClosed(currentMark, nextMark)) {
+            throw `There is opening tag '${opening(nextMark)}' instead of closing '${closing(currentMark)}' at index ${index - 1}.`
         }
 
         // charset before opening tag
-        if (current === null && openingTag(mark)) {
+        if (currentMark === null && opening(nextMark)) {
             addCharset()
-            current = mark
-            closing = closingTag(mark)
+            currentMark = nextMark
+            closingMark = closing(nextMark)
 
         // charset before closing tag
-        } else if (closing === char) {
+        } else if (char === closingMark) {
             addCharset(getProp())
-            current = null
-            closing = ''
+            currentMark = null
+            closingMark = ''
 
         // charset from non-mark chars
         } else {
