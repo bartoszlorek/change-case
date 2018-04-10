@@ -17,7 +17,7 @@ describe('markdown.js', () => {
     it('throws on opening tag without closing', () => {
         expect(() => {
             markdown('not *asterisk "quote" end', ['*', '"'])
-        }).toThrow()
+        }).toThrow(`There is opening tag '"' instead of closing '*' at index 14.`)
     })
 
     it('string starts with no mark', () => {

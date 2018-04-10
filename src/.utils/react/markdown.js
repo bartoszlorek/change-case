@@ -38,10 +38,10 @@ function markdown(string, markTags, propTag) {
         current = null,
         charset = '',
         char = '',
-        index = 0
+        index = -1
 
     const nextChar = () => {
-        return char = string[index++]
+        return char = string[++index]
     }
 
     const addCharset = prop => {
@@ -56,7 +56,7 @@ function markdown(string, markTags, propTag) {
     }
 
     const getProp = () => {
-        if (string[index] !== propData.opening) {
+        if (string[index + 1] !== propData.opening) {
             return null
         }
         let value = ''
@@ -74,7 +74,7 @@ function markdown(string, markTags, propTag) {
         let match = matchMark(char, markData)
 
         if (!isProperClosed(current, match)) {
-            throw `There is opening tag '${match.opening}' instead of closing '${current.closing}' at index ${index - 1}.`
+            throw `There is opening tag '${match.opening}' instead of closing '${current.closing}' at index ${index}.`
         }
 
         // charset before opening tag
