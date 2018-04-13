@@ -4,14 +4,24 @@
 const VOID = { code: 'void(0)' }
 const CORRECT = 'correct'
 
+const getHostname = url => {
+    if (url == null) {
+        return null
+    }
+    let parser = document.createElement('a')
+    parser.href = url
+    return parser.hostname
+}
+
 function exec(tab, memo) {
     let tabId = tab == null || typeof tab.id !== 'number' ? -1 : tab.id
     if (tabId < 0) {
         return Promise.reject('Incorrect tab')
     }
 
+    let prop = getHostname(tab.url) || tabId
     if (memo != null) {
-        let memoized = memo[tabId]
+        let memoized = memo[prop]
         if (memoized !== undefined) {
             return memoized === CORRECT
                 ? Promise.resolve(tabId)
@@ -20,7 +30,7 @@ function exec(tab, memo) {
     }
     const memoize = value => {
         if (memo != null) {
-            memo[tabId] = value || CORRECT
+            memo[prop] = value || CORRECT
         }
     }
 
