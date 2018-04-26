@@ -10,8 +10,7 @@
         "contextMenus",
         "activeTab",
         "storage",
-        "http://*/",
-        "https://*/"
+        "<all_urls>"
     ],
     "background": {
         "scripts": ["background.js"],
@@ -19,8 +18,7 @@
     },
     "content_scripts": [{
         "matches": [
-            "http://*/*",
-            "https://*/*"
+            "<all_urls>"
         ],
         "js": ["content-script.js"],
         "all_frames": false
