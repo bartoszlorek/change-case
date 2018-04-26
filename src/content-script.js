@@ -1,4 +1,9 @@
-import { selectionRange, rangeContent } from './.utils/selection.min'
+import {
+    setSelection,
+    selectionRange,
+    rangeContent
+} from './.utils/selection.min'
+
 import message from './.utils/chrome/message'
 
 import applyMethod from './scripts/apply-method'
@@ -24,11 +29,12 @@ const handleChangeCase = methodName => {
     if (content.length === 0) {
         return dispatchError(range)
     }
-    content.forEach(item => {
-        applyMethod(methodName, filter).then(method => {
+    applyMethod(methodName, filter).then(method => {
+        content.forEach(item => {
             item.selectedText = method(item.selectedText)
+            dispatchEvent(item.node)
         })
-        dispatchEvent(item.node)
+        setSelection(range)
     })
 }
 
