@@ -71,8 +71,8 @@ class Options extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            updated: true,
             extState: null,
+            isUpdated: true,
             savedData: {},
             data: {},
             logs: null
@@ -93,7 +93,7 @@ class Options extends React.Component {
     componentDidMount() {
         chrome.storage.sync.get(null, data => {
             this.setState({
-                updated: true,
+                isUpdated: true,
                 savedData: data,
                 data
             })
@@ -116,15 +116,15 @@ class Options extends React.Component {
                     isTruthy
                 )
                 return {
-                    data: nextData,
-                    updated: isEqual(savedData, nextData)
+                    isUpdated: isEqual(savedData, nextData),
+                    data: nextData
                 }
             })
         }
     }
 
     handelSave() {
-        if (this.state.updated) {
+        if (this.state.isUpdated) {
             return false
         }
         let { sync } = chrome.storage
@@ -132,8 +132,8 @@ class Options extends React.Component {
         sync.set(this.state.data, () => {
             this.handleLogs('options saved')
             this.setState({
-                savedData: this.state.data,
-                updated: true
+                isUpdated: true,
+                savedData: this.state.data
             })
             message.toTab.all({
                 type: 'BIND_SHORTCUTS'
@@ -144,19 +144,19 @@ class Options extends React.Component {
     handleReject() {
         confirm('Do you want to discard unsaved changes?').then(() => {
             this.setState(({ savedData }) => ({
-                data: savedData,
-                updated: true
+                isUpdated: true,
+                data: savedData
             }))
         })
     }
 
     render() {
-        let { updated, extState, data, logs } = this.state
+        let { extState, isUpdated, data, logs } = this.state
         return (
             <div className={this.props.className}>
                 <Sections>
                     <Notifications
-                        values={messages}
+                        items={messages}
                         state={extState}
                     />
                     <Section
@@ -188,16 +188,16 @@ class Options extends React.Component {
                     />
                     <Button
                         value="Reject"
-                        hidden={updated}
+                        hidden={isUpdated}
                         onClick={this.handleReject}
                     />
                     <PrimaryButton
                         value="Save"
-                        disabled={updated}
+                        disabled={isUpdated}
                         onClick={this.handelSave}
                     />
                 </Controls>
-                <Ribbon active={!updated} />
+                <Ribbon active={!isUpdated} />
             </div>
         )
     }

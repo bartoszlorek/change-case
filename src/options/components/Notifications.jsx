@@ -5,20 +5,21 @@ import Notification from './Notification'
 
 class Notifications extends React.PureComponent {
     render() {
-        if (!this.props.values.length) {
+        let { items, state } = this.props
+
+        if (!items.length) {
             return null
         }
         return (
             <div>
-                {this.props.values
-                    .filter(a => a.state == this.props.state)
-                    .map((a, i) => (
+                {items
+                    .filter(item => item.state === state)
+                    .map((item, index) => (
                         <Notification
-                            key={i}
-                            value={a.value}
+                            key={index}
+                            value={item.value}
                         />
-                    ))
-                }
+                    ))}
             </div>
         )
     }

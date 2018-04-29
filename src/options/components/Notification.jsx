@@ -5,7 +5,7 @@ class Notification extends React.PureComponent {
     render() {
         return (
             <div {...this.props}>
-                <h2>{this.props.value}</h2>
+                {this.props.value}
             </div>
         )
     }
@@ -17,6 +17,7 @@ export default styled(Notification)`
     margin-top: 4px;
     text-align: center;
     background: #009ff1;
+    font-size: 1.25em;
     color: #fff;
 
     & h2 {
