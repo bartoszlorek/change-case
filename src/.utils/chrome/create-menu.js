@@ -1,25 +1,25 @@
 function createMenu(items, callback, defaults) {
     if (items == null) {
-        return;
+        return
     }
     items.forEach(item => {
-        let params;
+        let params
 
         if (item === null) {
             params = {
                 type: 'separator'
             }
         } else {
-            params = callback(item);
+            params = callback(item)
         }
         if (defaults) {
             params = Object.assign({},
                 defaults,
                 params
-            );
+            )
         }
-        chrome.contextMenus.create(params);
+        chrome.contextMenus.create(params)
     })
 }
 
-export default createMenu;
+export default createMenu
