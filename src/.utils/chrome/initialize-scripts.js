@@ -3,6 +3,8 @@
 
 import { exec } from './executable-tab'
 
+const ALL_URLS = '<all_urls>'
+
 function isMatched(tab, scripts) {
     if (tab.url == null) {
         return true
@@ -11,9 +13,12 @@ function isMatched(tab, scripts) {
         if (matches == null || !matches.length) {
             return true
         }
-        return matches.some(match => (
-            new RegExp(match).test(tab.url)
-        ))
+        return matches.some(match => {
+            if (match === ALL_URLS) {
+                return true
+            }
+            return new RegExp(match).test(tab.url)
+        })
     })
 }
 
