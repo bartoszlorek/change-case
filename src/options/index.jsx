@@ -16,7 +16,7 @@ import Ribbon from './components/Ribbon'
 import Button, { PrimaryButton } from './components/Button'
 import Input from './components/Input'
 import Textarea from './components/Textarea'
-import Console, { log } from './components/Console'
+import Console, { createLogger } from './components/Console'
 import Shortcuts from './components/Shortcuts'
 import Notifications from './components/Notifications'
 
@@ -75,7 +75,7 @@ class Options extends React.Component {
             isUpdated: true,
             savedData: {},
             data: {},
-            logs: null
+            logger: null
         }
         bind(this, [
             'handleLogs',
@@ -102,7 +102,7 @@ class Options extends React.Component {
 
     handleLogs(text, type) {
         this.setState({
-            logs: log(text, type)
+            logger: createLogger(text, type)
         })
     }
 
@@ -151,7 +151,7 @@ class Options extends React.Component {
     }
 
     render() {
-        let { extState, isUpdated, data, logs } = this.state
+        let { extState, isUpdated, data, logger } = this.state
         return (
             <div className={this.props.className}>
                 <Sections>
@@ -182,7 +182,7 @@ class Options extends React.Component {
                 </Sections>
                 <Controls>
                     <Console
-                        value={logs}
+                        logger={logger}
                         timeout={LOG_TIMEOUT}
                         handler={this.handleLogs}
                     />

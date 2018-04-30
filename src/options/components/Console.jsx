@@ -8,7 +8,7 @@ const ERROR_TYPE = 'error'
 
 class Console extends React.PureComponent {
     componentDidUpdate() {
-        if (this.props.value == null) {
+        if (this.props.logger == null) {
             return
         }
         clearTimeout(this.timer)
@@ -18,25 +18,25 @@ class Console extends React.PureComponent {
     }
 
     render() {
-        if (this.props.value == null) {
+        if (this.props.logger == null) {
             return null
         }
         return (
             <div className={this.props.className}>
-                {this.props.value.text}
+                {this.props.logger.text}
             </div>
         )
     }
 }
 
 Console.propTypes = {
-    value: PropTypes.object,
+    logger: PropTypes.object,
     timeout: PropTypes.number,
     handler: PropTypes.func
 }
 
 Console.defaultProps = {
-    value: null,
+    logger: null,
     timeout: 3000,
     handler: () => {}
 }
@@ -46,7 +46,7 @@ export default styled(Console)`
     white-space: nowrap;
     overflow: hidden;
 
-    ${choose('value.type', {
+    ${choose('logger.type', {
         [DEFAULT_TYPE]: css`
             color: #009ff1;
             font-weight: bold;`,
@@ -56,7 +56,7 @@ export default styled(Console)`
     })};
 `
 
-export function log(text, type) {
+export function createLogger(text, type) {
     if (text == null) {
         return null
     }
