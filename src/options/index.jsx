@@ -3,7 +3,7 @@ import styled, { injectGlobal } from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 
 import message from '../.utils/chrome/message'
-import { bind } from '../.utils/react/react-utils'
+import { bind, createMemo } from '../.utils/react/react-utils'
 import { getStateOnce } from '../.utils/chrome/extension-state'
 import { deepFilter } from '../.utils/deep.min'
 
@@ -70,6 +70,8 @@ const Controls = styled.div`
 class Options extends React.Component {
     constructor(props) {
         super(props)
+
+        this.memo = createMemo()
         this.state = {
             extState: null,
             isUpdated: true,
@@ -107,7 +109,7 @@ class Options extends React.Component {
     }
 
     handleData(name) {
-        return value => {
+        return this.memo(name, value => {
             this.setState(({ savedData, data }) => {
                 let nextData = deepFilter(
                     Object.assign({}, data, {
@@ -120,7 +122,7 @@ class Options extends React.Component {
                     data: nextData
                 }
             })
-        }
+        })
     }
 
     handelSave() {
