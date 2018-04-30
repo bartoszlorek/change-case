@@ -14,23 +14,37 @@ export function choose(path, cases) {
 }
 
 export function bind(context, methods) {
-    methods.forEach(item => {
-        context[item] = context[item].bind(context)
-    })
+    let index = methods != null ? methods.length : 0
+
+    while (index) {
+        let name = methods[--index]
+        context[name] = context[name].bind(context)
+    }
 }
 
-export function omit(object, props) {
-    if (object == null) {
-        return null
+export function omit(props, keys) {
+    if (keys == null) {
+        return props
     }
-    if (props == null || !props.length) {
-        return object
-    }
-    let newObject = {}
-    Object.keys(object).forEach(prop => {
-        if (props.indexOf(prop) < 0) {
-            newObject[prop] = object[prop]
+    let index = -1
+    const iterable = Object.keys(props)
+    const length = iterable.length
+    const result = {}
+
+    while (++index < length) {
+        let prop = iterable[index]
+        if (keys.indexOf(prop) < 0) {
+            result[prop] = props[prop]
         }
-    })
-    return newObject
+    }
+    return result
+}
+
+export function createMemo(memo = {}) {
+    return (name, callback, force) => {
+        if (memo[name] === undefined || force) {
+            memo[name] = callback
+        }
+        return memo[name]
+    }
 }
