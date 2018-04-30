@@ -27,10 +27,19 @@
 
 ## Changelog:
 
+**2.1.3**
+- fix initialization problems
+
+**2.1.2**
+- preserve selection
+
+**2.1.1**
+- update notification
+
 **2.1.0**
 - buttons for managing shortcuts
 - proper English title case
-- fixed initialization problems
+- fix initialization problems
 - minor optimization changes
 
 **2.0.0**
