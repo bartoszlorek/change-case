@@ -42,7 +42,15 @@
 - fix initialization problems
 - minor optimization changes
 
+**2.0.1**
+- add 'no accents' case
+
 **2.0.0**
 - options page
 - blacklist words/phrases
 - keyboard shortcuts
+- major core changes
+
+**1.0.0**
+- basic methods
+- context menu
