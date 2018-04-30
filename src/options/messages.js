@@ -11,7 +11,7 @@ const messages = [
     },*/
     {
         state: UPDATE_STATE,
-        value: 'The extension has been successfully updated!'
+        value: 'The extension has been successfully updated! [more details in description](https://chrome.google.com/webstore/detail/change-case/lpakoahdokkkonadfppfgmednkknpgbm)'
     }
 ]
 
