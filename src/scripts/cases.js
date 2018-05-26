@@ -48,21 +48,42 @@ function upperCase(value) {
     return value.toUpperCase()
 }
 
+function lowerCase(value) {
+    return value.toLowerCase()
+}
+
 function upperCaseFirst(value) {
     value = String(value)
     return upperCase(value.charAt(0)) + value.substr(1)
-}
-
-function lowerCase(value) {
-    return value.toLowerCase()
 }
 
 // function titleCase(value) {
 //     return noCase(value).replace(/^.| ./g, a => upperCase(a))
 // }
 
+// function sentenceCase(value) {
+//     return upperCaseFirst(noCase(value))
+// }
+
+const ABBRV_LENGTH = 4
+
 function sentenceCase(value) {
-    return upperCaseFirst(noCase(value))
+    const frags = noCase(value)
+        .split(/(\s+|.*?[.!?])/g)
+        .filter(a => a !== '')
+
+    let isPrevAbbrv = false
+    return frags.reduce((result, frag, index) => {
+        let last = frag[frag.length - 1]
+        if (last !== ' ') {
+            let isCurrAbbrv = last === '.' && frag.length <= ABBRV_LENGTH
+            if (isCurrAbbrv === false && isPrevAbbrv === false) {
+                frag = upperCaseFirst(frag)
+            }
+            isPrevAbbrv = isCurrAbbrv
+        }
+        return result + frag
+    }, '')
 }
 
 function camelCase(value, mergeNumbers) {
