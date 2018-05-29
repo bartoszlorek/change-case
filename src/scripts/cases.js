@@ -4,11 +4,13 @@
  */
 
 import toTitleCase from 'to-title-case'
+import isAbbreviation from './internal/is-abbreviation'
+import removeAccents from './internal/remove-accents'
+
 import NON_WORD_REGEXP from './internal/non-word-regexp'
 import CAMEL_CASE_REGEXP from './internal/camel-case-regexp'
 import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp'
-import removeAccents from './internal/remove-accents'
-import isAbbreviation from './internal/is-abbreviation'
+const GROUP_SENTENCES = /(\s+|.*?[.!?])/g
 
 export default {
     upperCase,
@@ -57,8 +59,6 @@ function upperCaseFirst(value) {
     value = String(value)
     return upperCase(value.charAt(0)) + value.substr(1)
 }
-
-const GROUP_SENTENCES = /(\s+|.*?[.!?])/g
 
 function sentenceCase(value) {
     const frags = noCase(value)
