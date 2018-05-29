@@ -10,7 +10,7 @@ import removeAccents from './internal/remove-accents'
 import NON_WORD_REGEXP from './internal/non-word-regexp'
 import CAMEL_CASE_REGEXP from './internal/camel-case-regexp'
 import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp'
-const GROUP_SENTENCES = /(\s+|.*?[.!?])/g
+import SENTENCES_REGEXP from './internal/sentences-regexp'
 
 export default {
     upperCase,
@@ -62,7 +62,7 @@ function upperCaseFirst(value) {
 
 function sentenceCase(value) {
     const frags = noCase(value)
-        .split(GROUP_SENTENCES)
+        .split(SENTENCES_REGEXP)
         .filter(a => a !== '')
 
     let prev = false

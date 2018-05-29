@@ -8,12 +8,10 @@ it('should handle errors', () => {
 
 it('should handle abbreviation value', () => {
     expect(isAbbreviation('I am A.B.')).toBe(true)
-    expect(isAbbreviation('abbr.')).toBe(true)
-    expect(isAbbreviation('Acad.')).toBe(true)
+    expect(isAbbreviation('e.g.')).toBe(true)
     expect(isAbbreviation('and now A.D.')).toBe(true)
     expect(isAbbreviation('alt.')).toBe(true)
-    expect(isAbbreviation('hello Capt.')).toBe(true)
-    expect(isAbbreviation('Sgt.')).toBe(true)
+    expect(isAbbreviation('hello Sgt.')).toBe(true)
 })
 
 it('should handle non-abbreviation value', () => {
