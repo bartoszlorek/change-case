@@ -7,12 +7,18 @@ describe('sentenceCase', () => {
         expect(result).toEqual('Where are my keys? Oh! They are... here.')
     })
 
-    it('should handle abbreviations', () => {
-        const result = sentenceCase(
-            'WHERE ARE YOU? OH!  YOU ARE E.G. THERE. ARE WE E.G. HERE?'
-        )
-        expect(result).toEqual(
-            'Where are you? Oh!  You are e.g. there. Are we e.g. here?'
-        )
+    it('should handle short abbreviations', () => {
+        const result = sentenceCase('YOU ARE E.G. THERE.  ARE WE ALT. HERE?')
+        expect(result).toEqual('You are e.g. there.  Are we alt. here?')
+    })
+
+    it('should handle long abbreviations', () => {
+        const result = sentenceCase('HELLO MR. AND PROF. DOGGY!')
+        expect(result).toEqual('Hello mr. and prof. doggy!')
+    })
+
+    it('should handle capital letter abbreviations', () => {
+        const result = sentenceCase('hello Mr. and Prof. Doggy!')
+        expect(result).toEqual('Hello mr. and prof. doggy!')
     })
 })

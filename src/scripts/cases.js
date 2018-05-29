@@ -3,11 +3,12 @@
  * https://github.com/blakeembrey/change-case
  */
 
+import toTitleCase from 'to-title-case'
 import NON_WORD_REGEXP from './internal/non-word-regexp'
 import CAMEL_CASE_REGEXP from './internal/camel-case-regexp'
 import CAMEL_CASE_UPPER_REGEXP from './internal/camel-case-upper-regexp'
 import removeAccents from './internal/remove-accents'
-import toTitleCase from 'to-title-case'
+import isAbbreviation from './internal/is-abbreviation'
 
 export default {
     upperCase,
@@ -57,30 +58,20 @@ function upperCaseFirst(value) {
     return upperCase(value.charAt(0)) + value.substr(1)
 }
 
-// function titleCase(value) {
-//     return noCase(value).replace(/^.| ./g, a => upperCase(a))
-// }
-
-// function sentenceCase(value) {
-//     return upperCaseFirst(noCase(value))
-// }
-
-const ABBRV_LENGTH = 4
+const GROUP_SENTENCES = /(\s+|.*?[.!?])/g
 
 function sentenceCase(value) {
     const frags = noCase(value)
-        .split(/(\s+|.*?[.!?])/g)
+        .split(GROUP_SENTENCES)
         .filter(a => a !== '')
 
-    let isPrevAbbrv = false
+    let prev = false
     return frags.reduce((result, frag, index) => {
-        let last = frag[frag.length - 1]
-        if (last !== ' ') {
-            let isCurrAbbrv = last === '.' && frag.length <= ABBRV_LENGTH
-            if (isCurrAbbrv === false && isPrevAbbrv === false) {
+        if (frag[0] !== ' ') {
+            if (prev === false) {
                 frag = upperCaseFirst(frag)
             }
-            isPrevAbbrv = isCurrAbbrv
+            prev = isAbbreviation(frag)
         }
         return result + frag
     }, '')
