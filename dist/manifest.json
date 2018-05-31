@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Change Case",
     "short_name": "Change Case",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "author": "Bartosz Lorek",
     "description": "Multiple methods to change text case.",
     "homepage_url": "http://www.bartoszlorek.pl/",
