@@ -18,7 +18,7 @@ describe('apply-blacklist.js', () => {
 
     it('should handle change from long to short string', () => {
         let source = 'The lazy brown fox jumps over the lazy dog.',
-            output = 'Thelazybrown foxJumpsOverThelazyDog.',
+            output = 'Thelazybrown foxJumpsOverThelazyDog',
             result = applyBlacklist(pascalCase, source, ['Brown Fox', 'LAZY'])
         expect(result).toEqual(output)
     })
