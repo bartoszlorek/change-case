@@ -39,7 +39,7 @@ function noCase(value, replacement) {
     if (typeof replacement === 'string') {
         value = value.replace(NON_WORD_REGEXP, (match, index, value) => {
             if (index === 0 || index === value.length - match.length) {
-                return ' '
+                return ''
             }
             return replacement
         })
@@ -78,7 +78,7 @@ function sentenceCase(value) {
 }
 
 function camelCase(value, mergeNumbers) {
-    value = noCase(value)
+    value = noCase(value, ' ')
 
     if (!mergeNumbers) {
         value = value.replace(/ (?=\d)/g, '_')
