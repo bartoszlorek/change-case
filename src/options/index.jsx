@@ -15,6 +15,7 @@ import Section from './components/Section'
 import Ribbon from './components/Ribbon'
 import Button, { PrimaryButton } from './components/Button'
 import Textarea from './components/Textarea'
+import Checkbox from './components/Checkbox'
 import Console, { createLogger } from './components/Console'
 import Shortcuts from './components/Shortcuts'
 import Notifications from './components/Notifications'
@@ -163,9 +164,16 @@ class Options extends React.Component {
                         items={messages}
                         state={extState}
                     />
+                    <Section>
+                        <Checkbox
+                            value={data['updateNotification']}
+                            label="Show update notifications"
+                            onChange={this.handleData('updateNotification')}
+                        />
+                    </Section>
                     <Section
                         title="Blacklist"
-                        description="comma-separated list of case-insensitive words to ignore during conversion, &quot;e.g. Hello World, New York, John, ...&quot;"
+                        description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'
                     >
                         <Textarea
                             value={data['blacklist']}

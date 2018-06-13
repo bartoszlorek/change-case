@@ -29,9 +29,9 @@
 
 **2.1.5**
 - improve conversion between methods
-- fix default values overwriting
 - allow to disable notifications
-- fix UI problems
+- fix default values overwriting
+- fix ui problems
 
 **2.1.4**
 - sentence case handles multiple sentences and common abbreviations
