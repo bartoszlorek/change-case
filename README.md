@@ -30,6 +30,7 @@
 **2.1.5**
 - improve conversion between methods
 - fix default values overwriting
+- allow to disable notifications
 - fix UI problems
 
 **2.1.4**
