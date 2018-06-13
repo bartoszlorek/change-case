@@ -34,7 +34,7 @@ function applyMarkdown(spec) {
         return string => string
     }
     const marks = Object.keys(spec)
-    return string => {
+    return (string) => {
         if (string != null) {
             return markdown(string, marks, PROP_TAG)
                 .map((frag, key) =>

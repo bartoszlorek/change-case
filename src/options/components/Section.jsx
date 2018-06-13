@@ -28,10 +28,12 @@ class Section extends React.PureComponent {
         let { title, description, children } = this.props
         return (
             <Wrap>
-                <Description>
-                    {title && <b>{title}: </b>}
-                    {mark(description)}
-                </Description>
+                {(title || description) && (
+                    <Description>
+                        {title && <b>{title}: </b>}
+                        {mark(description)}
+                    </Description>
+                )}
                 {children}
             </Wrap>
         )

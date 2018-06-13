@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { bind } from '../../.utils/react/react-utils'
 
 class Textarea extends React.PureComponent {
     constructor(props) {
         super(props)
-        bind(this, ['handleChange'])
+        this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {

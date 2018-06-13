@@ -1,12 +1,9 @@
 import React from 'react'
-import { bind } from '../../.utils/react/react-utils'
 
 class Input extends React.PureComponent {
     constructor(props) {
         super(props)
-        bind(this, [
-            'handleChange'
-        ])
+        this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {
