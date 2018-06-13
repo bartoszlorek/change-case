@@ -14,7 +14,6 @@ import confirm from './confirm'
 import Section from './components/Section'
 import Ribbon from './components/Ribbon'
 import Button, { PrimaryButton } from './components/Button'
-import Input from './components/Input'
 import Textarea from './components/Textarea'
 import Console, { createLogger } from './components/Console'
 import Shortcuts from './components/Shortcuts'
@@ -47,18 +46,21 @@ const addValue = (data, value) => {
 
 const Sections = styled.div`
     position: relative;
-    overflow: auto;
-    flex-shrink: 1;
+    margin-bottom: 60px;
 `
 
 const Controls = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
     padding: 14px 17px;
     background: #fff;
     border-top: 1px solid #dddfe2;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: flex-end;
-    align-items: center;
     box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
 
     & > button {
@@ -205,11 +207,7 @@ class Options extends React.Component {
     }
 }
 
-export default styled(Options)`
-    display: flex;
-    flex-direction: column;
-    max-height: 600px;
-`
+export default Options
 
 injectGlobal`
     body {
