@@ -3,7 +3,12 @@ import executableTab from './.utils/chrome/executable-tab'
 import createMenu from './.utils/chrome/create-menu'
 import setDefaults from './.utils/chrome/set-defaults'
 import initScripts from './.utils/chrome/initialize-scripts'
-import { listenStates } from './.utils/chrome/extension-state'
+
+import {
+    listenStates,
+    INSTALL_STATE,
+    UPDATE_STATE
+} from './.utils/chrome/extension-state'
 
 const exec = executableTab()
 
@@ -51,6 +56,7 @@ createMenu(
 )
 
 setDefaults({
+    updateNotification: true,
     shortcuts: {
         upperCase: 'alt+1',
         lowerCase: 'alt+2',
@@ -59,5 +65,9 @@ setDefaults({
     }
 })
 
-listenStates()
+listenStates({
+    [INSTALL_STATE]: () => true,
+    [UPDATE_STATE]: data => data.updateNotification
+})
+
 initScripts()

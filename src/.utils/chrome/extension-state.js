@@ -1,17 +1,21 @@
+import getStorageData from './get-storage-data'
+
 export const INSTALL_STATE = 'install'
 export const UPDATE_STATE = 'update'
 export const NORMAL_STATE = 'normal'
 
 const GET_STATE_ONCE = 'GET_STATE_ONCE'
 
-function listenStates() {
+function listenStates(options = {}) {
     let state = NORMAL_STATE
 
     chrome.runtime.onInstalled.addListener(({ reason }) => {
-        if (reason === INSTALL_STATE || reason === UPDATE_STATE) {
-            state = reason
-            chrome.runtime.openOptionsPage()
-        }
+        getStorageData(options).then(storage => {
+            if (storage[reason]) {
+                state = reason
+                chrome.runtime.openOptionsPage()
+            }
+        })
     })
 
     chrome.runtime.onMessage.addListener((request, sender, response) => {
