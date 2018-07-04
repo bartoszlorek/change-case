@@ -5,20 +5,12 @@ import {
 } from './.utils/selection.min'
 
 import message from './.utils/chrome/message'
+import operators from './scripts/operators/index'
 
 import applyMethod from './scripts/apply-method'
-import applyBlacklist from './scripts/apply-blacklist'
 import bindShortcuts from './scripts/bind-shortcuts'
 import dispatchEvent from './scripts/dispatch-event'
 import dispatchError from './scripts/dispatch-error'
-import parseList from './scripts/parse-list'
-
-const filter = method => new Promise(resolve => {
-    chrome.storage.sync.get('blacklist', data => resolve(value => {
-        let list = parseList(data.blacklist)
-        return applyBlacklist(method, value, list)
-    }))
-})
 
 const handleChangeCase = methodName => {
     let range = selectionRange()
@@ -29,7 +21,7 @@ const handleChangeCase = methodName => {
     if (content.length === 0) {
         return dispatchError(range)
     }
-    applyMethod(methodName, filter).then(method => {
+    applyMethod(methodName, operators).then(method => {
         content.forEach(item => {
             item.selectedText = method(item.selectedText)
             dispatchEvent(item.node)
