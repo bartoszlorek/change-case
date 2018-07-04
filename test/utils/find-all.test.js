@@ -13,6 +13,7 @@ describe('find-all.js', () => {
         expect(findAll(source, 'lazy')).toEqual([
             {
                 match: 'lazy',
+                value: 'lazy',
                 index: 4
             }
         ])
@@ -22,10 +23,12 @@ describe('find-all.js', () => {
         expect(findAll(source, 'lazy', true)).toEqual([
             {
                 match: 'lazy',
+                value: 'lazy',
                 index: 4
             },
             {
                 match: 'LAZY',
+                value: 'lazy',
                 index: 34
             }
         ])
@@ -35,14 +38,17 @@ describe('find-all.js', () => {
         expect(findAll(source, ['lazy', 'FOX'], true)).toEqual([
             {
                 match: 'lazy',
+                value: 'lazy',
                 index: 4
             },
             {
                 match: 'fox',
+                value: 'FOX',
                 index: 15
             },
             {
                 match: 'LAZY',
+                value: 'lazy',
                 index: 34
             }
         ])
