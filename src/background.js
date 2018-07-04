@@ -71,3 +71,12 @@ listenStates({
 })
 
 initScripts()
+
+// after 2.2.0 update - remove this code in the future
+// blacklist is depreciated, instead use ignoreList
+chrome.storage.sync.get('blacklist', data => {
+    if (data.blacklist !== undefined) {
+        chrome.storage.sync.set({'ignoreList': data.blacklist})
+        chrome.storage.sync.remove('blacklist')
+    }
+})
