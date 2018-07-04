@@ -172,12 +172,22 @@ class Options extends React.Component {
                         />
                     </Section>
                     <Section
-                        title="Blacklist"
-                        description='comma-separated list of case-insensitive words to ignore during conversion, "e.g. Hello World, New York, John, ..."'
+                        title="Ignore List"
+                        description='comma-separated list of case-insensitive words to *ignore* during conversion, "e.g. Hello World, New York, John, ..."'
                     >
                         <Textarea
-                            value={data['blacklist']}
-                            onChange={this.handleData('blacklist')}
+                            value={data['ignoreList']}
+                            onChange={this.handleData('ignoreList')}
+                        />
+                    </Section>
+                    <Section
+                        title="Correct List"
+                        description='comma-separated list of case-insensitive words to *replace* during conversion, "e.g. 
+                        Hi Mark!, VHS, ..."'
+                    >
+                        <Textarea
+                            value={data['correctList']}
+                            onChange={this.handleData('correctList')}
                         />
                     </Section>
                     <Section
