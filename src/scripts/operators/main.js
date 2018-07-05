@@ -9,16 +9,15 @@ import applyMethod from '../operators/apply-method'
 const outputResult = state => state.result
 
 const operators = method => new Promise(resolve => {
-    chrome.storage.sync.get(null, data => {
-        const applyOperators = compose(
+    chrome.storage.sync.get(null, data => resolve(
+        compose(
             outputResult,
             applyCorrectList(parseCommaList(data.correctList)),
             applyIgnoreList(parseCommaList(data.ignoreList)),
             applyMethod(method),
             createState()
         )
-        return resolve(applyOperators)
-    })
+    ))
 })
 
 export default operators
