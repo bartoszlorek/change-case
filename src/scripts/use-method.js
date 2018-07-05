@@ -1,6 +1,6 @@
-import CASE_METHODS from './cases'
+import CASE_METHODS from './cases/case-methods'
 
-function applyMethod(methodName, operators) {
+function useMethod(methodName, operators) {
     let method = CASE_METHODS[methodName]
 
     if (typeof method !== 'function') {
@@ -12,4 +12,4 @@ function applyMethod(methodName, operators) {
     return Promise.resolve(method)
 }
 
-export default applyMethod
+export default useMethod

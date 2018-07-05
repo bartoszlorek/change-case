@@ -1,35 +1,39 @@
 import findAll from '../../.utils/find-all'
 import explode from '../../.utils/explode'
-import breakPoints from '../break-points'
+import breakPoints from './.internal/break-points'
 
-function applyIgnoreList(method, data) {
-    return value => {
-        let nextValue = method(value)
-        if (!(data && data.length)) {
-            return nextValue
-        }
+function applyIgnoreList(data) {
+    if (data == null || !data.length) {
+        return state => state
+    }
 
-        let currMatch = findAll(value, data, true)
-        if (currMatch.length === 0) {
-            return nextValue
+    return state => {
+        let srcMatches = findAll(state.source, data, true)
+        if (srcMatches.length === 0) {
+            return state
         }
 
         // there might be changes of whitespace
-        let nextMatch = findAll(nextValue, data.map(a => method(a)), true),
-            nextParts = explode(nextValue, breakPoints(nextMatch)),
-            length = nextMatch.length,
+        let resMatches = findAll(state.result,
+            data.map(a => state.method(a)),
+            true
+        )
+
+        let resParts = explode(state.result, breakPoints(resMatches)),
+            length = resMatches.length,
             indexMatch = 0,
             index = 0
 
         while (indexMatch < length) {
-            if (nextParts[index] === nextMatch[indexMatch].match) {
-                nextParts[index] = currMatch[indexMatch].match
+            if (resParts[index] === resMatches[indexMatch].match) {
+                resParts[index] = srcMatches[indexMatch].match
                 indexMatch++
             }
             index++
         }
 
-        return nextParts.join('')
+        state.result = resParts.join('')
+        return state
     }
 }
 

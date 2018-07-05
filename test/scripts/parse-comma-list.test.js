@@ -1,4 +1,4 @@
-import parseCommaList from '../../src/scripts/parse-comma-list'
+import parseCommaList from '../../src/scripts/operators/.internal/parse-comma-list'
 
 it('should return empty array', () => {
     expect(parseCommaList()).toEqual([])

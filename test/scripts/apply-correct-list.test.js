@@ -1,15 +1,30 @@
 import applyCorrectList from '../../src/scripts/operators/apply-correct-list'
+import createState from '../../src/scripts/operators/.internal/create-state'
 
 describe('apply-correct-list.js', () => {
-    it('should return whole string (no additional data)', () => {
-        let correctList = applyCorrectList(null)
-        expect(correctList('lazy brown fox')).toEqual('lazy brown fox')
+    it('should return unchanged string (no additional data)', () => {
+        const state = createState()('lazy brown fox')
+        const data = null
+
+        applyCorrectList(data)(state)
+        expect(state).toEqual({
+            method: null,
+            result: 'lazy brown fox',
+            source: 'lazy brown fox'
+        })
     })
 
     it('should replace words from array', () => {
-        let source = 'The lazy brown fox jumps over the lazy dog.',
-            output = 'The LAZY Brown Fox jumps over the LAZY dog.',
-            correctList = applyCorrectList(null, ['Brown Fox', 'LAZY'])
-        expect(correctList(source)).toEqual(output)
+        const source = 'The lazy brown fox jumps over the lazy dog.'
+        const result = 'The LAZY Brown Fox jumps over the LAZY dog.'
+        const state = createState()(source)
+        const data = ['Brown Fox', 'LAZY']
+
+        applyCorrectList(data)(state)
+        expect(state).toEqual({
+            method: null,
+            source,
+            result
+        })
     })
 })

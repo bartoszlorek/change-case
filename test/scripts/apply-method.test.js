@@ -1,24 +1,23 @@
-import applyMethod from '../../src/scripts/apply-method'
-import cases from '../../src/scripts/cases'
+import useMethod from '../../src/scripts/use-method'
+import cases from '../../src/scripts/cases/case-methods'
 const { upperCase } = cases
 
-describe('apply-method.js', () => {
+describe('use-method.js', () => {
     it('should return rejected promise', () => {
-        expect(applyMethod(10)).rejects.toBeFalsy()
+        expect(useMethod(10)).rejects.toBeFalsy()
     })
 
     it('should return resolves to method', () => {
-        expect(applyMethod('upperCase')).resolves.toBe(upperCase)
+        expect(useMethod('upperCase')).resolves.toBe(upperCase)
     })
 
-    it('should apply filter to the method', () => {
-        const filter = jest.fn(method => value => {
-            return method(value) + '...'
-        })
-        applyMethod('upperCase', filter).then(method => {
+    it('should apply operators to the method', () => {
+        const operators = jest.fn(method => value => method(value) + '...')
+
+        useMethod('upperCase', operators).then(method => {
             const result = method('read more')
             expect(result).toBe('READ MORE...')
         })
-        expect(filter).toHaveBeenCalledTimes(1)
+        expect(operators).toHaveBeenCalledTimes(1)
     })
 })

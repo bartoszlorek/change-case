@@ -5,9 +5,9 @@ import {
 } from './.utils/selection.min'
 
 import message from './.utils/chrome/message'
-import operators from './scripts/operators/index'
+import operators from './scripts/operators/main'
 
-import applyMethod from './scripts/apply-method'
+import useMethod from './scripts/use-method'
 import bindShortcuts from './scripts/bind-shortcuts'
 import dispatchEvent from './scripts/dispatch-event'
 import dispatchError from './scripts/dispatch-error'
@@ -17,11 +17,13 @@ const handleChangeCase = methodName => {
     if (range.collapsed) {
         return
     }
+
     let content = rangeContent(range)
     if (content.length === 0) {
         return dispatchError(range)
     }
-    applyMethod(methodName, operators).then(method => {
+
+    useMethod(methodName, operators).then(method => {
         content.forEach(item => {
             item.selectedText = method(item.selectedText)
             dispatchEvent(item.node)

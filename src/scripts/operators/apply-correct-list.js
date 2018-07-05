@@ -4,15 +4,15 @@ const spliceString = (str, value, start, end) => {
     return str.slice(0, start) + value + str.slice(end)
 }
 
-function applyCorrectList(method, data) {
-    return string => {
-        if (!(data && data.length)) {
-            return string
-        }
+function applyCorrectList(data) {
+    if (data == null || !data.length) {
+        return state => state
+    }
 
-        let matches = findAll(string, data, true)
+    return state => {
+        let matches = findAll(state.result, data, true)
         if (matches.length === 0) {
-            return string
+            return state
         }
 
         let matchesIndex = -1
@@ -21,10 +21,16 @@ function applyCorrectList(method, data) {
         // doesn't handle changes of whitespace
         while (++matchesIndex < matchesLength) {
             let { index, match, value } = matches[matchesIndex]
-            string = spliceString(string, value, index, index + match.length)
+
+            state.result = spliceString(
+                state.result,
+                value,
+                index,
+                index + match.length
+            )
         }
 
-        return string
+        return state
     }
 }
 
