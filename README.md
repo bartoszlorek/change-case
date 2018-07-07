@@ -27,6 +27,9 @@
 
 ## Changelog:
 
+**2.2.0**
+- introduce operators system
+
 **2.1.5**
 - improve conversion between methods
 - allow to disable notifications
