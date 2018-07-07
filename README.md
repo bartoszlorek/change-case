@@ -29,6 +29,7 @@
 
 **2.2.0**
 - introduce operators system
+- correct list
 
 **2.1.5**
 - improve conversion between methods
