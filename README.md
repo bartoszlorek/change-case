@@ -28,8 +28,8 @@
 ## Changelog:
 
 **2.2.0**
-- introduce operators system
-- correct list
+- introduce operators
+- add correct list
 
 **2.1.5**
 - improve conversion between methods
