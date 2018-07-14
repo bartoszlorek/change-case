@@ -1,4 +1,4 @@
-import cases from '../../src/scripts/cases/case-methods'
+import cases from '../../src/scripts/cases/index'
 const {
     upperCase,
     lowerCase,

@@ -1,6 +1,6 @@
 import applyIgnoreList from '../../src/scripts/operators/apply-ignore-list'
 import createState from '../../src/scripts/operators/.internal/create-state'
-import CASE_METHODS from '../../src/scripts/cases/case-methods'
+import CASE_METHODS from '../../src/scripts/cases/index'
 
 const { upperCase, pascalCase, sentenceCase } = CASE_METHODS
 

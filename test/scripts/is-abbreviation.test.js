@@ -1,4 +1,4 @@
-import isAbbreviation from '../../src/scripts/cases/is-abbreviation'
+import isAbbreviation from '../../src/scripts/cases/.internal/is-abbreviation'
 
 it('should handle errors', () => {
     expect(isAbbreviation()).toBe(false)

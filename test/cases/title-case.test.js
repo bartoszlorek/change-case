@@ -1,4 +1,4 @@
-import cases from '../../src/scripts/cases/case-methods'
+import cases from '../../src/scripts/cases/index'
 const {
     upperCase,
     lowerCase,
@@ -17,6 +17,18 @@ const {
     noAccents,
     noCase
 } = cases
+
+describe('usage', () => {
+    it('should handle multiple sentences', () => {
+        const result = titleCase('over the lazy dog. fox jumps away.')
+        expect(result).toEqual('Over the Lazy Dog. Fox Jumps Away.')
+    })
+
+    it('should handle sentence with hyphens', () => {
+        const result = titleCase('this extension is up-to-date right now.')
+        expect(result).toEqual('This Extension Is Up-To-Date Right Now.')
+    })
+})
 
 describe('conversion', () => {
     let sentence = titleCase('fox jumps over the lazy dog')
