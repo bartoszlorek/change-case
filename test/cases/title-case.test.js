@@ -28,6 +28,31 @@ describe('usage', () => {
         const result = titleCase('this extension is up-to-date right now.')
         expect(result).toEqual('This Extension Is Up-To-Date Right Now.')
     })
+
+    it('should handle sentence with lowercases', () => {
+        const result = titleCase('this extension is up_to_date right now.')
+        expect(result).toEqual('This Extension Is Up_To_Date Right Now.')
+    })
+
+    it('should handle sentence with dotted words', () => {
+        const result = titleCase('this extension is up.to.date right now.')
+        expect(result).toEqual('This Extension Is Up.To.Date Right Now.')
+    })
+
+    it('should handle sentence with colons', () => {
+        const result = titleCase('extension: in chrome store')
+        expect(result).toEqual('Extension: In Chrome Store')
+    })
+
+    it('should handle special characters', () => {
+        const result = titleCase('mam ładne śliwki!')
+        expect(result).toEqual('Mam Ładne Śliwki!')
+    })
+
+    it('should handle colons', () => {
+        const result = titleCase('mam ładne śliwki!')
+        expect(result).toEqual('Mam Ładne Śliwki!')
+    })
 })
 
 describe('conversion', () => {

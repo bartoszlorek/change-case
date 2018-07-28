@@ -29,7 +29,7 @@ describe('conversion', () => {
         expect(lowerCase(sentence)).toEqual('fox_jumps_over_the_lazy_dog')
     })
     it('constantCase -> titleCase', () => {
-        expect(titleCase(sentence)).toEqual('Fox Jumps Over the Lazy Dog')
+        expect(titleCase(sentence)).toEqual('Fox_Jumps_Over_The_Lazy_Dog')
     })
     it('constantCase -> sentenceCase', () => {
         expect(sentenceCase(sentence)).toEqual('Fox_jumps_over_the_lazy_dog')
