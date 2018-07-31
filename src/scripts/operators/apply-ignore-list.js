@@ -18,7 +18,6 @@ function applyIgnoreList(data) {
             data.map(a => state.method(a)),
             true
         )
-
         let resParts = explode(state.result, breakPoints(resMatches)),
             length = resMatches.length,
             indexMatch = 0,

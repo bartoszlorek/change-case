@@ -1,8 +1,8 @@
 const events = [
     'change',
     'input'
-].map(event =>
-    new Event(event, {
+].map(
+    event => new Event(event, {
         bubbles: true,
         cancelable: false
     })
