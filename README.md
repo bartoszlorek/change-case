@@ -7,6 +7,7 @@
 ![change-case-screen-1280_800-2](https://user-images.githubusercontent.com/13873576/38525493-d9e4364c-3c52-11e8-8e6e-a92e599c9cc4.png)
 
 ## Available methods:
+
 - UPPERCASE
 - lowercase
 - Title Case
@@ -22,10 +23,14 @@
 - no case
 
 ## Limitations:
+
 - input `type="email"` (doesn't support selection start/end)
 - some unidirectional data flow apps override changes
 
 ## Changelog:
+
+**2.2.1**
+- improve title case: hyphens and unicode characters
 
 **2.2.0**
 - introduce operators
