@@ -12,18 +12,14 @@ import {
 
 const exec = executableTab()
 
-function handleClick(methodName) {
-    return (info, tab) => {
-        if (info.selectionText) {
-            exec(tab)
-                .catch(error => alert(error))
-                .then(id => {
-                    message.toTab(id, {
-                        type: 'CHANGE_CASE',
-                        data: methodName
-                    })
-                })
-        }
+const handleClick = methodName => (info, tab) => {
+    if (info.selectionText) {
+        exec(tab)
+            .catch(error => alert(error))
+            .then(id => message.toTab(id, {
+                type: 'CHANGE_CASE',
+                data: methodName
+            }))
     }
 }
 
