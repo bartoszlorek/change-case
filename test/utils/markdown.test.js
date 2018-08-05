@@ -1,4 +1,4 @@
-import markdown from '../../src/.utils/react/markdown'
+import markdown from '../../src/options/.utils/markdown'
 
 describe('markdown.js', () => {
     it('should return whole string', () => {

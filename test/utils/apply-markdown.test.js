@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import applyMarkdown, { useStyle } from '../../src/.utils/react/apply-markdown'
+import applyMarkdown, { useStyle } from '../../src/options/.utils/apply-markdown'
 
 const renderFragments = frags => {
     return renderer.create(<div>{frags}</div>).toJSON().children
