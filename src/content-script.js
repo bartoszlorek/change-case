@@ -4,40 +4,40 @@ import {
     rangeContent
 } from './.utils/selection.min'
 
-import message from './.utils/chrome/message'
-import operators from './scripts/operators/main'
+import CASE_METHODS from './scripts/cases/index'
 
-import useMethod from './scripts/use-method'
-import bindShortcuts from './scripts/bind-shortcuts'
+import message from './.utils/chrome/message'
+import operators from './scripts/operators/index'
 import dispatchEvent from './scripts/dispatch-event'
 import dispatchError from './scripts/dispatch-error'
 
-const handleChangeCase = methodName => {
-    let range = selectionRange()
-    if (range.collapsed) {
-        return
-    }
+const INJECTED = 'changeCaseInjected'
 
-    let content = rangeContent(range)
-    if (content.length === 0) {
-        return dispatchError(range)
-    }
+if (window[INJECTED] === undefined) {
+    window[INJECTED] = true
 
-    useMethod(methodName, operators).then(method => {
-        content.forEach(item => {
-            item.selectedText = method(item.selectedText)
-            dispatchEvent(item.node)
+    message.on('CHANGE_CASE', ({ name }) => {
+        let method = CASE_METHODS[name]
+        if (method === undefined) {
+            return
+        }
+
+        let range = selectionRange()
+        if (range.collapsed) {
+            return
+        }
+
+        let content = rangeContent(range)
+        if (content.length === 0) {
+            return dispatchError(range)
+        }
+
+        operators(method).then(composed => {
+            content.forEach(item => {
+                item.selectedText = composed(item.selectedText)
+                dispatchEvent(item.node)
+            })
+            setSelection(range)
         })
-        setSelection(range)
     })
 }
-
-const handleShortcuts = () => {
-    chrome.storage.sync.get('shortcuts', data => {
-        bindShortcuts(data.shortcuts, handleChangeCase)
-    })
-}
-
-message.on('CHANGE_CASE', ({ data }) => handleChangeCase(data))
-message.on('BIND_SHORTCUTS', handleShortcuts)
-handleShortcuts()

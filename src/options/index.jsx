@@ -2,41 +2,26 @@ import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 
+import { bind, createMemo } from './.utils/react-utils'
 import message from '../.utils/chrome/message'
-import { bind, createMemo } from '../.utils/react/react-utils'
 import { getStateOnce } from '../.utils/chrome/extension-state'
-import { deepFilter } from '../.utils/deep.min'
+import { deepFilter } from '../.utils/deep'
 
 import { isTruthy } from './types'
 import messages from './messages'
-import confirm from './confirm'
 
-import Section from './components/Section'
+import confirm from './components/dialog/confirm'
+import Section from './components/layout/Section'
+import Sections from './components/layout/Sections'
+import Controls from './components/layout/Controls'
 import Ribbon from './components/Ribbon'
-import Button, { PrimaryButton } from './components/Button'
-import Textarea from './components/Textarea'
-import Checkbox from './components/Checkbox'
+import Button, { PrimaryButton } from './components/forms/Button'
+import Textarea from './components/forms/Textarea'
+import Checkbox from './components/forms/Checkbox'
 import Console, { createLogger } from './components/Console'
-import Shortcuts from './components/Shortcuts'
-import Notifications from './components/Notifications'
+import Notifications from './components/notifications/Notifications'
 
 const LOG_TIMEOUT = 3000
-
-const shortcutsItems = [
-    { name: 'upperCase', label: 'UPPERCASE' },
-    { name: 'lowerCase', label: 'lowercase' },
-    { name: 'titleCase', label: 'Title Case' },
-    { name: 'sentenceCase', label: 'Sentence case' },
-    { name: 'camelCase', label: 'camelCase' },
-    { name: 'pascalCase', label: 'PascalCase' },
-    { name: 'constantCase', label: 'CONSTANT_CASE' },
-    { name: 'paramCase', label: 'param-case' },
-    { name: 'snakeCase', label: 'snake_case' },
-    { name: 'dotCase', label: 'dot.case' },
-    { name: 'toggleCase', label: 'tOGGLE cASE' },
-    { name: 'noAccents', label: 'no accents' },
-    { name: 'noCase', label: 'no case' }
-]
 
 const addValue = (data, value) => {
     if (isPlainObject(value)) {
@@ -44,31 +29,6 @@ const addValue = (data, value) => {
     }
     return value
 }
-
-const Sections = styled.div`
-    position: relative;
-    margin-bottom: 60px;
-`
-
-const Controls = styled.div`
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    padding: 14px 17px;
-    background: #fff;
-    border-top: 1px solid #dddfe2;
-    box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
-
-    & > button {
-        margin: 0 0 0 6px;
-        flex-shrink: 0;
-    }
-`
 
 class Options extends React.Component {
     constructor(props) {
@@ -86,7 +46,8 @@ class Options extends React.Component {
             'handleLogs',
             'handleData',
             'handelSave',
-            'handleReject'
+            'handleReject',
+            'handleShortcuts'
         ])
         getStateOnce(extState => {
             this.setState({
@@ -155,6 +116,12 @@ class Options extends React.Component {
         })
     }
 
+    handleShortcuts() {
+        chrome.tabs.create({
+            url: 'chrome://extensions/shortcuts'
+        })
+    }
+
     render() {
         let { extState, isUpdated, data, logger } = this.state
         return (
@@ -169,6 +136,16 @@ class Options extends React.Component {
                             value={data['updateNotification']}
                             label="Show update notifications"
                             onChange={this.handleData('updateNotification')}
+                        />
+                    </Section>
+                    <Section
+                        title="Keyboard Shortcuts"
+                        description="Since 2.3.0 version, extension supports browser native keyboard shortcuts. Open them and scroll to Change Case card."
+                    >
+                        <PrimaryButton
+                            width="100%"
+                            value="Open Chrome Keyboard Shortcuts"
+                            onClick={this.handleShortcuts}
                         />
                     </Section>
                     <Section
@@ -188,17 +165,6 @@ class Options extends React.Component {
                         <Textarea
                             value={data['correctList']}
                             onChange={this.handleData('correctList')}
-                        />
-                    </Section>
-                    <Section
-                        title="Keyboard Shortcuts"
-                        description="Click below, then hold the chosen combination to assign keys. Tip: do not use shortcuts that collide with browser's defaults."
-                    >
-                        <Shortcuts
-                            items={shortcutsItems}
-                            value={data['shortcuts']}
-                            onChange={this.handleData('shortcuts')}
-                            onLog={this.handleLogs}
                         />
                     </Section>
                 </Sections>
@@ -231,5 +197,10 @@ injectGlobal`
     body {
         margin: 0;
         background: #f6f7f9;
+    }
+
+    ::selection {
+        background: #edd55e;
+        color: #000;
     }
 `
