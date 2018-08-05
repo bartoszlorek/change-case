@@ -1,28 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import applyMarkdown from '../../.utils/react/apply-markdown'
 
-const Link = styled.a`
-    white-space: nowrap;
-
-    &,
-    &:visited,
-    &:focus,
-    &:active,
-    &:hover {
-        color: #fff;
-        text-decoration: underline;
-    }
-    &:active,
-    &:hover {
-        text-decoration: none;
-    }
-`
-
-const mark = applyMarkdown({
-    '[]': Link
-})
+import mark from './mark'
 
 class Notification extends React.PureComponent {
     render() {

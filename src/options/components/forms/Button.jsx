@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { showIn } from '../animation'
+import { showIn } from '../../animation'
 
 class Button extends React.PureComponent {
     render() {
@@ -8,7 +8,7 @@ class Button extends React.PureComponent {
             return null
         }
         return (
-            <button {...this.props}>
+            <button {...this.props} width={null}>
                 {this.props.value}
             </button>
         )
@@ -24,11 +24,12 @@ const styledButton = styled(Button)`
     text-decoration: none;
     user-select: none;
     outline: 0;
-    border: 1px solid #c2c9d6;
+    border: 1px solid #a5adbb;
     background: transparent;
     box-shadow: none;
     border-radius: 2px;
     padding: 0.5em 1em;
+    width: ${props => props.width};
     line-height: 1.4em;
     font-size: 1em;
     transition: all 0.2s ease;

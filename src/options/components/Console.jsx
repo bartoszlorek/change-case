@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import { choose } from '../../.utils/react/react-utils'
+import { choose } from '../.utils/react-utils'
 
 const DEFAULT_TYPE = 'info'
 const ERROR_TYPE = 'error'

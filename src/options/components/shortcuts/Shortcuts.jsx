@@ -1,6 +1,6 @@
 import React from 'react'
 import { findKey } from 'lodash'
-import { bind } from '../../.utils/react/react-utils'
+import { bind } from '../../.utils/react-utils'
 
 import ShortcutsItem from './Shortcuts-Item'
 

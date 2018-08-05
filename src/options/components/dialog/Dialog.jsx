@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { confirmable } from 'react-confirm'
-import { showIn } from '../animation'
+import { showIn } from '../../animation'
 
-import Button, { PrimaryButton } from './Button'
-import Wrap from './Wrap'
+import Button, { PrimaryButton } from '../forms/Button'
+import Wrap from '../layout/Wrap'
 
 const Window = styled.div`
     background: #fff;

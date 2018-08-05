@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import onClickOutside from 'react-onclickoutside'
-import { bind, choose } from '../../.utils/react/react-utils'
+import { bind, choose } from '../../.utils/react-utils'
 import { uniq } from 'lodash'
 
 import Dots from './Shortcuts-Dots'
