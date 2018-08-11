@@ -29,6 +29,9 @@
 
 ## Changelog:
 
+**2.3.0**
+- support native browser keyboard shortcuts
+
 **2.2.1**
 - improve title case: hyphens and unicode characters
 
