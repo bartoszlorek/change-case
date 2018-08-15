@@ -2,9 +2,9 @@
 
 [Chrome extension](https://chrome.google.com/webstore/detail/change-case/lpakoahdokkkonadfppfgmednkknpgbm) providing multiple methods to change text case. Supports simple HTML input text fields, textarea and content editable (WYSIWYG HTML editors like TinyMCE). The most cases are based on [change-case](https://github.com/blakeembrey/change-case) by Blake Embrey.
 
-![change-case-screen-1280_800](https://user-images.githubusercontent.com/13873576/44006008-f5709f86-9e7c-11e8-8e77-3b3eeab0e5a5.png)
+![change-case-screen-1280_800-1](https://user-images.githubusercontent.com/13873576/44155319-3e2743ce-a0ad-11e8-999b-91072e3ee7f3.png)
 
-![change-case-screen-1280_800-2](https://user-images.githubusercontent.com/13873576/44006009-f58cbd56-9e7c-11e8-8f9d-aa6f2e971402.png)
+![change-case-screen-1280_800-2](https://user-images.githubusercontent.com/13873576/44155320-3e44edc0-a0ad-11e8-8d07-27c974059557.png)
 
 ## Available methods:
 
