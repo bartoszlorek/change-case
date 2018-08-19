@@ -50,22 +50,22 @@ const handleClick = name => (info, tab) => {
 
 createMenu(
     [
-        [upperCase.name, upperCase.label],
-        [lowerCase.name, lowerCase.label],
-        [titleCase.name, titleCase.label],
-        [sentenceCase.name, sentenceCase.label],
+        [upperCase.name, upperCase.text],
+        [lowerCase.name, lowerCase.text],
+        [titleCase.name, titleCase.text],
+        [sentenceCase.name, sentenceCase.text],
         null,
-        [camelCase.name, camelCase.label],
-        [pascalCase.name, pascalCase.label],
-        [constantCase.name, constantCase.label],
+        [camelCase.name, camelCase.text],
+        [pascalCase.name, pascalCase.text],
+        [constantCase.name, constantCase.text],
         null,
-        [paramCase.name, paramCase.label],
-        [snakeCase.name, snakeCase.label],
-        [dotCase.name, dotCase.label],
+        [paramCase.name, paramCase.text],
+        [snakeCase.name, snakeCase.text],
+        [dotCase.name, dotCase.text],
         null,
-        [toggleCase.name, toggleCase.label],
-        [noAccents.name, noAccents.label],
-        [noCase.name, noCase.label]
+        [toggleCase.name, toggleCase.text],
+        [noAccents.name, noAccents.text],
+        [noCase.name, noCase.text]
     ],
     item => ({
         title: item[1],
