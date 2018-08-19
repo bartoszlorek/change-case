@@ -1,30 +1,18 @@
 import React from 'react'
 import { findKey } from 'lodash'
-import { bind } from '../../.utils/react-utils'
 
 import ShortcutsItem from './Shortcuts-Item'
 
 class Shortcuts extends React.PureComponent {
-    constructor(props) {
-        super(props)
-        bind(this, [
-            'handelActive',
-            'handleAssign',
-            'isAssigned',
-            'validKeys'
-        ])
-        this.state = {
-            active: null
-        }
+    state = {
+        active: null
     }
 
-    handelActive(itemName) {
-        this.setState(({ active }) => ({
-            active: itemName && itemName !== active ? itemName : null
-        }))
-    }
+    handelActive = itemName => this.setState(({ active }) => ({
+        active: itemName && itemName !== active ? itemName : null
+    }))
 
-    handleAssign(itemName, code) {
+    handleAssign = (itemName, code) => {
         let result = this.validKeys(itemName, code)
         if (result != null) {
             this.props.onChange({
@@ -33,11 +21,9 @@ class Shortcuts extends React.PureComponent {
         }
     }
 
-    isAssigned(code) {
-        return findKey(this.props.value, key => key === code) || false
-    }
+    isAssigned = code => findKey(this.props.value, key => key === code) || false
 
-    validKeys(itemName, code) {
+    validKeys = (itemName, code) => {
         if (code[0] === 'del') {
             return ''
         }

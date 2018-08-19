@@ -1,8 +1,8 @@
 import React from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import { injectGlobal } from 'styled-components'
 import { isPlainObject, isEqual } from 'lodash'
 
-import { bind, createMemo } from './.utils/react-utils'
+import { createMemo } from './.utils/react-utils'
 import message from '../.utils/chrome/message'
 import { getStateOnce } from '../.utils/chrome/extension-state'
 import { deepFilter } from '../.utils/deep'
@@ -42,13 +42,6 @@ class Options extends React.Component {
             data: {},
             logger: null
         }
-        bind(this, [
-            'handleLogs',
-            'handleData',
-            'handelSave',
-            'handleReject',
-            'handleShortcuts'
-        ])
         getStateOnce(extState => {
             this.setState({
                 extState
@@ -66,30 +59,26 @@ class Options extends React.Component {
         })
     }
 
-    handleLogs(text, type) {
-        this.setState({
-            logger: createLogger(text, type)
-        })
-    }
+    handleLogs = (text, type) => this.setState({
+        logger: createLogger(text, type)
+    })
 
-    handleData(name) {
-        return this.memo(name, value => {
-            this.setState(({ savedData, data }) => {
-                let nextData = deepFilter(
-                    Object.assign({}, data, {
-                        [name]: addValue(data[name], value)
-                    }),
-                    isTruthy
-                )
-                return {
-                    isUpdated: isEqual(savedData, nextData),
-                    data: nextData
-                }
-            })
+    handleData = name => this.memo(name, value => {
+        this.setState(({ savedData, data }) => {
+            let nextData = deepFilter(
+                Object.assign({}, data, {
+                    [name]: addValue(data[name], value)
+                }),
+                isTruthy
+            )
+            return {
+                isUpdated: isEqual(savedData, nextData),
+                data: nextData
+            }
         })
-    }
+    })
 
-    handelSave() {
+    handelSave = () => {
         if (this.state.isUpdated) {
             return false
         }
@@ -107,7 +96,7 @@ class Options extends React.Component {
         })
     }
 
-    handleReject() {
+    handleReject = () => {
         confirm('Do you want to discard unsaved changes?').then(() => {
             this.setState(({ savedData }) => ({
                 isUpdated: true,
@@ -116,11 +105,9 @@ class Options extends React.Component {
         })
     }
 
-    handleShortcuts() {
-        chrome.tabs.create({
-            url: 'chrome://extensions/shortcuts'
-        })
-    }
+    handleShortcuts = () => chrome.tabs.create({
+        url: 'chrome://extensions/shortcuts'
+    })
 
     render() {
         let { extState, isUpdated, data, logger } = this.state
@@ -140,7 +127,7 @@ class Options extends React.Component {
                     </Section>
                     <Section
                         title="Keyboard Shortcuts"
-                        description="Since 2.3.0 version, extension supports browser native keyboard shortcuts. Open them and scroll to Change Case card."
+                        description="Since 2.3.0 version, this extension supports browser native keyboard shortcuts. Open them and scroll to Change Case card."
                     >
                         <PrimaryButton
                             width="100%"

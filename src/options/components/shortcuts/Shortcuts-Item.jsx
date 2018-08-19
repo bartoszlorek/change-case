@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import onClickOutside from 'react-onclickoutside'
-import { bind, choose } from '../../.utils/react-utils'
+import { choose } from '../../.utils/react-utils'
 import { uniq } from 'lodash'
 
 import Dots from './Shortcuts-Dots'
@@ -38,14 +38,6 @@ const RemoveBadge = Badge.extend`
 `
 
 class ShortcutsItem extends React.PureComponent {
-    constructor(props) {
-        super(props)
-        bind(this, [
-            'handleClick',
-            'handleRemoveBadge'
-        ])
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.active === false) {
             return
@@ -60,32 +52,26 @@ class ShortcutsItem extends React.PureComponent {
         })
     }
 
-    handleClick() {
+    isItem = event => !this.props.className
+        .indexOf(event.target.classList[0])
+
+    handleClick = () => {
         this.props.onClick(this.props.data.name)
         mousetrap.record(() => false)
     }
 
-    handleClickOutside(e) {
-        if (this.props.active && !this.isItem(e)) {
+    handleClickOutside = event => {
+        if (this.props.active && !this.isItem(event)) {
             this.handleClick()
         }
     }
 
-    handleRemoveBadge(e) {
-        e.stopPropagation()
-        this.props.onAssign(
-            this.props.data.name,
-            ['del']
-        )
+    handleRemoveBadge = event => {
+        event.stopPropagation()
+        this.props.onAssign(this.props.data.name, ['del'])
     }
 
-    isItem(e) {
-        return !this.props.className.indexOf(
-            e.target.classList[0]
-        )
-    }
-
-    displayValue() {
+    displayValue = () => {
         let value = this.props.value
         if (value == null) {
             return ''

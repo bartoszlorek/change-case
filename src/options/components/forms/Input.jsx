@@ -1,13 +1,8 @@
 import React from 'react'
 
 class Input extends React.PureComponent {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleChange(e) {
-        this.props.onChange(e.target.value)
+    handleChange = event => {
+        this.props.onChange(event.target.value)
     }
 
     render() {

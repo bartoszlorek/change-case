@@ -2,13 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 class Textarea extends React.PureComponent {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleChange(e) {
-        this.props.onChange(e.target.value)
+    handleChange = event => {
+        this.props.onChange(event.target.value)
     }
 
     render() {
