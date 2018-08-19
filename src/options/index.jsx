@@ -31,17 +31,18 @@ const addValue = (data, value) => {
 }
 
 class Options extends React.Component {
+    state = {
+        extState: null,
+        isUpdated: true,
+        savedData: {},
+        data: {},
+        logger: null
+    }
+
     constructor(props) {
         super(props)
 
         this.memo = createMemo()
-        this.state = {
-            extState: null,
-            isUpdated: true,
-            savedData: {},
-            data: {},
-            logger: null
-        }
         getStateOnce(extState => {
             this.setState({
                 extState
