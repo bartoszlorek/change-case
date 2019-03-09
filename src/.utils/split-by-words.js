@@ -1,5 +1,5 @@
 /*
-  Match one or more whitespaces or punctuations symbols:
+  Match one or more whitespace characters or punctuations symbols:
 
   General Punctuation          \u2000-\u206F
   Supplemental Punctuation     \u2E00-\u2E4F
