@@ -1,9 +1,9 @@
 {
-    "presets": ["es2015", "react"],
-    "plugins": ["lodash", "transform-class-properties"],
-    "env": {
-        "development": {
-            "plugins": ["babel-plugin-styled-components"]
-        }
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": ["@babel/plugin-proposal-class-properties", "lodash"],
+  "env": {
+    "development": {
+      "plugins": ["babel-plugin-styled-components"]
     }
+  }
 }
