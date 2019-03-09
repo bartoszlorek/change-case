@@ -1,37 +1,35 @@
-import findAll from '../../.utils/find-all'
+import findAllWords from '../../.utils/find-all-words';
 
 const spliceString = (str, value, start, end) => {
-    return str.slice(0, start) + value + str.slice(end)
-}
+  return str.slice(0, start) + value + str.slice(end);
+};
 
 function applyCorrectList(data) {
-    if (data == null || !data.length) {
-        return state => state
+  if (data == null || !data.length) {
+    return state => state;
+  }
+
+  return state => {
+    let matches = findAllWords(state.result, data);
+    if (matches.length === 0) {
+      return state;
     }
 
-    return state => {
-        let matches = findAll(state.result, data, true)
-        if (matches.length === 0) {
-            return state
-        }
+    let matchIndex = -1;
 
-        let matchesIndex = -1
-        const matchesLength = matches.length
+    while (++matchIndex < matches.length) {
+      let { index, match, value } = matches[matchIndex];
 
-        // doesn't handle changes of whitespace
-        while (++matchesIndex < matchesLength) {
-            let { index, match, value } = matches[matchesIndex]
-
-            state.result = spliceString(
-                state.result,
-                value,
-                index,
-                index + match.length
-            )
-        }
-
-        return state
+      state.result = spliceString(
+        state.result,
+        value,
+        index,
+        index + match.length
+      );
     }
+
+    return state;
+  };
 }
 
-export default applyCorrectList
+export default applyCorrectList;
