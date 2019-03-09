@@ -1,8 +1,8 @@
-import upperCase from './upper-case'
-import snakeCase from './snake-case'
+import upperCase from './upper-case';
+import snakeCase from './snake-case';
 
 function constantCase(string) {
-    return upperCase(snakeCase(string))
+  return upperCase(snakeCase(string));
 }
 
-export default constantCase
+export default constantCase;

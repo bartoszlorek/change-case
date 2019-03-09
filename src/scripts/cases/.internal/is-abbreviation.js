@@ -4,16 +4,15 @@
 // - abbrv starts with capital letter
 // - abbrv ends with dot (issue of parsing sentence)
 
-const MAX_LENGTH = 3
-const LAST_WORD = /([^\s]*?)\.+$/m
+const MAX_LENGTH = 3;
+const LAST_WORD = /([^\s]*?)\.+$/m;
 
 function isAbbreviation(value) {
-    if (!value || value[value.length - 1] !== '.') {
-        return false
-    }
-    let last = value.match(LAST_WORD)[1]
-    return last.length <= MAX_LENGTH
-        || last[0] === last[0].toUpperCase()
+  if (!value || value[value.length - 1] !== '.') {
+    return false;
+  }
+  let last = value.match(LAST_WORD)[1];
+  return last.length <= MAX_LENGTH || last[0] === last[0].toUpperCase();
 }
 
-export default isAbbreviation
+export default isAbbreviation;

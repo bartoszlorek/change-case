@@ -2,7 +2,7 @@ import applyIgnoreList from '../../src/scripts/operators/apply-ignore-list';
 import createState from '../../src/scripts/operators/.internal/create-state';
 import CASE_METHODS from '../../src/scripts/cases/index';
 
-const { upperCase } = CASE_METHODS;
+const {upperCase} = CASE_METHODS;
 
 describe('apply-ignore-list.js', () => {
   it('should return unchanged string (no additional data)', () => {

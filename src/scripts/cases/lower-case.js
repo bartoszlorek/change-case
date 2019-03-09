@@ -1,5 +1,5 @@
 function lowerCase(string) {
-    return string.toLowerCase()
+  return string.toLowerCase();
 }
 
-export default lowerCase
+export default lowerCase;

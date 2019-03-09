@@ -80,7 +80,7 @@ describe('find-all-words.js', () => {
     ${'hello -My-world'}       | ${'My'} | ${'my'} | ${7}
     ${'Hello „My World”'}      | ${'My'} | ${'my'} | ${7}
     ${'Hello__My world”'}      | ${'My'} | ${'my'} | ${7}
-  `('should match /$match/ in /$source/', ({ source, match, value, index }) =>
+  `('should match /$match/ in /$source/', ({source, match, value, index}) =>
     expect(findAllWords(source, value)).toEqual([
       {
         match,

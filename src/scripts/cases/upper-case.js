@@ -1,5 +1,5 @@
 function upperCase(string) {
-    return string.toUpperCase()
+  return string.toUpperCase();
 }
 
-export default upperCase
+export default upperCase;

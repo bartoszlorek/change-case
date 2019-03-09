@@ -12,14 +12,7 @@ function applyCorrectList(data) {
   return state => {
     const matches = findAllWords(state.result, data);
 
-    if (!matches.length) {
-      return state;
-    }
-
-    let matchIndex = -1;
-    while (++matchIndex < matches.length) {
-      const { index, match, value } = matches[matchIndex];
-
+    for (const {index, match, value} of matches) {
       state.result = spliceString(
         state.result,
         value,
