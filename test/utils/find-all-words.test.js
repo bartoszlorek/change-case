@@ -53,7 +53,7 @@ describe('find-all-words.js', () => {
   it('should match all occurrences by array', () => {
     const source = 'The lazy brown fox jumps over the LAZY dog';
 
-    expect(findAllWords(source, ['lazy', 'FOX'], true)).toEqual([
+    expect(findAllWords(source, ['lazy', 'FOX'])).toEqual([
       {
         match: 'lazy',
         value: 'lazy',
@@ -71,4 +71,22 @@ describe('find-all-words.js', () => {
       }
     ]);
   });
+
+  it.each`
+    source                     | match   | value   | index
+    ${'hello ,,,,My    world'} | ${'My'} | ${'my'} | ${10}
+    ${'hello "My" world'}      | ${'My'} | ${'my'} | ${7}
+    ${'hello «My» world'}      | ${'My'} | ${'my'} | ${7}
+    ${'hello -My-world'}       | ${'My'} | ${'my'} | ${7}
+    ${'Hello „My World”'}      | ${'My'} | ${'my'} | ${7}
+    ${'Hello__My world”'}      | ${'My'} | ${'my'} | ${7}
+  `('should match /$match/ in /$source/', ({ source, match, value, index }) =>
+    expect(findAllWords(source, value)).toEqual([
+      {
+        match,
+        value,
+        index
+      }
+    ])
+  );
 });

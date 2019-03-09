@@ -1,6 +1,5 @@
 import isEqualWord from './is-equal-word';
-
-const splitByWords = str => str.split(/(\s+)/);
+import splitByWords from './split-by-words';
 
 const arrayIndexToCharIndex = (arrayIndex, array) => {
   return array.slice(0, arrayIndex).join('').length;
