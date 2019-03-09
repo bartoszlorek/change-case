@@ -10,15 +10,15 @@ function applyCorrectList(data) {
   }
 
   return state => {
-    let matches = findAllWords(state.result, data);
-    if (matches.length === 0) {
+    const matches = findAllWords(state.result, data);
+
+    if (!matches.length) {
       return state;
     }
 
     let matchIndex = -1;
-
     while (++matchIndex < matches.length) {
-      let { index, match, value } = matches[matchIndex];
+      const { index, match, value } = matches[matchIndex];
 
       state.result = spliceString(
         state.result,
