@@ -1,6 +1,6 @@
-import { createConfirmation } from 'react-confirm'
-import Dialog from './Dialog'
+import {createConfirmation} from 'react-confirm';
+import Dialog from './Dialog';
 
-const confirm = createConfirmation(Dialog, 0)
+const confirm = createConfirmation(Dialog, 0);
 
-export default message => confirm({ message })
+export default message => confirm({message});

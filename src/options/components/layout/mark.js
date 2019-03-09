@@ -1,19 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import applyMarkdown from '../../.utils/apply-markdown'
+import React from 'react';
+import styled from 'styled-components';
+import applyMarkdown from '../../.utils/apply-markdown';
 
 const Important = styled.span`
-    color: #f1002b;
-    font-weight: bold;
-`
+  color: #f1002b;
+  font-weight: bold;
+`;
 
 const Quote = styled.span`
-    font-style: italic;
-`
+  font-style: italic;
+`;
 
 const mark = applyMarkdown({
-    '*': Important,
-    '"': Quote
-})
+  '*': Important,
+  '"': Quote
+});
 
-export default mark
+export default mark;

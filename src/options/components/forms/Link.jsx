@@ -1,20 +1,20 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Link = styled.a`
-    white-space: nowrap;
+  white-space: nowrap;
 
-    &,
-    &:visited,
-    &:focus,
-    &:active,
-    &:hover {
-        color: ${props => props.light ? '#fff' : '#000'};
-        text-decoration: underline;
-    }
-    &:active,
-    &:hover {
-        text-decoration: none;
-    }
-`
+  &,
+  &:visited,
+  &:focus,
+  &:active,
+  &:hover {
+    color: ${props => (props.light ? '#fff' : '#000')};
+    text-decoration: underline;
+  }
+  &:active,
+  &:hover {
+    text-decoration: none;
+  }
+`;
 
-export default Link
+export default Link;

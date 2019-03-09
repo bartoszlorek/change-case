@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components'
+import {keyframes} from 'styled-components';
 
 export const showIn = keyframes`
     from {
@@ -7,4 +7,4 @@ export const showIn = keyframes`
     to {
         opacity: 1;
     }
-`
+`;

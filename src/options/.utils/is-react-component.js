@@ -1,24 +1,19 @@
 function isClassComponent(value) {
-    return typeof value === 'function' &&
-        !!value.prototype.isReactComponent
+  return typeof value === 'function' && !!value.prototype.isReactComponent;
 }
 
 function isFunctionComponent(value) {
-    return (
-        typeof value === 'function' &&
-        value.name[0] === value.name[0].toUpperCase() &&
-        String(value).includes('.createElement(')
-    )
+  return (
+    typeof value === 'function' &&
+    value.name[0] === value.name[0].toUpperCase() &&
+    String(value).includes('.createElement(')
+  );
 }
 
 function isReactComponent(value) {
-    return isClassComponent(value) ||
-        isFunctionComponent(value)
+  return isClassComponent(value) || isFunctionComponent(value);
 }
 
-export default isReactComponent
+export default isReactComponent;
 
-export {
-    isClassComponent,
-    isFunctionComponent
-}
+export {isClassComponent, isFunctionComponent};

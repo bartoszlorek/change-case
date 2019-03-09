@@ -1,13 +1,13 @@
 import React from 'react';
-import { createGlobalStyle } from 'styled-components';
-import { isPlainObject, isEqual } from 'lodash';
+import {createGlobalStyle} from 'styled-components';
+import {isPlainObject, isEqual} from 'lodash';
 
-import { createMemo } from './.utils/react-utils';
+import {createMemo} from './.utils/react-utils';
 import message from '../.utils/chrome/message';
-import { getStateOnce } from '../.utils/chrome/extension-state';
-import { deepFilter } from '../.utils/deep';
+import {getStateOnce} from '../.utils/chrome/extension-state';
+import {deepFilter} from '../.utils/deep';
 
-import { isTruthy } from './types';
+import {isTruthy} from './types';
 import messages from './messages';
 
 import confirm from './components/dialog/confirm';
@@ -15,10 +15,10 @@ import Section from './components/layout/Section';
 import Sections from './components/layout/Sections';
 import Controls from './components/layout/Controls';
 import Ribbon from './components/Ribbon';
-import Button, { PrimaryButton } from './components/forms/Button';
+import Button, {PrimaryButton} from './components/forms/Button';
 import Textarea from './components/forms/Textarea';
 import Checkbox from './components/forms/Checkbox';
-import Console, { createLogger } from './components/Console';
+import Console, {createLogger} from './components/Console';
 import Notifications from './components/notifications/Notifications';
 
 const LOG_TIMEOUT = 3000;
@@ -67,7 +67,7 @@ class Options extends React.Component {
 
   handleData = name =>
     this.memo(name, value => {
-      this.setState(({ savedData, data }) => {
+      this.setState(({savedData, data}) => {
         let nextData = deepFilter(
           Object.assign({}, data, {
             [name]: addValue(data[name], value)
@@ -85,7 +85,7 @@ class Options extends React.Component {
     if (this.state.isUpdated) {
       return false;
     }
-    let { sync } = chrome.storage;
+    let {sync} = chrome.storage;
     sync.clear();
     sync.set(this.state.data, () => {
       this.handleLogs('options saved');
@@ -101,7 +101,7 @@ class Options extends React.Component {
 
   handleReject = () => {
     confirm('Do you want to discard unsaved changes?').then(() => {
-      this.setState(({ savedData }) => ({
+      this.setState(({savedData}) => ({
         isUpdated: true,
         data: savedData
       }));
@@ -114,7 +114,7 @@ class Options extends React.Component {
     });
 
   render() {
-    let { extState, isUpdated, data, logger } = this.state;
+    let {extState, isUpdated, data, logger} = this.state;
 
     return (
       <div className={this.props.className}>

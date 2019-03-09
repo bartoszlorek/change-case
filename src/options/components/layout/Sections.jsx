@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Sections = styled.div`
-    position: relative;
-    margin-bottom: 60px;
-`
+  position: relative;
+  margin-bottom: 60px;
+`;
 
-export default Sections
+export default Sections;
