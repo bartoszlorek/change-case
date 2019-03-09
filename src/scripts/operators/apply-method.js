@@ -1,9 +1,9 @@
 function applyMethod(method) {
-  return state => {
-    state.result = method(state.source);
-    state.method = method;
-    return state;
-  };
+  return state => ({
+    ...state,
+    result: method(state.source),
+    method
+  });
 }
 
 export default applyMethod;

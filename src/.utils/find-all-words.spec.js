@@ -1,6 +1,6 @@
-import findAllWords from '../../src/.utils/find-all-words';
+import findAllWords from './find-all-words';
 
-describe('find-all-words.js', () => {
+describe('findAllWords()', () => {
   it('should return empty array', () => {
     const source = 'hello world';
 

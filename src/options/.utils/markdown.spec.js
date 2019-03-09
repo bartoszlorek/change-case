@@ -1,6 +1,6 @@
-import markdown from '../../src/options/.utils/markdown';
+import markdown from './markdown';
 
-describe('markdown.js', () => {
+describe('markdown()', () => {
   it('should return whole string', () => {
     const sentence = 'press "Delete"';
     const failed = [

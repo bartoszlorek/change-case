@@ -1,8 +1,5 @@
 import findAllWords from '../../.utils/find-all-words';
-
-const spliceString = (str, value, start, end) => {
-  return str.slice(0, start) + value + str.slice(end);
-};
+import spliceString from '../../.utils/splice-string';
 
 function applyCorrectList(data) {
   if (data == null || !data.length) {
@@ -12,16 +9,12 @@ function applyCorrectList(data) {
   return state => {
     const matches = findAllWords(state.result, data);
 
-    for (const {index, match, value} of matches) {
-      state.result = spliceString(
-        state.result,
-        value,
-        index,
-        index + match.length
-      );
-    }
-
-    return state;
+    return {
+      ...state,
+      result: matches.reduce((result, {index, match, value}) => {
+        return spliceString(result, value, index, index + match.length);
+      }, state.result)
+    };
   };
 }
 

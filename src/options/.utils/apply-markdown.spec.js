@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import applyMarkdown, {useStyle} from '../../src/options/.utils/apply-markdown';
+import applyMarkdown, {useStyle} from './apply-markdown';
 
 const renderFragments = frags => {
   return renderer.create(<div>{frags}</div>).toJSON().children;
@@ -17,7 +17,7 @@ const coolResult = [
   }
 ];
 
-describe('apply-markdown.js', () => {
+describe('applyMarkdown()', () => {
   it('should return fn that returns whole string', () => {
     expect(applyMarkdown()('dog')).toBe('dog');
     expect(applyMarkdown(null)('cat')).toBe('cat');
