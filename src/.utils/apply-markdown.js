@@ -1,16 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import markdown from './markdown';
-import isReactComponent from './is-react-component';
 
-const validComponent = a => a !== null;
 const PROP_TAG = '()';
 const PROP_ATTR = 'href';
 
 function baseComponent(proto, frag, key) {
   const {text, prop} = frag;
+
   if (proto === undefined) {
     return text;
   }
+
   const props = {key};
   if (prop !== null) {
     props[PROP_ATTR] = prop;
@@ -18,27 +18,24 @@ function baseComponent(proto, frag, key) {
 
   if (typeof proto === 'string') {
     props.className = proto;
-    return React.createElement('span', props, text);
+    return <span {...props}>{text}</span>;
   }
-  if (isReactComponent(proto)) {
-    return React.createElement(proto, props, text);
-  }
-  if (React.isValidElement(proto)) {
-    return React.cloneElement(proto, props, text);
-  }
-  return null;
+
+  const Component = proto;
+  return <Component {...props}>{text}</Component>;
 }
 
 function applyMarkdown(spec) {
   if (spec == null) {
     return string => string;
   }
+
   const marks = Object.keys(spec);
   return string => {
     if (string != null) {
-      return markdown(string, marks, PROP_TAG)
-        .map((frag, key) => baseComponent(spec[frag.mark], frag, key))
-        .filter(validComponent);
+      return markdown(string, marks, PROP_TAG).map((frag, key) =>
+        baseComponent(spec[frag.mark], frag, key)
+      );
     }
     return null;
   };
@@ -51,7 +48,8 @@ function useStyle(style, spec) {
   if (style == null) {
     return spec;
   }
-  let result = {};
+
+  const result = {};
   Object.keys(spec).forEach(prop => {
     let styleProp = style[spec[prop]];
     if (styleProp !== undefined) {

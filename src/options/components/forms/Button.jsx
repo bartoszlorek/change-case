@@ -1,19 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import {showIn} from '../../animation';
 
-class Button extends React.PureComponent {
-  render() {
-    if (this.props.hidden === true) {
-      return null;
-    }
-    return (
-      <button {...this.props} width={null}>
-        {this.props.value}
-      </button>
-    );
+const Button = props => {
+  const {hidden, value} = props;
+
+  if (hidden) {
+    return null;
   }
-}
+  return (
+    <button {...props} wide={null}>
+      {value}
+    </button>
+  );
+};
 
 const styledButton = styled(Button)`
   display: inline-block;
@@ -29,7 +29,7 @@ const styledButton = styled(Button)`
   box-shadow: none;
   border-radius: 2px;
   padding: 0.5em 1em;
-  width: ${props => props.width};
+  width: ${props => (props.wide ? '100%' : 'auto')};
   line-height: 1.4em;
   font-size: 1em;
   transition: all 0.2s ease;
@@ -57,17 +57,17 @@ const styledButton = styled(Button)`
   }
 `;
 
-export const PrimaryButton = styledButton.extend`
-    background: #009ff1;
-    border-color: transparent;
-    color: #fff;
+export const PrimaryButton = styled(styledButton)`
+  background: #009ff1;
+  border-color: transparent;
+  color: #fff;
 
-    &:hover {
-        background: #008fe6;
-    }
-    &:focus {
-        border-color: #007ebd;
-    }
+  &:hover {
+    background: #008fe6;
+  }
+  &:focus {
+    border-color: #007ebd;
+  }
 `;
 
 export default styledButton;

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import {confirmable} from 'react-confirm';
 import {showIn} from '../../animation';
@@ -13,28 +13,23 @@ const Window = styled.div`
   width: 60%;
 `;
 
-const WrapButtons = Wrap.extend`
+const WrapButtons = styled(Wrap)`
   background: #f6f7f9;
   display: flex;
   justify-content: space-between;
 `;
 
-class Dialog extends React.PureComponent {
-  render() {
-    let {className, proceed, dismiss, message} = this.props;
-    return (
-      <div className={className}>
-        <Window>
-          <Wrap>{message}</Wrap>
-          <WrapButtons>
-            <Button value="No" onClick={dismiss} />
-            <PrimaryButton value="Yes" onClick={proceed} />
-          </WrapButtons>
-        </Window>
-      </div>
-    );
-  }
-}
+const Dialog = ({className, message, proceed, dismiss}) => (
+  <div className={className}>
+    <Window>
+      <Wrap>{message}</Wrap>
+      <WrapButtons>
+        <Button value="No" onClick={dismiss} />
+        <PrimaryButton value="Yes" onClick={proceed} />
+      </WrapButtons>
+    </Window>
+  </div>
+);
 
 export default styled(confirmable(Dialog))`
   position: fixed;

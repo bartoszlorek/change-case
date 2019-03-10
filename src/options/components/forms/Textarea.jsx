@@ -7,11 +7,13 @@ class Textarea extends React.PureComponent {
   };
 
   render() {
+    const {value, rows} = this.props;
+
     return (
       <textarea
         {...this.props}
-        value={this.props.value || ''}
-        rows={this.props.rows || '5'}
+        value={value || ''}
+        rows={rows || '5'}
         onChange={this.handleChange}
       />
     );

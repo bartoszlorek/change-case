@@ -1,40 +1,51 @@
 import getStorageData from './get-storage-data';
 
-export const INSTALL_STATE = 'install';
-export const UPDATE_STATE = 'update';
-export const NORMAL_STATE = 'normal';
+const EXTENSION_STATE_PORT = 'EXTENSION_STATE_PORT';
 
-const GET_STATE_ONCE = 'GET_STATE_ONCE';
+export const STATE = {
+  INSTALL: 'install',
+  UPDATE: 'update',
+  NORMAL: 'normal'
+};
 
-function listenStates(options = {}) {
-  let state = NORMAL_STATE;
+const createState = (states, defaultState = null) => {
+  let state = defaultState;
 
+  return {
+    get: () => state,
+    set: newState => {
+      if (Object.values(states).includes(newState)) {
+        state = newState;
+      }
+    }
+  };
+};
+
+export const initializeState = (reducers = {}) => {
+  const state = createState(STATE, STATE.NORMAL);
+
+  // set state according to runtime and open options
   chrome.runtime.onInstalled.addListener(({reason}) => {
-    getStorageData(options).then(storage => {
-      if (storage[reason]) {
-        state = reason;
+    getStorageData(reducers).then(data => {
+      if (data[reason] === true) {
         chrome.runtime.openOptionsPage();
+        state.set(reason);
       }
     });
   });
 
-  chrome.runtime.onMessage.addListener((request, sender, response) => {
-    if (request.type === GET_STATE_ONCE) {
-      response(state);
-      state = NORMAL_STATE;
+  // set state to normal after closing options
+  chrome.runtime.onConnect.addListener(port => {
+    if (port.name === EXTENSION_STATE_PORT) {
+      port.postMessage({state: state.get()});
+      port.onDisconnect.addListener(() => {
+        state.set(STATE.NORMAL);
+      });
     }
   });
-}
+};
 
-// at this moment only once, because in persistent
-// world something must change state back to normal
-function getStateOnce(callback) {
-  chrome.runtime.sendMessage(
-    {
-      type: GET_STATE_ONCE
-    },
-    callback
-  );
-}
-
-export {listenStates, getStateOnce};
+export const connectToState = callback => {
+  const port = chrome.runtime.connect({name: EXTENSION_STATE_PORT});
+  port.onMessage.addListener(data => callback(data.state));
+};

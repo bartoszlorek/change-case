@@ -16,14 +16,14 @@ const Block = styled.div`
   box-sizing: border-box;
 `;
 
-const AddBadge = Badge.extend`
+const AddBadge = styled(Badge)`
   & span {
     font-weight: normal;
     color: #666;
   }
 `;
 
-const RemoveBadge = Badge.extend`
+const RemoveBadge = styled(Badge)`
   & span {
     font-weight: normal;
     color: #f1002b;

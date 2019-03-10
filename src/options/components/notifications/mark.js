@@ -1,11 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import * as React from 'react';
 import applyMarkdown from 'Utils/apply-markdown';
 
 import Link from '../forms/Link';
 
 const mark = applyMarkdown({
-  '[]': <Link light />
+  '[]': props => <Link {...props} light />
 });
 
 export default mark;

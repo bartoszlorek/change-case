@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 import mark from './mark';
 
-class Notification extends React.PureComponent {
-  render() {
-    return <div className={this.props.className}>{mark(this.props.value)}</div>;
-  }
-}
+const Notification = ({className, value}) => (
+  <div className={className}>{mark(value)}</div>
+);
 
 Notification.propTypes = {
   value: PropTypes.string

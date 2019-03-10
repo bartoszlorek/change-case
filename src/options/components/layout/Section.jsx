@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import mark from './mark';
@@ -9,21 +9,21 @@ const Description = styled.p`
   line-height: 1.5em;
 `;
 
-class Section extends React.PureComponent {
-  render() {
-    let {title, description, children} = this.props;
-    return (
-      <Wrap>
-        {(title || description) && (
-          <Description>
-            {title && <b>{title}: </b>}
-            {mark(description)}
-          </Description>
-        )}
-        {children}
-      </Wrap>
-    );
-  }
-}
+const Section = ({title, description, children}) => {
+  const showDescription = !!(title || description);
+
+  return (
+    <Wrap>
+      {showDescription && (
+        <Description>
+          {title && <b>{title}: </b>}
+          {mark(description)}
+        </Description>
+      )}
+
+      {children}
+    </Wrap>
+  );
+};
 
 export default Section;

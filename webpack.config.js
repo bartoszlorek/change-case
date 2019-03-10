@@ -1,6 +1,7 @@
 var path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: {
     background: './src/background.js',
     'content-script': './src/content-script.js',

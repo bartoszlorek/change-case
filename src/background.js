@@ -3,11 +3,7 @@ import executableTab from 'Utils/chrome/executable-tab';
 import getCurrentTab from 'Utils/chrome/get-current-tab';
 import createMenu from 'Utils/chrome/create-menu';
 import setDefaults from 'Utils/chrome/set-defaults';
-import {
-  listenStates,
-  INSTALL_STATE,
-  UPDATE_STATE
-} from 'Utils/chrome/extension-state';
+import {STATE, initializeState} from 'Utils/chrome/extension-state';
 
 import {
   methodNames,
@@ -32,18 +28,13 @@ const handleMethod = (tab, name) =>
   exec(tab)
     .catch(error => alert(error))
     .then(id => {
-      chrome.tabs.executeScript(
-        id,
-        {
-          file: 'content-script.js'
-        },
-        () => {
-          message.toTab(id, {
-            type: 'CHANGE_CASE',
-            name
-          });
-        }
-      );
+      const options = {file: 'content-script.js'};
+      chrome.tabs.executeScript(id, options, () => {
+        message.toTab(id, {
+          type: 'CHANGE_CASE',
+          name
+        });
+      });
     });
 
 const handleClick = name => (info, tab) => {
@@ -84,9 +75,9 @@ setDefaults({
   updateNotification: true
 });
 
-listenStates({
-  [INSTALL_STATE]: () => true,
-  [UPDATE_STATE]: data => data.updateNotification
+initializeState({
+  [STATE.INSTALL]: () => true,
+  [STATE.UPDATE]: data => data.updateNotification
 });
 
 chrome.commands.onCommand.addListener(command => {
