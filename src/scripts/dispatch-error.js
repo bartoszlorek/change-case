@@ -5,24 +5,22 @@ const include = ['id', 'class', 'name', 'type'];
 const message =
   'An error occurred. Publish the following informations on the extension page.';
 
-function commonAncestor(range) {
-  let element = range.commonAncestorContainer;
+const commonAncestor = range => {
+  const element = range.commonAncestorContainer;
   return isTextNode(element) ? element.parentElement : element;
-}
+};
 
-function getAttributes(element) {
-  if (element == null) {
-    return [];
-  }
-  return [].slice.call(element.attributes);
-}
+const getAttributes = element => {
+  return element != null ? [].slice.call(element.attributes) : [];
+};
 
 function dispatchError(range) {
-  let element = commonAncestor(range),
-    props = '';
+  const element = commonAncestor(range);
+  let props = '';
 
   if (element != null) {
     let tagName = element.tagName.toLowerCase();
+
     props = getAttributes(element)
       .filter(attr => include.indexOf(attr.name) > -1)
       .map(attr => `${attr.name}="${attr.value}"`)

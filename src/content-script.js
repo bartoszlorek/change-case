@@ -12,17 +12,17 @@ if (window[INJECTED] === undefined) {
   window[INJECTED] = true;
 
   message.on('CHANGE_CASE', ({name}) => {
-    let method = CASE_METHODS[name];
+    const method = CASE_METHODS[name];
     if (method === undefined) {
       return;
     }
 
-    let range = selectionRange();
+    const range = selectionRange();
     if (range.collapsed) {
       return;
     }
 
-    let content = rangeContent(range);
+    const content = rangeContent(range);
     if (content.length === 0) {
       return dispatchError(range);
     }
