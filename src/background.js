@@ -1,14 +1,13 @@
-import message from './.utils/chrome/message';
-import executableTab from './.utils/chrome/executable-tab';
-import getCurrentTab from './.utils/chrome/get-current-tab';
-import createMenu from './.utils/chrome/create-menu';
-import setDefaults from './.utils/chrome/set-defaults';
-
+import message from 'Utils/chrome/message';
+import executableTab from 'Utils/chrome/executable-tab';
+import getCurrentTab from 'Utils/chrome/get-current-tab';
+import createMenu from 'Utils/chrome/create-menu';
+import setDefaults from 'Utils/chrome/set-defaults';
 import {
   listenStates,
   INSTALL_STATE,
   UPDATE_STATE
-} from './.utils/chrome/extension-state';
+} from 'Utils/chrome/extension-state';
 
 import {
   methodNames,

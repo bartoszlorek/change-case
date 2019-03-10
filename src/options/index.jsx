@@ -2,10 +2,10 @@ import React from 'react';
 import {createGlobalStyle} from 'styled-components';
 import {isPlainObject, isEqual} from 'lodash';
 
-import {createMemo} from './.utils/react-utils';
-import message from '../.utils/chrome/message';
-import {getStateOnce} from '../.utils/chrome/extension-state';
-import {deepFilter} from '../.utils/deep';
+import {createMemo} from 'Utils/react-utils';
+import message from 'Utils/chrome/message';
+import {getStateOnce} from 'Utils/chrome/extension-state';
+import {deepFilter} from 'Utils/deep';
 
 import {isTruthy} from './types';
 import messages from './messages';

@@ -2,7 +2,7 @@ import {
   INSTALL_STATE,
   UPDATE_STATE,
   NORMAL_STATE
-} from '../.utils/chrome/extension-state';
+} from 'Utils/chrome/extension-state';
 
 const messages = [
   /*{

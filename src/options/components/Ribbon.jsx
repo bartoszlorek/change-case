@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components';
-import {choose} from '../.utils/react-utils';
+import {choose} from 'Utils/react-utils';
 
 const Ribbon = styled.div`
   position: fixed;

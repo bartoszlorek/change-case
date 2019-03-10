@@ -16,7 +16,10 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      Utils: path.resolve(__dirname, 'src/.utils/')
+    }
   },
   module: {
     rules: [

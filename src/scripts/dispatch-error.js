@@ -1,4 +1,4 @@
-import isTextNode from '../.utils/is-text-node';
+import isTextNode from 'Utils/is-text-node';
 
 const validUrl = url => url.split('?')[0];
 const include = ['id', 'class', 'name', 'type'];

@@ -1,5 +1,5 @@
-import findAllWords from '../../.utils/find-all-words';
-import spliceString from '../../.utils/splice-string';
+import findAllWords from 'Utils/find-all-words';
+import spliceString from 'Utils/splice-string';
 
 function applyIgnoreList(data) {
   if (data == null || !data.length) {
