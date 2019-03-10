@@ -7,6 +7,7 @@ function camelCase(string, mergeNumbers) {
   if (!mergeNumbers) {
     string = string.replace(/ (?=\d)/g, '_');
   }
+
   return string.replace(/ (.)/g, function(m, $1) {
     return upperCase($1);
   });
