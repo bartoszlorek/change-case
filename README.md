@@ -29,49 +29,65 @@
 
 ## Changelog:
 
+**2.4.0**
+
+- improve filters
+
 **2.3.0**
+
 - support native browser keyboard shortcuts
 
 **2.2.1**
+
 - improve title case: hyphens and unicode characters
 
 **2.2.0**
+
 - introduce operators
 - add correct list
 
 **2.1.5**
+
 - improve conversion between methods
 - allow to disable notifications
 - fix default values overwriting
 - fix ui problems
 
 **2.1.4**
+
 - sentence case handles multiple sentences and common abbreviations
 
 **2.1.3**
+
 - fix initialization problems
 
 **2.1.2**
+
 - preserve selection
 
 **2.1.1**
+
 - update notification
 
 **2.1.0**
+
 - buttons for managing shortcuts
 - proper English title case
 - fix initialization problems
 - minor optimization changes
 
 **2.0.1**
+
 - add 'no accents' case
 
 **2.0.0**
+
 - options page
 - blacklist words/phrases
 - keyboard shortcuts
 - major core changes
 
 **1.0.0**
+
 - basic methods
 - context menu
