@@ -28,17 +28,20 @@ const useForm = ({onSave}) => {
     });
   }, []);
 
-  const getFieldProps = useCallback(name => ({
-    value: data[name],
-    onChange: value => {
-      const nextData = deepFilter(
-        {...data, [name]: addValue(data[name], value)},
-        isTruthy
-      );
-      setIsUpdated(isEqual(savedData, nextData));
-      setData(nextData);
-    }
-  }), [data]);
+  const getFieldProps = useCallback(
+    name => ({
+      value: data[name],
+      onChange: value => {
+        const nextData = deepFilter(
+          {...data, [name]: addValue(data[name], value)},
+          isTruthy
+        );
+        setIsUpdated(isEqual(savedData, nextData));
+        setData(nextData);
+      }
+    }),
+    [savedData, data]
+  );
 
   const saveForm = useCallback(() => {
     if (isUpdated) {

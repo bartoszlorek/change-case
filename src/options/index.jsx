@@ -22,20 +22,11 @@ const openShortcutsPage = () =>
 
 const Options = ({className}) => {
   const {extState} = useExtension();
-
-  const {
-    logger,
-    logInfo
-  } = useLogger({
+  const {logger, logInfo} = useLogger({
     timeout: 3000
   });
 
-  const {
-    isUpdated,
-    getFieldProps,
-    saveForm,
-    rejectForm
-  } = useForm({
+  const {isUpdated, getFieldProps, saveForm, rejectForm} = useForm({
     onSave: () => logInfo('options saved')
   });
 
@@ -75,16 +66,8 @@ const Options = ({className}) => {
       </Sections>
       <Controls>
         <Console logger={logger} />
-        <Button
-          value="Reject"
-          hidden={isUpdated}
-          onClick={rejectForm}
-        />
-        <PrimaryButton
-          value="Save"
-          disabled={isUpdated}
-          onClick={saveForm}
-        />
+        <Button value="Reject" hidden={isUpdated} onClick={rejectForm} />
+        <PrimaryButton value="Save" disabled={isUpdated} onClick={saveForm} />
       </Controls>
       <Ribbon active={!isUpdated} />
     </div>
