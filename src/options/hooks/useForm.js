@@ -1,12 +1,13 @@
 import {useState, useCallback, useEffect} from 'react';
 import {isPlainObject, isEqual} from 'lodash';
 import {deepFilter} from 'Utils/deep';
-import {isTruthy} from '../types';
 
 import confirm from '../components/dialog/confirm';
 
 const {sync} = chrome.storage;
 const confirmText = 'Do you want to discard unsaved changes?';
+
+const isTruthy = value => !(value == null || value === '');
 
 const addValue = (data, value) => {
   if (isPlainObject(value)) {
