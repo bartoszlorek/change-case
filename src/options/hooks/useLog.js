@@ -25,8 +25,9 @@ const useLog = ({timeout}) => {
   );
 
   return useMemo(() => {
-    log.info = text => baseLog(LOG_TYPE.INFO, text);
-    log.warn = text => baseLog(LOG_TYPE.WARN, text);
+    Object.values(LOG_TYPE).forEach(type => {
+      log[type] = text => baseLog(type, text);
+    });
 
     return log;
   }, [baseLog, log]);
