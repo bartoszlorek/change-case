@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Notification from './Notification';
 
@@ -12,15 +11,5 @@ const Notifications = ({values, state}) => (
       ))}
   </React.Fragment>
 );
-
-Notifications.propTypes = {
-  values: PropTypes.array,
-  state: PropTypes.string
-};
-
-Notifications.defaultProps = {
-  values: [],
-  state: null
-};
 
 export default Notifications;
