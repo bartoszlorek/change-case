@@ -1,5 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Options from './options/index';
+import App from './options/App';
 
-render(<Options />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

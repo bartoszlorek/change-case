@@ -1,24 +1,24 @@
 import * as React from 'react';
 import styled, {css} from 'styled-components';
-import {choose} from 'Utils/react-utils';
-import {TYPE} from './../controllers/LoggerController';
+import {LOG_TYPE} from './../hooks/useLog';
 
-const Console = ({className, logger}) =>
-  logger && <div className={className}>{logger.text}</div>;
+const styleType = type => style => props =>
+  props.log.type === type && css(style);
+
+const Console = ({className, log}) =>
+  log.type && <div className={className}>{log.text}</div>;
 
 export default styled(Console)`
   margin: 0 auto 0 0;
   white-space: nowrap;
+  font-weight: bold;
   overflow: hidden;
 
-  ${choose('logger.type', {
-    [TYPE.INFO]: css`
-      color: #009ff1;
-      font-weight: bold;
-    `,
-    [TYPE.WARN]: css`
-      color: #f1002b;
-      font-weight: bold;
-    `
-  })};
+  ${styleType(LOG_TYPE.INFO)`
+    color: #009ff1;
+  `}
+
+  ${styleType(LOG_TYPE.WARN)`
+    color: #f1002b;
+  `}
 `;
