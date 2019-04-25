@@ -1,20 +1,17 @@
 import React from 'react';
+import useInputValue from '../../hooks/useInputValue';
 
-class Input extends React.PureComponent {
-  handleChange = event => {
-    this.props.onChange(event.target.value);
-  };
+const Input = ({value, onChange, ...props}) => {
+  const handleValueChange = useInputValue(onChange);
 
-  render() {
-    return (
-      <input
-        {...this.props}
-        type="text"
-        value={this.props.value || ''}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
+  return (
+    <input
+      {...props}
+      type="text"
+      value={value || ''}
+      onChange={handleValueChange}
+    />
+  );
+};
 
 export default Input;

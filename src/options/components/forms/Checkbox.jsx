@@ -1,26 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import useInputChecked from '../../hooks/useInputChecked';
 
-class Checkbox extends React.PureComponent {
-  handleChange = event => {
-    this.props.onChange(event.target.checked);
-  };
+const Checkbox = ({className, value, label, onChange}) => {
+  const handleCheckedChange = useInputChecked(onChange);
 
-  render() {
-    return (
-      <div className={this.props.className}>
-        <label>
-          <input
-            type="checkbox"
-            checked={!!this.props.value}
-            onChange={this.handleChange}
-          />
-          {this.props.label}
-        </label>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={className}>
+      <label>
+        <input
+          type="checkbox"
+          checked={!!value}
+          onChange={handleCheckedChange}
+        />
+        {label}
+      </label>
+    </div>
+  );
+};
 
 export default styled(Checkbox)`
   line-height: 2em;

@@ -1,24 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import useInputValue from '../../hooks/useInputValue';
 
-class Textarea extends React.PureComponent {
-  handleChange = event => {
-    this.props.onChange(event.target.value);
-  };
+const Textarea = ({value, rows, onChange, ...props}) => {
+  const handleValueChange = useInputValue(onChange);
 
-  render() {
-    const {value, rows} = this.props;
-
-    return (
-      <textarea
-        {...this.props}
-        value={value || ''}
-        rows={rows || '5'}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
+  return (
+    <textarea
+      {...props}
+      value={value || ''}
+      rows={rows || '5'}
+      onChange={handleValueChange}
+    />
+  );
+};
 
 export default styled(Textarea)`
   width: 100%;
