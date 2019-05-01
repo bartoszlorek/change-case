@@ -9,11 +9,8 @@ const confirmText = 'Do you want to discard unsaved changes?';
 
 const isTruthy = value => !(value == null || value === '');
 
-const addValue = (data, value) => {
-  if (isPlainObject(value)) {
-    return {...data, ...value};
-  }
-  return value;
+const setValue = (data, value) => {
+  return isPlainObject(value) ? {...data, ...value} : value;
 };
 
 const useForm = ({onSave}) => {
@@ -34,7 +31,7 @@ const useForm = ({onSave}) => {
       value: data[name],
       onChange: value => {
         const nextData = deepFilter(
-          {...data, [name]: addValue(data[name], value)},
+          {...data, [name]: setValue(data[name], value)},
           isTruthy
         );
         setIsUpdated(isEqual(savedData, nextData));
@@ -54,7 +51,7 @@ const useForm = ({onSave}) => {
       setSavedData(data);
       onSave && onSave();
     });
-  }, [isUpdated, data]);
+  }, [isUpdated, data, onSave]);
 
   const rejectForm = useCallback(() => {
     confirm(confirmText).then(() => {
