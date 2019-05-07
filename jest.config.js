@@ -1,7 +1,7 @@
 module.exports = {
   setupFiles: ['<rootDir>/setupTests.js'],
   moduleFileExtensions: ['js', 'jsx'],
-  moduleDirectories: ['node_modules', 'src'],
+  moduleDirectories: ['node_modules', 'src', 'src/options'],
   moduleNameMapper: {
     '^@utils(.*)$': '<rootDir>/src/.utils$1'
   }
