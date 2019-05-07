@@ -1,4 +1,4 @@
-import {STATE} from 'Utils/chrome/extension-state';
+import {STATE} from '@utils/chrome/extension-state';
 
 export default [
   {

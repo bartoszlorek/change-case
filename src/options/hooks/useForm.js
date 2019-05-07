@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react';
 import {isPlainObject, isEqual} from 'lodash';
-import {deepFilter} from 'Utils/deep';
+import {deepFilter} from '@utils/deep';
 
 import confirm from '../components/dialog/confirm';
 

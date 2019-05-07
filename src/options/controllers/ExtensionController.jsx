@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {connectToState} from 'Utils/chrome/extension-state';
+import {connectToState} from '@utils/chrome/extension-state';
 
 class ExtensionController extends React.PureComponent {
   state = {

@@ -1,6 +1,8 @@
 module.exports = {
-  cacheDirectory: '/tmp/jest_cache',
+  setupFiles: ['<rootDir>/setupTests.js'],
+  moduleFileExtensions: ['js', 'jsx'],
+  moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
-    '^Utils(.*)$': '<rootDir>/src/.utils/$1'
+    '^@utils(.*)$': '<rootDir>/src/.utils$1'
   }
 };

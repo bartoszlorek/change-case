@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
-import {connectToState} from 'Utils/chrome/extension-state';
+import {connectToState, STATE} from '@utils/chrome/extension-state';
 
 const useExtension = () => {
-  const [extState, setExtState] = useState(null);
+  const [extState, setExtState] = useState(STATE.DEFAULT);
 
   useEffect(() => {
     connectToState(extState => setExtState(extState));

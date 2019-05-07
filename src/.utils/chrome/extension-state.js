@@ -3,12 +3,12 @@ import getStorageData from './get-storage-data';
 const EXTENSION_STATE_PORT = 'EXTENSION_STATE_PORT';
 
 export const STATE = {
+  DEFAULT: 'default',
   INSTALL: 'install',
-  UPDATE: 'update',
-  NORMAL: 'normal'
+  UPDATE: 'update'
 };
 
-const createState = (states, defaultState = null) => {
+const createState = (defaultState = null) => {
   let state = defaultState;
 
   return {
@@ -22,9 +22,9 @@ const createState = (states, defaultState = null) => {
 };
 
 export const initializeState = (reducers = {}) => {
-  const state = createState(STATE, STATE.NORMAL);
+  const state = createState(STATE.DEFAULT);
 
-  // set state according to runtime and open options
+  // set state according to installation reason and show options
   chrome.runtime.onInstalled.addListener(({reason}) => {
     getStorageData(reducers).then(data => {
       if (data[reason] === true) {
@@ -34,12 +34,12 @@ export const initializeState = (reducers = {}) => {
     });
   });
 
-  // set state to normal after closing options
+  // set state to the default after closing options
   chrome.runtime.onConnect.addListener(port => {
     if (port.name === EXTENSION_STATE_PORT) {
       port.postMessage({state: state.get()});
       port.onDisconnect.addListener(() => {
-        state.set(STATE.NORMAL);
+        state.set(STATE.DEFAULT);
       });
     }
   });

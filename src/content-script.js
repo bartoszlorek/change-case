@@ -1,7 +1,7 @@
-import {setSelection, selectionRange, rangeContent} from 'Utils/selection.min';
-import CASE_METHODS from './scripts/cases/index';
+import {setSelection, selectionRange, rangeContent} from '@utils/selection.min';
+import message from '@utils/chrome/message';
 
-import message from 'Utils/chrome/message';
+import CASE_METHODS from './scripts/cases/index';
 import operators from './scripts/operators/index';
 import dispatchEvent from './scripts/dispatch-event';
 import dispatchError from './scripts/dispatch-error';

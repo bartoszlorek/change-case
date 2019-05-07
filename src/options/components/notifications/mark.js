@@ -1,5 +1,5 @@
 import * as React from 'react';
-import applyMarkdown from 'Utils/apply-markdown';
+import applyMarkdown from '@utils/apply-markdown';
 
 import Link from '../forms/Link';
 

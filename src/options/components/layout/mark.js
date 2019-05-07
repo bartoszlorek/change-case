@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import applyMarkdown from 'Utils/apply-markdown';
+import applyMarkdown from '@utils/apply-markdown';
 
 const Important = styled.span`
   color: #f1002b;
