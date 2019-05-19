@@ -39,6 +39,7 @@ const App = ({className}) => {
           <Checkbox
             {...getFieldProps('updateNotification')}
             label="Show update notifications"
+            name="update-notification"
           />
         </Section>
         <Section
@@ -55,13 +56,13 @@ const App = ({className}) => {
           title="Ignore List"
           description='comma-separated list of case-insensitive words to *ignore* during conversion, "e.g. Hello World, New York, John, ..."'
         >
-          <Textarea {...getFieldProps('ignoreList')} />
+          <Textarea {...getFieldProps('ignoreList')} name="ignore-list" />
         </Section>
         <Section
           title="Correct List"
           description='comma-separated list of case-insensitive words to *replace* during conversion, "e.g. Hi Mark!, VHS, ..."'
         >
-          <Textarea {...getFieldProps('correctList')} />
+          <Textarea {...getFieldProps('correctList')} name="correct-list" />
         </Section>
       </Sections>
       <Controls>

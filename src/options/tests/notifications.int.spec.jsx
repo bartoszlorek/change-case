@@ -1,4 +1,4 @@
-import '__mocks__/chromeEnvironment';
+import '__mocks__/chrome-environment';
 import React from 'react';
 import {act} from 'react-dom/test-utils';
 import {mount} from 'enzyme';
