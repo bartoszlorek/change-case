@@ -7,11 +7,13 @@ import App from '../App';
 
 describe('<App/>', () => {
   describe('filling form', () => {
-    chrome.storage.sync.get.mockImplementation((opt, fn) => fn({
-      updateNotification: false,
-      ignoreList: 'Hello World, John',
-      correctList: 'iOS, VHS'
-    }));
+    chrome.storage.sync.get.mockImplementation((opt, fn) =>
+      fn({
+        updateNotification: false,
+        ignoreList: 'Hello World, John',
+        correctList: 'iOS, VHS'
+      })
+    );
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -22,12 +24,16 @@ describe('<App/>', () => {
 
       const wrapper = mount(<App />);
 
-      updateNotification = wrapper.find('[name="update-notification"]').hostNodes();
+      updateNotification = wrapper
+        .find('[name="update-notification"]')
+        .hostNodes();
       expect(updateNotification.prop('checked')).toBe(false);
 
       change(updateNotification, {checked: true});
 
-      updateNotification = wrapper.find('[name="update-notification"]').hostNodes();
+      updateNotification = wrapper
+        .find('[name="update-notification"]')
+        .hostNodes();
       expect(updateNotification.prop('checked')).toBe(true);
 
       ignoreList = wrapper.find('[name="ignore-list"]').hostNodes();
@@ -49,11 +55,14 @@ describe('<App/>', () => {
       const submitButton = wrapper.find({value: 'Save'}).hostNodes();
 
       click(submitButton);
-      expect(chrome.storage.sync.set).toHaveBeenLastCalledWith({
-        updateNotification: true,
-        ignoreList: 'Hi Mark!',
-        correctList: 'Android'
-      }, expect.any(Function));
+      expect(chrome.storage.sync.set).toHaveBeenLastCalledWith(
+        {
+          updateNotification: true,
+          ignoreList: 'Hi Mark!',
+          correctList: 'Android'
+        },
+        expect.any(Function)
+      );
     });
   });
 });

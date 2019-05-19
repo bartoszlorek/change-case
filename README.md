@@ -29,6 +29,10 @@
 
 ## Changelog:
 
+**2.4.1**
+
+- fix issues
+
 **2.4.0**
 
 - improve filters
