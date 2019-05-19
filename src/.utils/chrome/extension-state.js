@@ -14,7 +14,7 @@ const createState = (defaultState = null) => {
   return {
     get: () => state,
     set: newState => {
-      if (Object.values(states).includes(newState)) {
+      if (Object.values(STATE).includes(newState)) {
         state = newState;
       }
     }

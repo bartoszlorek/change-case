@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {isPlainObject, isEqual} from 'lodash';
-import {deepFilter} from '@utils/deep';
+import deepFilter from '@utils/deep-filter';
 import {isTruthy} from '../types';
 
 import confirm from '../components/dialog/confirm';
