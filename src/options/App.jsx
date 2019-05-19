@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import useExtension from './hooks/useExtension';
 import useForm from './hooks/useForm';
@@ -75,4 +76,6 @@ const App = ({className}) => {
   );
 };
 
-export default App;
+export default styled(App)`
+  background: #f6f7f9;
+`;
