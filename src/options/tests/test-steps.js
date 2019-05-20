@@ -1,5 +1,6 @@
-const originalTest = global.it;
-const originalDescribe = global.describe;
+const actualTest = global.test;
+const actualIt = global.it;
+const actualDescribe = global.describe;
 
 const passIcon = '✓';
 const failIcon = '✕';
@@ -16,19 +17,18 @@ export const step = (description, fn) => {
   if (currentTest === null) {
     throw 'Steps can only be called inside a test.';
   }
-
   currentSteps.push(description);
   fn();
 };
 
-global.it = (...args) =>  {
-  const spec = originalTest(...args);
-  const originalResultCallback = spec.resultCallback;
-  const originalOnStart = spec.onStart;
+const createTestProxy = func => (...args) => {
+  const spec = func(...args);
+  const actualResultCallback = spec.resultCallback;
+  const actualOnStart = spec.onStart;
 
   spec.onStart = spec => {
     currentTest = spec.id;
-    originalOnStart(spec);
+    actualOnStart(spec);
   };
 
   spec.resultCallback = result => {
@@ -45,7 +45,7 @@ global.it = (...args) =>  {
       return output + println(`${icon} ${step}`, testIndents[spec.id] + 1);
     }, description);
 
-    originalResultCallback(result);
+    actualResultCallback(result);
     currentSteps = [];
     currentTest = null;
   };
@@ -53,8 +53,11 @@ global.it = (...args) =>  {
   return spec;
 };
 
+global.test = createTestProxy(actualTest);
+global.it = createTestProxy(actualIt);
+
 global.describe = (...args) =>  {
-  const suite = originalDescribe(...args);
+  const suite = actualDescribe(...args);
 
   suite.children.forEach(child => {
     if (child.constructor.name !== 'Spec') {
