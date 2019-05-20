@@ -4,8 +4,8 @@ const originalDescribe = global.describe;
 const passIcon = '✓';
 const failIcon = '✕';
 
-const println = (value = '', indentLevel = 0) => {
-  return '\n' + '  '.repeat(indentLevel) + value;
+const println = (value, indentLevel) => {
+  return '\n' + '  '.repeat(indentLevel || 0) + value;
 };
 
 const testIndents = {};
