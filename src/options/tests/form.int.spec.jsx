@@ -7,7 +7,7 @@ import {step} from './test-steps';
 import App from '../App';
 
 describe('<App/>', () => {
-  describe('filling form', () => {
+  describe('options form', () => {
     chrome.storage.sync.get.mockImplementation((opt, fn) =>
       fn({
         updateNotification: false,
@@ -20,44 +20,47 @@ describe('<App/>', () => {
       jest.clearAllMocks();
     });
 
-    it('should fill and save form', () => {
+    it('shows saved fields and can update them', () => {
       const wrapper = mount(<App />);
 
-      step('change update notification field', () => {
+      step('fills update notification field', () => {
         let updateNotification = wrapper
           .find('[name="update-notification"]')
           .hostNodes();
-        expect(updateNotification.prop('checked')).toBe(false);
 
+        expect(updateNotification.prop('checked')).toBe(false);
         change(updateNotification, {checked: true});
 
         updateNotification = wrapper
           .find('[name="update-notification"]')
           .hostNodes();
+
         expect(updateNotification.prop('checked')).toBe(true);
       });
 
-      step('change ignore list field', () => {
+      step('fills ignore list field', () => {
         let ignoreList = wrapper.find('[name="ignore-list"]').hostNodes();
+
         expect(ignoreList.prop('value')).toBe('Hello World, John');
-  
         change(ignoreList, {value: 'Hi Mark!'});
-  
+
         ignoreList = wrapper.find('[name="ignore-list"]').hostNodes();
+
         expect(ignoreList.prop('value')).toBe('Hi Mark!');
       });
 
-      step('change correct list field', () => {
+      step('fills correct list field', () => {
         let correctList = wrapper.find('[name="correct-list"]').hostNodes();
-        expect(correctList.prop('value')).toBe('iOS, VHS');
 
+        expect(correctList.prop('value')).toBe('iOS, VHS');
         change(correctList, {value: 'Android'});
 
         correctList = wrapper.find('[name="correct-list"]').hostNodes();
+
         expect(correctList.prop('value')).toBe('Android');
       });
 
-      step('save form by clicking on submit', () => {
+      step('saves form by clicking on submit', () => {
         const submitButton = wrapper.find({value: 'Save'}).hostNodes();
 
         click(submitButton);
