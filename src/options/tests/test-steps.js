@@ -7,26 +7,31 @@ let currentTest = null;
 
 export const step = (description, fn) => {
   if (currentTest === null) {
-    throw 'Steps can only be called inside a `test`, `it` and `fit`.';
+    throw 'Steps can only be called inside a test.';
   }
   currentSteps.push(description);
   fn();
 };
 
-global.test = createTestProxy(global.test);
+global.describe = createDescribeProxy(global.describe);
 global.it = createTestProxy(global.it);
 global.fit = createTestProxy(global.fit);
-global.describe = createDescribeProxy(global.describe);
+global.test = global.it;
+global.test.only = global.fit;
 
 function createTestProxy(func) {
   const proxy = (...args) => {
     const spec = func(...args);
-    const actualResultCallback = spec.resultCallback;
-    const actualOnStart = spec.onStart;
+    const originalOnStart = spec.onStart;
+    const originalResultCallback = spec.resultCallback;
+
+    if (!(originalOnStart && originalResultCallback)) {
+      return spec;
+    }
 
     spec.onStart = spec => {
       currentTest = spec.id;
-      actualOnStart(spec);
+      originalOnStart(spec);
     };
 
     spec.resultCallback = result => {
@@ -43,7 +48,7 @@ function createTestProxy(func) {
         return output + println(`${icon} ${step}`, testIndents[spec.id] + 1);
       }, description);
 
-      actualResultCallback(result);
+      originalResultCallback(result);
       currentSteps = [];
       currentTest = null;
     };
@@ -51,9 +56,8 @@ function createTestProxy(func) {
     return spec;
   };
 
-  // it should be pointing to the actual function
-  proxy.__proto__ = func;
-  return proxy;
+  // extends with original function
+  return Object.assign(proxy, func);
 }
 
 function createDescribeProxy(func) {
@@ -69,7 +73,7 @@ function createDescribeProxy(func) {
 
       const parentBubbling = suite => {
         if (suite.parentSuite) {
-          parentBubbling(suite.parentSuite)
+          parentBubbling(suite.parentSuite);
           indent += 1;
         }
       };
@@ -81,9 +85,8 @@ function createDescribeProxy(func) {
     return suite;
   };
 
-  // it should be pointing to the actual function
-  proxy.__proto__ = func;
-  return proxy;
+  // extends with original function
+  return Object.assign(proxy, func);
 }
 
 function println(value, indentLevel) {
