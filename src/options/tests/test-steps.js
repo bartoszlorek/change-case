@@ -1,7 +1,9 @@
 const originalTest = global.it;
 
 // todo: adjust indent according to parent
-const println = value => `\n        ${value}`;
+const println = (value = '', indentLevel = 0) => {
+  return '\n' + '  '.repeat(indentLevel) + value;
+};
 
 const passIcon = '✓';
 const failIcon = '✕';
@@ -29,7 +31,7 @@ global.it = (...args) =>  {
         icon = failIcon;
       }
 
-      return output + println(`${icon} ${step}`);
+      return output + println(`${icon} ${step}`, 4);
     }, description);
 
     // call original callback
