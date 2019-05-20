@@ -56,7 +56,7 @@ function createTestProxy(func) {
     return spec;
   };
 
-  // extends with original function
+  // extends with original methods
   return Object.assign(proxy, func);
 }
 
@@ -85,7 +85,7 @@ function createDescribeProxy(func) {
     return suite;
   };
 
-  // extends with original function
+  // extends with original methods
   return Object.assign(proxy, func);
 }
 
