@@ -2,9 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import applyMarkdown, {useStyle} from './apply-markdown';
 
-const renderFragments = frags => {
-  return renderer.create(<div>{frags}</div>).toJSON().children;
-};
+const renderFragments = frags => renderer.create(frags).toJSON();
 
 const coolResult = [
   'be ',
@@ -39,12 +37,6 @@ describe('applyMarkdown()', () => {
     ]);
   });
 
-  it('should handle react element', () => {
-    let mark = applyMarkdown({'*': <b className="info" />}),
-      frag = renderFragments(mark('be *cool*'));
-    expect(frag).toEqual(coolResult);
-  });
-
   it('should handle class component', () => {
     class Component extends React.Component {
       render() {
@@ -59,13 +51,6 @@ describe('applyMarkdown()', () => {
   it('should handle functional component', () => {
     const Component = ({children}) => <b className="info">{children}</b>;
     let mark = applyMarkdown({'*': Component}),
-      frag = renderFragments(mark('be *cool*'));
-    expect(frag).toEqual(coolResult);
-  });
-
-  it('should handle composition component', () => {
-    const Component = props => <b {...props}>{props.children}</b>;
-    let mark = applyMarkdown({'*': <Component className="info" />}),
       frag = renderFragments(mark('be *cool*'));
     expect(frag).toEqual(coolResult);
   });
