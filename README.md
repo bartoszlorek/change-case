@@ -29,6 +29,10 @@
 
 ## Changelog:
 
+**2.4.2**
+
+- fix options page shaking on auto scroll bars
+
 **2.4.1**
 
 - fix issues
