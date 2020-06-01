@@ -4,7 +4,7 @@ import {tagBasic} from './tagBasic';
 
 describe('tagBasic()', () => {
   it.each`
-    value      | type
+    value      | expectedType
     ${'Hello'} | ${'unassigned'}
     ${','}     | ${'punctuation'}
     ${';'}     | ${'punctuation'}
@@ -16,7 +16,9 @@ describe('tagBasic()', () => {
     ${'.'}     | ${'end'}
     ${'?'}     | ${'end'}
     ${'!'}     | ${'end'}
-  `('tags "$value" to $type', ({value, type}) => {
-    expect(tagBasic([value])).toEqual([{value, type}]);
+  `('tags "$value" to $expectedType', ({value, expectedType}) => {
+    const tokens = [{value, type: 'unassigned'}];
+    const expected = [{value, type: expectedType}];
+    expect(tagBasic(tokens)).toEqual(expected);
   });
 });

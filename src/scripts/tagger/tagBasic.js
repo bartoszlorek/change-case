@@ -12,26 +12,26 @@ const definedTags = {
   '!': 'end',
 };
 
-export function tagBasic(tokenValues: Array<string>): Array<Token> {
-  return tokenValues.map(value => {
-    const char = value[0];
+export function tagBasic(tokens: Array<Token>): Array<Token> {
+  return tokens.map(token => {
+    const firstChar = token.value[0];
 
-    if (isLatinChar(char)) {
+    if (isLatinChar(firstChar)) {
       return {
-        value,
+        ...token,
         type: 'unassigned',
       };
     }
 
-    if (definedTags[char] !== undefined) {
+    if (definedTags[firstChar] !== undefined) {
       return {
-        value,
-        type: definedTags[char],
+        ...token,
+        type: definedTags[firstChar],
       };
     }
 
     return {
-      value,
+      ...token,
       type: 'punctuation',
     };
   });
