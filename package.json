@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "en-pos": "^1.0.16",
     "escape-regexp-component": "^1.0.2",
     "lodash": "^4.17.15",
     "mousetrap": "^1.6.3",
@@ -46,6 +47,7 @@
     "react-dom": "^16.9.0",
     "react-onclickoutside": "^6.9.0",
     "styled-components": "^4.3.2",
-    "to-title-case": "^1.0.0"
+    "to-title-case": "^1.0.0",
+    "wink-pos-tagger": "^2.2.2"
   }
 }

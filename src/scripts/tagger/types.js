@@ -6,7 +6,7 @@ export type Token = {
 };
 
 // prettier-ignore
-type TokenType =
+export type TokenType =
   // basic
   | 'unassigned'  // default
   | 'punctuation' // not a word
@@ -19,12 +19,14 @@ type TokenType =
   | 'abbreviation'
 
   // extended
-  | 'article'     // a, an, the
+  | 'verb' 
   | 'noun'
-  | 'pronoun'
-  | 'verb'
   | 'adjective'
+  | 'determiner'
   | 'adverb'
+  | 'pronoun'
   | 'preposition'
   | 'conjunction'
-  | 'interjection';
+  | 'interjection'
+  | 'particle'
+  | 'article';
