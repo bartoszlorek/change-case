@@ -34,7 +34,7 @@ describe('camelCase()', () => {
     ${'In brief, by the end of the 19th century.'}         | ${'inBriefByTheEndOfThe_19thCentury'}
     ${'to be exactly 6.626 km'}                            | ${'toBeExactly_6_626Km'}
     ${'Our Capt. Joe likes dogs. For sure!'}               | ${'ourCaptJoeLikesDogsForSure'}
-  `('$value ----> $expected', ({value, expected}) => {
+  `('$value ———— $expected', ({value, expected}) => {
     expect(camelCase(value)).toBe(expected);
   });
 });
