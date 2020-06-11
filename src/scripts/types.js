@@ -10,7 +10,7 @@ export type TokenType =
   // basic
   | 'unassigned'  // default
   | 'punctuation' // not a word
-  | 'numeric'     // 0123456789
+  | 'numeric'     // 0123456789.,
   | 'apostrophe'  // '’
   | 'whitespace'  // whitespace
   | 'colon'       // :

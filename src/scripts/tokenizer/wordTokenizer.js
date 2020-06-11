@@ -1,5 +1,8 @@
 // @flow strict
 
+import {createToken} from './createToken';
+import {type Token} from '../types';
+
 const basicLatin = 'A-Za-z';
 const latin1Supplement = '\u00C0-\u00FF';
 const latinExtendedA = '\u0100-\u017F';
@@ -14,10 +17,10 @@ export const latinRange =
   latinExtendedAdditional;
 
 const pattern = new RegExp(
-  `[${latinRange}]+|\\s+|\\d+[${latinRange}]*|[^\\s${latinRange}]`,
+  `[${latinRange}]+|\\s+|[\\d.,]+[${latinRange}]*|[^\\s${latinRange}]`,
   'g',
 );
 
-export function wordTokenizer(text: string): Array<string> {
-  return text.match(pattern) || [];
+export function wordTokenizer(text: string): Array<Token> {
+  return (text.match(pattern) || []).map(createToken);
 }
