@@ -1,64 +1,31 @@
 // @flow strict
 
+import {createToken} from '../tokenizer/createToken';
+import {tagBasic} from './tagBasic';
 import {tagExtended} from './tagExtended';
 
 describe('tagExtended()', () => {
-  it.each([
-    [
-      ['Tips', 'unassigned', 'noun'],
-      [' ', 'whitespace'],
-      ['and', 'unassigned', 'conjunction'],
-      [' ', 'whitespace'],
-      ['advice', 'unassigned', 'noun'],
-      [' ', 'whitespace'],
-      ['for', 'unassigned', 'preposition'],
-      [' ', 'whitespace'],
-      ['travelers', 'unassigned', 'noun'],
-      ['!', 'end'],
-    ],
-    [
-      ['Lay', 'unassigned', 'verb'],
-      [' ', 'whitespace'],
-      ['it', 'unassigned', 'pronoun'],
-      [' ', 'whitespace'],
-      ['all', 'unassigned', 'determiner'],
-      [' ', 'whitespace'],
-      ['on', 'unassigned', 'preposition'],
-      [' ', 'whitespace'],
-      ['me', 'unassigned', 'pronoun'],
-      ['.', 'end'],
-    ],
-    [
-      ['it', 'unassigned', 'pronoun'],
-      ['’', 'punctuation'],
-      ['s', 'unassigned', 'noun'],
-      [' ', 'whitespace'],
-      ['on', 'unassigned', 'preposition'],
-      [' ', 'whitespace'],
-      ['again', 'unassigned', 'adverb'],
-    ],
-    [
-      ['There', 'unassigned', 'adverb'],
-      [' ', 'whitespace'],
-      ['he', 'unassigned', 'pronoun'],
-      [' ', 'whitespace'],
-      ['found', 'unassigned', 'verb'],
-      [' ', 'whitespace'],
-      ['an', 'unassigned', 'article'],
-      [' ', 'whitespace'],
-      ['inferno', 'unassigned', 'noun'],
-    ],
-  ])('tags correctly "%s"', (...args) => {
-    const tokens = args.map(arg => ({
-      value: arg[0],
-      type: arg[1],
-    }));
-
-    const expected = args.map(arg => ({
-      value: arg[0],
-      type: arg[2] || arg[1],
-    }));
-
-    expect(tagExtended(tokens)).toEqual(expected);
+  it.each`
+    value          | type
+    ${'it'}        | ${'unassigned'}
+    ${'all'}       | ${'unassigned'}
+    ${'on'}        | ${'preposition'}
+    ${'around'}    | ${'preposition'}
+    ${'me'}        | ${'unassigned'}
+    ${'.'}         | ${'end'}
+    ${'again'}     | ${'unassigned'}
+    ${'advice'}    | ${'unassigned'}
+    ${'travelers'} | ${'unassigned'}
+    ${'he'}        | ${'unassigned'}
+    ${'for'}       | ${'coordinating_conjunction'}
+    ${'or'}        | ${'coordinating_conjunction'}
+    ${'until'}     | ${'subordinating_conjunction'}
+    ${'before'}    | ${'subordinating_conjunction'}
+    ${'a'}         | ${'article'}
+    ${'an'}        | ${'article'}
+    ${'the'}       | ${'article'}
+  `('tags "$value" to $type', ({value, type}) => {
+    const tokens = tagBasic([createToken(value)]);
+    expect(tagExtended(tokens)[0].type).toBe(type);
   });
 });

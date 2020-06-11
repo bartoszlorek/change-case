@@ -15,6 +15,6 @@ export const latinRange =
 
 const pattern = new RegExp(`[${latinRange}]+|\\s+|[^\\s${latinRange}]`, 'g');
 
-export function wordTokenizer(text: string) {
-  return text.match(pattern);
+export function wordTokenizer(text: string): Array<string> {
+  return text.match(pattern) || [];
 }

@@ -10,6 +10,7 @@ export type TokenType =
   // basic
   | 'unassigned'  // default
   | 'punctuation' // not a word
+  | 'apostrophe'  // '’
   | 'whitespace'  // whitespace
   | 'colon'       // :
   | 'hyphen'      // -
@@ -19,14 +20,7 @@ export type TokenType =
   | 'abbreviation'
 
   // extended
-  | 'verb' 
-  | 'noun'
-  | 'adjective'
-  | 'determiner'
-  | 'adverb'
-  | 'pronoun'
+  | 'article'
   | 'preposition'
-  | 'conjunction'
-  | 'interjection'
-  | 'particle'
-  | 'article';
+  | 'subordinating_conjunction'
+  | 'coordinating_conjunction'

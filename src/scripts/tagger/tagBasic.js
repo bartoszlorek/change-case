@@ -1,7 +1,7 @@
 // @flow strict
 
 import {latinRange} from '../tokenizer/wordTokenizer';
-import {type Token} from './types';
+import {type Token} from '../types';
 
 const definedTags = {
   ' ': 'whitespace',
@@ -10,6 +10,8 @@ const definedTags = {
   '.': 'end',
   '?': 'end',
   '!': 'end',
+  "'": 'apostrophe',
+  '’': 'apostrophe',
 };
 
 export function tagBasic(tokens: Array<Token>): Array<Token> {

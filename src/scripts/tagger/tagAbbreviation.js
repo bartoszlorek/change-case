@@ -4,7 +4,7 @@
 // A.B. abbr. Acad. A.D. alt. at.
 // no. Capt. Dr. est. Sgt.
 
-import {type Token} from './types';
+import {type Token} from '../types';
 
 const maxLength = 3;
 const longAbbrv = new Set([

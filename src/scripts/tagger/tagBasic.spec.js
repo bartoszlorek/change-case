@@ -1,10 +1,11 @@
 // @flow strict
 
+import {createToken} from '../tokenizer/createToken';
 import {tagBasic} from './tagBasic';
 
 describe('tagBasic()', () => {
   it.each`
-    value      | expectedType
+    value      | type
     ${'Hello'} | ${'unassigned'}
     ${','}     | ${'punctuation'}
     ${';'}     | ${'punctuation'}
@@ -16,9 +17,10 @@ describe('tagBasic()', () => {
     ${'.'}     | ${'end'}
     ${'?'}     | ${'end'}
     ${'!'}     | ${'end'}
-  `('tags "$value" to $expectedType', ({value, expectedType}) => {
-    const tokens = [{value, type: 'unassigned'}];
-    const expected = [{value, type: expectedType}];
-    expect(tagBasic(tokens)).toEqual(expected);
+    ${"'"}     | ${'apostrophe'}
+    ${'’'}     | ${'apostrophe'}
+  `('tags "$value" to $type', ({value, type}) => {
+    const tokens = [createToken(value)];
+    expect(tagBasic(tokens)[0].type).toBe(type);
   });
 });

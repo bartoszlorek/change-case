@@ -1,82 +1,169 @@
 // @flow strict
 
 import posTagger from 'wink-pos-tagger';
-import {type Token, type TokenType} from './types';
+import {type Token, type TokenType} from '../types';
 
-// todo:
-// - to-infinitive
-// - possessive ending 's
+// prettier-ignore
+const articles = new Set([
+  'a',
+  'an',
+  'the',
+]);
 
-type TagType = {
-  value: string,
-  tag: string,
-  pos: string,
-  normal: string,
-  lemma: string,
-};
+const prepositions = new Set([
+  'aboard',
+  'about',
+  'above',
+  'across',
+  'after',
+  'against',
+  'along',
+  'alongside',
+  'amid',
+  'amidst',
+  'among',
+  'amongst',
+  'anti',
+  'around',
+  'astride',
+  'at',
+  'atop',
+  'before',
+  'behind',
+  'below',
+  'beneath',
+  'beside',
+  'besides',
+  'between',
+  'beyond',
+  'but',
+  'by',
+  'circa',
+  'concerning',
+  'considering',
+  'despite',
+  'down',
+  'during',
+  'except',
+  'excepting',
+  'excluding',
+  'following',
+  'for',
+  'from',
+  'in',
+  'including',
+  'inside',
+  'into',
+  'like',
+  'minus',
+  'near',
+  'next',
+  'of',
+  'off',
+  'nor',
+  'on',
+  'onto',
+  'opposite',
+  'or',
+  'out',
+  'outside',
+  'over',
+  'past',
+  'per',
+  'plus',
+  'regarding',
+  'round',
+  'save',
+  'since',
+  'through',
+  'throughout',
+  'till',
+  'to',
+  'toward',
+  'towards',
+  'under',
+  'underneath',
+  'unlike',
+  'until',
+  'unto',
+  'up',
+  'upon',
+  'versus',
+  'via',
+  'v',
+  'vs',
+  'with',
+  'within',
+  'without',
+  'worth',
+]);
 
-const articles = new Set(['a', 'an', 'the']);
+const coordConjunctions = new Set([
+  'and',
+  'but',
+  'for',
+  'nor',
+  'or',
+  'so',
+  'yet',
+]);
 
-const posTypeMap: {[pos: string]: TokenType} = {
-  VB: 'verb',
-  VBD: 'verb',
-  VBG: 'verb',
-  VBN: 'verb',
-  VBP: 'verb',
-  VBZ: 'verb',
-  MD: 'verb',
-  NN: 'noun',
-  NNS: 'noun',
-  NNP: 'noun',
-  NNPS: 'noun',
-  JJ: 'adjective',
-  JJR: 'adjective',
-  JJS: 'adjective',
-  DT: 'determiner',
-  PDT: 'determiner',
-  WDT: 'determiner',
-  RB: 'adverb',
-  RBR: 'adverb',
-  RBS: 'adverb',
-  WRB: 'adverb',
-  EX: 'adverb',
-  PRP: 'pronoun',
-  PRP$: 'pronoun',
-  WP: 'pronoun',
-  WP$: 'pronoun',
-  IN: 'preposition',
-  CC: 'conjunction',
-  UH: 'interjection',
-  RP: 'particle',
-};
+const subConjunctions = new Set([
+  'after',
+  'although',
+  'because',
+  'before',
+  'if',
+  'since',
+  'so',
+  'than',
+  'though',
+  'unless',
+  'until',
+  'when',
+  'whenever',
+  'where',
+  'whereas',
+  'wherever',
+  'while',
+]);
 
 export function tagExtended(tokens: Array<Token>): Array<Token> {
-  const tagger = posTagger();
-  const tokensValue = [];
-  const tokensIndex = [];
-
-  for (let index = 0; index < tokens.length; index++) {
-    const {value, type} = tokens[index];
-
-    if (type === 'unassigned') {
-      tokensValue.push(value);
-      tokensIndex.push(index);
+  return tokens.map((token, index) => {
+    if (token.type !== 'unassigned') {
+      return token;
     }
-  }
 
-  const tags: Array<TagType> = tagger.tagRawTokens(tokensValue);
-  const output = tokens.map(a => ({...a})); // clone
+    const value = token.value.toLowerCase();
 
-  for (let index = 0; index < tags.length; index++) {
-    const token = output[tokensIndex[index]];
-    const {pos} = tags[index];
-
-    if (articles.has(token.value.toLowerCase())) {
-      token.type = 'article';
-    } else {
-      token.type = posTypeMap[pos] || 'unassigned';
+    if (articles.has(value)) {
+      return {
+        ...token,
+        type: 'article',
+      };
     }
-  }
 
-  return output;
+    if (coordConjunctions.has(value)) {
+      return {
+        ...token,
+        type: 'coordinating_conjunction',
+      };
+    }
+
+    if (subConjunctions.has(value)) {
+      return {
+        ...token,
+        type: 'subordinating_conjunction',
+      };
+    }
+
+    if (prepositions.has(value)) {
+      return {
+        ...token,
+        type: 'preposition',
+      };
+    }
+
+    return token;
+  });
 }
