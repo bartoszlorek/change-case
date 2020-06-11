@@ -6,19 +6,18 @@ const latinExtendedA = '\u0100-\u017F';
 const latinExtendedB = '\u0180-\u024F';
 const latinExtendedAdditional = '\u1E00-\u1EFF';
 
-const latinRange =
+export const latinRange =
   basicLatin +
   latin1Supplement +
   latinExtendedA +
   latinExtendedB +
   latinExtendedAdditional;
 
-const pattern = new RegExp(`[${latinRange}]+|\\s+|[^\\s${latinRange}]`, 'g');
+const pattern = new RegExp(
+  `[${latinRange}]+|\\s+|\\d+[${latinRange}]*|[^\\s${latinRange}]`,
+  'g',
+);
 
 export function wordTokenizer(text: string): Array<string> {
   return text.match(pattern) || [];
-}
-
-export function isLatinChar(char: string) {
-  return new RegExp(`[${latinRange}]`).test(char);
 }

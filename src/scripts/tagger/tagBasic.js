@@ -1,6 +1,6 @@
 // @flow strict
 
-import {isLatinChar} from '../tokenizer/wordTokenizer';
+import {latinRange} from '../tokenizer/wordTokenizer';
 import {type Token} from '../types';
 
 const definedTags = {
@@ -17,6 +17,13 @@ const definedTags = {
 export function tagBasic(tokens: Array<Token>): Array<Token> {
   return tokens.map(token => {
     const firstChar = token.value[0];
+
+    if (isNumeric(token.value)) {
+      return {
+        ...token,
+        type: 'numeric',
+      };
+    }
 
     if (isLatinChar(firstChar)) {
       return {
@@ -37,4 +44,12 @@ export function tagBasic(tokens: Array<Token>): Array<Token> {
       type: 'punctuation',
     };
   });
+}
+
+function isNumeric(value: string) {
+  return /^\d+/.test(value);
+}
+
+function isLatinChar(char: string) {
+  return new RegExp(`[${latinRange}]`).test(char);
 }

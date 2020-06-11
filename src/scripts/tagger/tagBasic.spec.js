@@ -19,6 +19,9 @@ describe('tagBasic()', () => {
     ${'!'}     | ${'end'}
     ${"'"}     | ${'apostrophe'}
     ${'’'}     | ${'apostrophe'}
+    ${'1'}     | ${'numeric'}
+    ${'14'}    | ${'numeric'}
+    ${'30kg'}  | ${'numeric'}
   `('tags "$value" to $type', ({value, type}) => {
     const tokens = [createToken(value)];
     expect(tagBasic(tokens)[0].type).toBe(type);

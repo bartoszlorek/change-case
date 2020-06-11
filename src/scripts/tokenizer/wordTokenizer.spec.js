@@ -65,4 +65,28 @@ describe('wordTokenizer()', () => {
       'Obstgarten',
     ]);
   });
+
+  it('tokenizes numeric characters', () => {
+    expect(wordTokenizer('she is 30 years old')).toEqual([
+      'she',
+      ' ',
+      'is',
+      ' ',
+      '30',
+      ' ',
+      'years',
+      ' ',
+      'old',
+    ]);
+  });
+
+  it('tokenizes numeric characters followed by latin', () => {
+    expect(wordTokenizer('he weighs 70kg')).toEqual([
+      'he',
+      ' ',
+      'weighs',
+      ' ',
+      '70kg',
+    ]);
+  });
 });
