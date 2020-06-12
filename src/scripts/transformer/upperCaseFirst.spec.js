@@ -3,7 +3,7 @@
 import {upperCaseFirst} from './upperCaseFirst';
 
 describe('upperCaseFirst()', () => {
-  it('changes first letter only', () => {
+  it('uppercases only first letter', () => {
     expect(upperCaseFirst('hello')).toBe('Hello');
   });
 });
