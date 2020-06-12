@@ -3,9 +3,9 @@
 import {tagBasic} from '../tagger/tagBasic';
 import {wordTokenizer} from '../tokenizer/wordTokenizer';
 import {replaceNumericSeparator} from './replaceNumericSeparator';
-import {lowerCase} from './lowerCase';
+import {upperCase} from './upperCase';
 
-export function snakeCase(value: string) {
+export function constantCase(value: string) {
   return tagBasic(wordTokenizer(value)).filter(scope).map(transform).join('_');
 }
 
@@ -14,7 +14,7 @@ function scope({type}) {
 }
 
 function transform({value, type}) {
-  let frag = lowerCase(value);
+  let frag = upperCase(value);
 
   if (type === 'numeric') {
     frag = replaceNumericSeparator(frag, '_');

@@ -2,9 +2,9 @@
 
 import {tagBasic} from '../tagger/tagBasic';
 import {wordTokenizer} from '../tokenizer/wordTokenizer';
+import {replaceNumericSeparator} from './replaceNumericSeparator';
 import {lowerCase} from './lowerCase';
 import {upperCaseFirst} from './upperCaseFirst';
-import {replaceNumericSeparator} from './replaceNumericSeparator';
 
 export function camelCase(value: string) {
   return tagBasic(wordTokenizer(value)).filter(scope).map(transform).join('');
