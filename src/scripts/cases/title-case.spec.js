@@ -57,5 +57,10 @@ describe('titleCase()', () => {
       const result = titleCase('mam ładne śliwki!');
       expect(result).toBe('Mam Ładne Śliwki!');
     });
+
+    it('should handle parentheses', () => {
+      const result = titleCase('this extension is up to date "right now"');
+      expect(result).toBe('This Extension Is up To Date "Right Now"');
+    });
   });
 });
