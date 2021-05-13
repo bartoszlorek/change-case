@@ -58,9 +58,14 @@ describe('titleCase()', () => {
       expect(result).toBe('Mam Ładne Śliwki!');
     });
 
-    it('should handle parentheses', () => {
+    it('should handle double quotes', () => {
       const result = titleCase('this extension is up to date "right now"');
       expect(result).toBe('This Extension Is up To Date "Right Now"');
+    });
+	
+	it('should handle single quotes but NOT apostrophes', () => {
+      const result = titleCase("this extension is up to date 'right now'");
+      expect(result).toBe("This Extension's up To Date 'Right Now'");
     });
   });
 });
