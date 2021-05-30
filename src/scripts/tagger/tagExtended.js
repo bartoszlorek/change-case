@@ -11,47 +11,37 @@ const articles = new Set([
 ]);
 
 const prepositions = new Set([
-  'aboard',
-  'about',
-  'above',
-  'across',
-  'after',
-  'against',
-  'along',
-  'alongside',
-  'amid',
-  'amidst',
-  'among',
-  'amongst',
-  'anti',
-  'around',
-  'astride',
-  'at',
-  'atop',
-  'before',
-  'behind',
-  'below',
-  'beneath',
-  'beside',
-  'besides',
-  'between',
-  'beyond',
-  'but',
-  'by',
-  'circa',
-  'concerning',
-  'considering',
-  'despite',
-  'down',
-  'during',
-  'except',
-  'excepting',
-  'excluding',
-  'following',
-  'for',
-  'from',
-  'in',
-  'including',
+  'aboard', // preposition adverb adjective
+  'about', // preposition adverb adjective
+  'above', // preposition adverb
+  'across', // preposition adverb
+  'after', // preposition
+  'against', // preposition
+  'along', // preposition adverb
+  'amid', // preposition
+  'among', // preposition
+  'around', // preposition adverb
+  'as', // preposition conjunction
+  'at', // preposition
+  'before', // "IN", "RB", "RP"
+  'behind', //  "IN", "NN", "RB", "RP"
+  'below', // "IN", "RB"
+  'beneath', // "IN", "RB"
+  'beside', // "IN", "RB"
+  'between', // "IN", "RB"
+  'beyond', // "IN", "RB"
+  'but', // "CC", "IN", "JJ", "RB"
+  'by', //  "IN", "RB", "RP", "RB|RP"
+  'concerning', // VBG
+  'considering', // VBG
+  'despite', // IN
+  'down', // "RB", "IN|RB", "RBR", "VBP", "IN", "JJ", "NN", "RP", "VB"
+  'during', // IN
+  'except', // "IN", "VB"
+  'following', // "VBG", "JJ", "NN"
+  'for', // "IN", "NNP", "CC", "JJ", "RB", "RP"
+  'from', // "IN", "RB", "RP"
+  'in', // "IN", "FW",
   'inside',
   'into',
   'like',
@@ -60,11 +50,9 @@ const prepositions = new Set([
   'next',
   'of',
   'off',
-  'nor',
   'on',
   'onto',
   'opposite',
-  'or',
   'out',
   'outside',
   'over',
@@ -75,30 +63,26 @@ const prepositions = new Set([
   'round',
   'save',
   'since',
+  'than',
   'through',
-  'throughout',
   'till',
   'to',
   'toward',
-  'towards',
   'under',
   'underneath',
   'unlike',
   'until',
-  'unto',
   'up',
   'upon',
   'versus',
   'via',
-  'v',
-  'vs',
   'with',
   'within',
   'without',
-  'worth',
 ]);
 
-const coordConjunctions = new Set([
+// https://www.chompchomp.com/terms/coordinatingconjunction.htm
+const coordinatingConjunctions = new Set([
   'and',
   'but',
   'for',
@@ -108,7 +92,8 @@ const coordConjunctions = new Set([
   'yet',
 ]);
 
-const subConjunctions = new Set([
+// http://web.cn.edu/kwheeler/grammar_subordinate.html
+const subordinateConjunctions = new Set([
   'after',
   'although',
   'because',
@@ -143,14 +128,14 @@ export function tagExtended(tokens: Array<Token>): Array<Token> {
       };
     }
 
-    if (coordConjunctions.has(value)) {
+    if (coordinatingConjunctions.has(value)) {
       return {
         ...token,
         type: 'coordinating_conjunction',
       };
     }
 
-    if (subConjunctions.has(value)) {
+    if (subordinateConjunctions.has(value)) {
       return {
         ...token,
         type: 'subordinating_conjunction',
