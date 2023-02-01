@@ -6,7 +6,7 @@ import upperCase from './upper-case';
 import MINOR_WORDS from './.internal/minor-words';
 
 const COLON_REGEX = /:\s*./g;
-const FIRST_LETTER_REGEX = /^.|[-_.:\s]+./g;
+const FIRST_LETTER_REGEX = /^.|[\"\-\.\:\_\s]+\'.|[\"\-\.\:\_\s]+./g;
 const MINOR_REGEX = new RegExp(
   `\\s(${MINOR_WORDS.map(escape).join('|')})\\s`,
   'gi'
