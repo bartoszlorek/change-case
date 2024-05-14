@@ -1,16 +1,12 @@
 // It checks if given tab is allowed for scripting,
 // without breaking extension through errors.
 
-const VOID = {code: 'void(0)'};
+const NOOP = function () {};
 const CORRECT = 'correct';
 
 const getHostname = url => {
-  if (url == null) {
-    return null;
-  }
-  let parser = document.createElement('a');
-  parser.href = url;
-  return parser.hostname;
+  const parsed = new URL(url);
+  return parsed.hostname;
 };
 
 function exec(tab, memo) {
@@ -35,16 +31,21 @@ function exec(tab, memo) {
   };
 
   return new Promise((resolve, reject) =>
-    chrome.tabs.executeScript(tabId, VOID, () => {
-      let error = chrome.runtime.lastError;
-      if (error != null) {
-        memoize(error.message);
-        reject(error.message);
-      } else {
-        memoize();
-        resolve(tabId);
-      }
-    })
+    chrome.scripting
+      .executeScript({
+        target: {tabId},
+        func: NOOP,
+      })
+      .then(() => {
+        let error = chrome.runtime.lastError;
+        if (error != null) {
+          memoize(error.message);
+          reject(error.message);
+        } else {
+          memoize();
+          resolve(tabId);
+        }
+      }),
   );
 }
 

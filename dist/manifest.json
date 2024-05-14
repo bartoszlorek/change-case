@@ -1,20 +1,17 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Change Case",
   "short_name": "Change Case",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "author": "Bartosz Lorek",
   "description": "Multiple methods to change text case.",
   "homepage_url": "http://www.bartoszlorek.pl/",
-  "permissions": ["contextMenus", "activeTab", "storage"],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": ["contextMenus", "activeTab", "storage", "scripting"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "options_ui": {
-    "page": "options.html",
-    "chrome_style": false
+    "page": "options.html"
   },
   "icons": {
     "16": "assets/icon16.png",
@@ -23,7 +20,7 @@
     "48": "assets/icon48.png",
     "128": "assets/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "assets/icon16.png"
   },
   "commands": {

@@ -28,18 +28,21 @@ function injectScripts(tab, scripts) {
   }
   exec(tab)
     .catch(err => console.warn(err))
-    .then(id =>
+    .then(tabId =>
       scripts.forEach(({js, all_frames}) => {
         if (js == null) {
           return;
         }
         js.forEach(file =>
-          chrome.tabs.executeScript(id, {
-            allFrames: !!all_frames,
-            file
-          })
+          chrome.scripting.executeScript({
+            target: {
+              tabId,
+              allFrames: !!all_frames,
+            },
+            files: [file],
+          }),
         );
-      })
+      }),
     );
 }
 
@@ -49,7 +52,7 @@ function initializeScripts() {
     return;
   }
   chrome.tabs.query({}, tabs =>
-    tabs.forEach(tab => injectScripts(tab, scripts))
+    tabs.forEach(tab => injectScripts(tab, scripts)),
   );
 }
 

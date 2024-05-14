@@ -9,46 +9,46 @@ module.exports = {
   entry: {
     background: './src/background.js',
     'content-script': './src/content-script.js',
-    options: './src/options.js'
+    options: './src/options.js',
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
       '@utils': path.resolve(__dirname, 'src/.utils/'),
-      '@options': path.resolve(__dirname, 'src/options/')
-    }
+      '@options': path.resolve(__dirname, 'src/options/'),
+    },
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
-        include: /src/
-      }
-    ]
+        include: /src/,
+        use: [{loader: 'style-loader'}, {loader: 'css-loader'}],
+      },
+    ],
   },
   optimization: {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
           output: {
-            comments: false
+            comments: false,
           },
           compress: {
             drop_console: true,
-            drop_debugger: true
-          }
-        }
-      })
-    ]
-  }
+            drop_debugger: true,
+          },
+        },
+      }),
+    ],
+  },
 };

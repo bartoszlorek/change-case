@@ -1,7 +1,6 @@
 import message from '@utils/chrome/message';
 import executableTab from '@utils/chrome/executable-tab';
 import getCurrentTab from '@utils/chrome/get-current-tab';
-import createMenu from '@utils/chrome/create-menu';
 import setDefaults from '@utils/chrome/set-defaults';
 import {STATE, initializeState} from '@utils/chrome/extension-state';
 
@@ -19,31 +18,10 @@ import {
   dotCase,
   toggleCase,
   noAccents,
-  noCase
+  noCase,
 } from './constants';
 
-const exec = executableTab();
-
-const handleMethod = (tab, name) =>
-  exec(tab)
-    .catch(error => alert(error))
-    .then(id => {
-      const options = {file: 'content-script.js'};
-      chrome.tabs.executeScript(id, options, () => {
-        message.toTab(id, {
-          type: 'CHANGE_CASE',
-          name
-        });
-      });
-    });
-
-const handleClick = name => (info, tab) => {
-  if (info.selectionText) {
-    handleMethod(tab, name);
-  }
-};
-
-createMenu(
+chrome.runtime.onInstalled.addListener(() => {
   [
     [upperCase.name, upperCase.text],
     [lowerCase.name, lowerCase.text],
@@ -60,38 +38,73 @@ createMenu(
     null,
     [toggleCase.name, toggleCase.text],
     [noAccents.name, noAccents.text],
-    [noCase.name, noCase.text]
-  ],
-  item => ({
-    title: item[1],
-    onclick: handleClick(item[0])
-  }),
-  {
-    contexts: ['editable']
-  }
-);
+    [noCase.name, noCase.text],
+  ].forEach((item, index) => {
+    const common = {
+      contexts: ['editable'],
+    };
 
-setDefaults({
-  updateNotification: true
-});
+    if (item === null) {
+      chrome.contextMenus.create({
+        ...common,
+        id: `${index}_separator`,
+        type: 'separator',
+      });
+    } else {
+      chrome.contextMenus.create({
+        ...common,
+        id: item[0],
+        title: item[1],
+      });
+    }
+  });
 
-initializeState({
-  [STATE.INSTALL]: () => true,
-  [STATE.UPDATE]: data => data.updateNotification
-});
+  const exec = executableTab();
+  const handleMethod = (tab, name) =>
+    exec(tab)
+      .catch(error => alert(error))
+      .then(tabId => {
+        chrome.scripting
+          .executeScript({
+            target: {tabId},
+            files: ['content-script.js'],
+          })
+          .then(() => {
+            message.toTab(tabId, {
+              type: 'CHANGE_CASE',
+              name,
+            });
+          });
+      });
 
-chrome.commands.onCommand.addListener(command => {
-  let name = command.replace(/^\d+_/, '');
-  if (methodNames.indexOf(name) !== -1) {
-    getCurrentTab().then(tab => handleMethod(tab, name));
-  }
-});
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.selectionText) {
+      handleMethod(tab, info.menuItemId);
+    }
+  });
 
-// after 2.2.0 update - remove this code in the future
-// blacklist is depreciated, instead use ignoreList
-chrome.storage.sync.get('blacklist', data => {
-  if (data.blacklist !== undefined) {
-    chrome.storage.sync.set({ignoreList: data.blacklist});
-    chrome.storage.sync.remove('blacklist');
-  }
+  chrome.commands.onCommand.addListener(command => {
+    let name = command.replace(/^\d+_/, '');
+    if (methodNames.indexOf(name) !== -1) {
+      getCurrentTab().then(tab => handleMethod(tab, name));
+    }
+  });
+
+  // after 2.2.0 update - remove this code in the future
+  // blacklist is depreciated, instead use ignoreList
+  chrome.storage.sync.get('blacklist', data => {
+    if (data.blacklist !== undefined) {
+      chrome.storage.sync.set({ignoreList: data.blacklist});
+      chrome.storage.sync.remove('blacklist');
+    }
+  });
+
+  setDefaults({
+    updateNotification: true,
+  });
+
+  initializeState({
+    [STATE.INSTALL]: () => true,
+    [STATE.UPDATE]: data => data.updateNotification,
+  });
 });
