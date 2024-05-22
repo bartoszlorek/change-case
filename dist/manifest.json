@@ -6,7 +6,13 @@
   "author": "Bartosz Lorek",
   "description": "Multiple methods to change text case.",
   "homepage_url": "http://www.bartoszlorek.pl/",
-  "permissions": ["contextMenus", "activeTab", "storage", "scripting"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "storage",
+    "scripting",
+    "notifications"
+  ],
   "background": {
     "service_worker": "background.js"
   },

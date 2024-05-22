@@ -1,5 +1,5 @@
 import message from '@utils/chrome/message';
-import executableTab from '@utils/chrome/executable-tab';
+import {isExecutableTab} from '@utils/chrome/executable-tab';
 import getCurrentTab from '@utils/chrome/get-current-tab';
 import setDefaults from '@utils/chrome/set-defaults';
 import {STATE, initializeState} from '@utils/chrome/extension-state';
@@ -59,10 +59,8 @@ chrome.runtime.onInstalled.addListener(() => {
     }
   });
 
-  const exec = executableTab();
-  const handleMethod = (tab, name) =>
-    exec(tab)
-      .catch(error => alert(error))
+  const handleMethod = (tab, name) => {
+    isExecutableTab(tab)
       .then(tabId => {
         chrome.scripting
           .executeScript({
@@ -75,7 +73,16 @@ chrome.runtime.onInstalled.addListener(() => {
               name,
             });
           });
+      })
+      .catch(error => {
+        chrome.notifications.create({
+          type: 'basic',
+          iconUrl: './assets/icon128.png',
+          title: 'Change Case',
+          message: error,
+        });
       });
+  };
 
   chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.selectionText) {

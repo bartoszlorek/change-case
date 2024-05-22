@@ -1,7 +1,7 @@
 // It executes content scripts from extension manifest,
 // to make them work immediately upon installation.
 
-import {exec} from './executable-tab';
+import {isExecutableTab} from './executable-tab';
 
 const ALL_URLS = '<all_urls>';
 
@@ -26,8 +26,7 @@ function injectScripts(tab, scripts) {
   if (!isMatched(tab, scripts)) {
     return;
   }
-  exec(tab)
-    .catch(err => console.warn(err))
+  isExecutableTab(tab)
     .then(tabId =>
       scripts.forEach(({js, all_frames}) => {
         if (js == null) {
@@ -43,7 +42,8 @@ function injectScripts(tab, scripts) {
           }),
         );
       }),
-    );
+    )
+    .catch(err => console.warn(err));
 }
 
 function initializeScripts() {
