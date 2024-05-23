@@ -59,44 +59,6 @@ chrome.runtime.onInstalled.addListener(() => {
     }
   });
 
-  const handleMethod = (tab, name) => {
-    isExecutableTab(tab)
-      .then(tabId => {
-        chrome.scripting
-          .executeScript({
-            target: {tabId},
-            files: ['content-script.js'],
-          })
-          .then(() => {
-            message.toTab(tabId, {
-              type: 'CHANGE_CASE',
-              name,
-            });
-          });
-      })
-      .catch(error => {
-        chrome.notifications.create({
-          type: 'basic',
-          iconUrl: './assets/icon128.png',
-          title: 'Change Case',
-          message: error,
-        });
-      });
-  };
-
-  chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.selectionText) {
-      handleMethod(tab, info.menuItemId);
-    }
-  });
-
-  chrome.commands.onCommand.addListener(command => {
-    let name = command.replace(/^\d+_/, '');
-    if (methodNames.indexOf(name) !== -1) {
-      getCurrentTab().then(tab => handleMethod(tab, name));
-    }
-  });
-
   setDefaults({
     updateNotification: true,
   });
@@ -105,4 +67,38 @@ chrome.runtime.onInstalled.addListener(() => {
     [STATE.INSTALL]: () => true,
     [STATE.UPDATE]: data => data.updateNotification,
   });
+});
+
+const handleMethod = (tab, name) => {
+  isExecutableTab(tab)
+    .then(tabId => {
+      chrome.scripting
+        .executeScript({
+          target: {tabId},
+          files: ['content-script.js'],
+        })
+        .then(() => {
+          message.toTab(tabId, {
+            type: 'CHANGE_CASE',
+            name,
+          });
+        });
+    })
+    .catch(error => {
+      // TODO: find a solution to inform the user
+      console.log(error);
+    });
+};
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.selectionText) {
+    handleMethod(tab, info.menuItemId);
+  }
+});
+
+chrome.commands.onCommand.addListener(command => {
+  let name = command.replace(/^\d+_/, '');
+  if (methodNames.indexOf(name) !== -1) {
+    getCurrentTab().then(tab => handleMethod(tab, name));
+  }
 });
