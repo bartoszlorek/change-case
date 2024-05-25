@@ -3,4 +3,5 @@
 /dist/**/*.js
 /dist/**/*.js.map
 /dist/**/*.txt
+/dist_v3
 .DS_Store

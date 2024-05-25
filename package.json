@@ -7,7 +7,9 @@
     "start": "webpack --progress --watch",
     "build": "webpack --config webpack.config.prod.js",
     "test": "jest",
-    "test-watch": "npm test -- --watch --verbose"
+    "test-watch": "npm test -- --watch --verbose",
+    "start_v3": "node esbuild.js --watch",
+    "build_v3": "node esbuild.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,9 @@
     "css-loader": "^2.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "esbuild": "^0.21.3",
+    "esbuild-plugin-clean": "^1.0.1",
+    "esbuild-plugin-copy": "^2.1.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "jest-cli": "^24.9.0",
     "jest-styled-components": "^6.3.3",
