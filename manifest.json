@@ -8,10 +8,10 @@
   "homepage_url": "http://www.bartoszlorek.pl/",
   "permissions": ["contextMenus", "activeTab", "storage", "scripting"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js"
   },
   "options_ui": {
-    "page": "options.html"
+    "page": "options-page.html"
   },
   "icons": {
     "16": "assets/icon16.png",
@@ -27,25 +27,29 @@
     "11_upperCase": {
       "description": "UPPERCASE",
       "suggested_key": {
-        "default": "Alt+1"
+        "default": "Alt+1",
+        "mac": "MacCtrl+1"
       }
     },
     "12_lowerCase": {
       "description": "lowercase",
       "suggested_key": {
-        "default": "Alt+2"
+        "default": "Alt+2",
+        "mac": "MacCtrl+2"
       }
     },
     "13_titleCase": {
       "description": "Title Case",
       "suggested_key": {
-        "default": "Alt+3"
+        "default": "Alt+3",
+        "mac": "MacCtrl+3"
       }
     },
     "14_sentenceCase": {
       "description": "Sentence case",
       "suggested_key": {
-        "default": "Alt+4"
+        "default": "Alt+4",
+        "mac": "MacCtrl+4"
       }
     },
     "15_camelCase": {
