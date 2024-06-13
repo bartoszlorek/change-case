@@ -1,1 +1,1 @@
-import "./injection";
+import './injection';

@@ -12,16 +12,12 @@ import {
   titleCase,
   toggleCase,
   upperCase,
-} from "../methods";
-import {
-  HandshakeMessage,
-  HandshakeResponse,
-  MethodMessage,
-} from "../messages";
-import { asyncMessageHandler } from "../helpers";
-import { createSelection } from "./selection";
-import { buildOperators } from "./operators";
-import type { MethodTransformation } from "../methods";
+} from '../methods';
+import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
+import {asyncMessageHandler} from '../helpers';
+import {createSelection} from './selection';
+import {buildOperators} from './operators';
+import type {MethodTransformation} from '../methods';
 
 const definedMethods: Record<string, MethodTransformation> = {
   camelCase,
@@ -41,13 +37,13 @@ const definedMethods: Record<string, MethodTransformation> = {
 
 chrome.runtime.onMessage.addListener(
   asyncMessageHandler<HandshakeMessage, HandshakeResponse>(
-    "change_case_handshake",
-    async () => ({ injected: true })
+    'change_case_handshake',
+    async () => ({injected: true})
   )
 );
 
 chrome.runtime.onMessage.addListener(
-  asyncMessageHandler<MethodMessage>("change_case_method", async ({ name }) => {
+  asyncMessageHandler<MethodMessage>('change_case_method', async ({name}) => {
     const method = definedMethods[name];
     if (method === undefined) {
       return;
@@ -59,7 +55,7 @@ chrome.runtime.onMessage.addListener(
     }
 
     console.log(selection);
-    buildOperators(method).then((composedMethod) => {
+    buildOperators(method).then(composedMethod => {
       selection.textContent((value: string) => composedMethod(value));
     });
   })

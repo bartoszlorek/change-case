@@ -1,5 +1,4 @@
-import cases from './index';
-const {noCase} = cases;
+import {noCase} from './noCase';
 
 describe('noCase()', () => {
   it.each`
@@ -23,8 +22,9 @@ describe('noCase()', () => {
 
   describe('assertions:', () => {
     it('should remove non-word characters', () => {
-      const result = noCase('The quick brown fox, which jumps over...');
-      expect(result).toBe('the quick brown fox which jumps over');
+      expect(noCase('The quick brown fox, which jumps over...')).toBe(
+        'the quick brown fox which jumps over'
+      );
     });
   });
 });

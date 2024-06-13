@@ -5,10 +5,10 @@ import {
   getNextNode,
   nodeDocument,
   nodeWindow,
-} from "../../helpers";
-import { SelectionInterface } from "./SelectionInterface";
-import { dispatchChangeEvent } from "./nativeEvent";
-import { setProperty } from "./nativeSetter";
+} from '../../helpers';
+import {SelectionInterface} from './SelectionInterface';
+import {dispatchChangeEvent} from './nativeEvent';
+import {setProperty} from './nativeSetter';
 
 interface RangeInit {
   startContainer: Node;
@@ -72,7 +72,7 @@ export class SelectionRange implements SelectionInterface {
       const endOffset = i === textNodes.length - 1 ? this.endOffset : Infinity;
 
       const node = textNodes[i];
-      const currentValue = node.nodeValue || "";
+      const currentValue = node.nodeValue || '';
       const currentValueSlice = currentValue.slice(startOffset, endOffset);
 
       const nextValueSlice = iterate(currentValueSlice, node);
@@ -85,7 +85,7 @@ export class SelectionRange implements SelectionInterface {
         );
 
         hasTextContentChanged = true;
-        setProperty(node, "nodeValue", nextValue);
+        setProperty(node, 'nodeValue', nextValue);
         dispatchChangeEvent(node);
 
         if (i === textNodes.length - 1) {

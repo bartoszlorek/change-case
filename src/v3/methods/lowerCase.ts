@@ -1,10 +1,10 @@
-import { createDefinition } from "./types";
+import {createDefinition} from './types';
 
 export const lowerCaseDef = createDefinition({
-  name: "lowerCase",
-  text: "lowercase",
+  name: 'lowerCase',
+  text: 'lowercase',
 });
 
 export function lowerCase(value: string) {
-  return value;
+  return value.toLowerCase();
 }

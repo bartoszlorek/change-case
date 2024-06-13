@@ -1,5 +1,5 @@
 export type HandshakeMessage = {
-  type: "change_case_handshake";
+  type: 'change_case_handshake';
 };
 
 export type HandshakeResponse = {
@@ -7,6 +7,6 @@ export type HandshakeResponse = {
 };
 
 export type MethodMessage = {
-  type: "change_case_method";
+  type: 'change_case_method';
   name: string;
 };

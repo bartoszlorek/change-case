@@ -1,10 +1,12 @@
-import { createDefinition } from "./types";
+import {createDefinition} from './types';
+import {upperCase} from './upperCase';
+import {snakeCase} from './snakeCase';
 
 export const constantCaseDef = createDefinition({
-  name: "constantCase",
-  text: "CONSTANT_CASE",
+  name: 'constantCase',
+  text: 'CONSTANT_CASE',
 });
 
 export function constantCase(value: string) {
-  return value;
+  return upperCase(snakeCase(value));
 }

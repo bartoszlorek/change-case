@@ -1,8 +1,4 @@
-import {
-  HandshakeMessage,
-  HandshakeResponse,
-  MethodMessage,
-} from "../messages";
+import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {
   camelCaseDef,
   constantCaseDef,
@@ -17,7 +13,7 @@ import {
   titleCaseDef,
   toggleCaseDef,
   upperCaseDef,
-} from "../methods";
+} from '../methods';
 
 const contextMenuItems = [
   upperCaseDef,
@@ -42,13 +38,13 @@ chrome.runtime.onInstalled.addListener(() => {
   contextMenuItems.forEach((item, index) => {
     if (item === null) {
       chrome.contextMenus.create({
-        contexts: ["editable"],
+        contexts: ['editable'],
         id: `${index}_separator`,
-        type: "separator",
+        type: 'separator',
       });
     } else {
       chrome.contextMenus.create({
-        contexts: ["editable"],
+        contexts: ['editable'],
         id: item.name,
         title: item.text,
       });
@@ -62,11 +58,11 @@ async function sendMethodMessage(tabId: number, name: string) {
       HandshakeMessage,
       HandshakeResponse
     >(tabId, {
-      type: "change_case_handshake",
+      type: 'change_case_handshake',
     });
 
     if (!response.injected) {
-      throw "not_injected";
+      throw 'not_injected';
     }
   } catch {
     // sending a message to not injected
@@ -74,8 +70,8 @@ async function sendMethodMessage(tabId: number, name: string) {
 
     try {
       await chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["content-script.js"],
+        target: {tabId},
+        files: ['content-script.js'],
       });
 
       const lastError = chrome.runtime.lastError;
@@ -90,7 +86,7 @@ async function sendMethodMessage(tabId: number, name: string) {
   }
 
   chrome.tabs.sendMessage<MethodMessage>(tabId, {
-    type: "change_case_method",
+    type: 'change_case_method',
     name,
   });
 }
@@ -102,8 +98,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 chrome.commands.onCommand.addListener((command, tab) => {
-  const name = command.replace(/^\d+_/, "");
-  if (tab.id && contextMenuItems.some((a) => a?.name === name)) {
+  const name = command.replace(/^\d+_/, '');
+  if (tab.id && contextMenuItems.some(a => a?.name === name)) {
     sendMethodMessage(tab.id, name);
   }
 });

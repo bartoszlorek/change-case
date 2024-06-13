@@ -1,10 +1,11 @@
-import { createDefinition } from "./types";
+import {createDefinition} from './types';
+import {noCase} from './noCase';
 
 export const dotCaseDef = createDefinition({
-  name: "dotCase",
-  text: "dot.case",
+  name: 'dotCase',
+  text: 'dot.case',
 });
 
 export function dotCase(value: string) {
-  return value;
+  return noCase(value, '.');
 }

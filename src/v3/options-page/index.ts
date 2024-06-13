@@ -1,1 +1,1 @@
-console.log("options-page");
+console.log('options-page');

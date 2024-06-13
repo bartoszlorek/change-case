@@ -1,6 +1,6 @@
-import { iframeDocument, iframeWindow, isElementTagName } from "../../helpers";
-import { SelectionElement } from "./SelectionElement";
-import { SelectionRange } from "./SelectionRange";
+import {iframeDocument, iframeWindow, isElementTagName} from '../../helpers';
+import {SelectionElement} from './SelectionElement';
+import {SelectionRange} from './SelectionRange';
 
 export function createSelection(
   win: Window = window,
@@ -12,8 +12,8 @@ export function createSelection(
   }
 
   if (
-    isElementTagName<HTMLTextAreaElement>(elem, "TEXTAREA") ||
-    isElementTagName<HTMLInputElement>(elem, "INPUT")
+    isElementTagName<HTMLTextAreaElement>(elem, 'TEXTAREA') ||
+    isElementTagName<HTMLInputElement>(elem, 'INPUT')
   ) {
     return new SelectionElement(
       elem,
@@ -23,8 +23,8 @@ export function createSelection(
   }
 
   if (
-    isElementTagName<HTMLIFrameElement>(elem, "IFRAME") ||
-    isElementTagName<HTMLFrameElement>(elem, "FRAME")
+    isElementTagName<HTMLIFrameElement>(elem, 'IFRAME') ||
+    isElementTagName<HTMLFrameElement>(elem, 'FRAME')
   ) {
     // the same-origin policy
     try {
@@ -32,7 +32,7 @@ export function createSelection(
       const doc = iframeDocument(elem);
 
       if (!win || !doc) {
-        throw "missing window or document";
+        throw 'missing window or document';
       }
       return createSelection(win, doc);
     } catch {

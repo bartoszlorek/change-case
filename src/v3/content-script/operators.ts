@@ -1,12 +1,12 @@
-import { pipe } from "ramda";
-import { spliceString, findAllWords } from "../helpers";
-import type { MethodTransformation } from "../methods";
+import {pipe} from 'ramda';
+import {spliceString, findAllWords} from '../helpers';
+import type {MethodTransformation} from '../methods';
 
 export function buildOperators(
   method: MethodTransformation
 ): Promise<(value: string) => string> {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(null, (data) => {
+  return new Promise(resolve => {
+    chrome.storage.sync.get(null, data => {
       resolve(
         pipe(
           createTextNode,
@@ -44,7 +44,7 @@ function applyMethod(method: MethodTransformation) {
 }
 
 export function applyIgnoreList(ignoreList?: string) {
-  const data = parseCommaList(ignoreList || "");
+  const data = parseCommaList(ignoreList || '');
 
   return (node: TextNodeType) => {
     if (!data.length) {
@@ -52,7 +52,7 @@ export function applyIgnoreList(ignoreList?: string) {
     }
 
     let target = node.target;
-    for (const { index, match } of findAllWords(node.source, data)) {
+    for (const {index, match} of findAllWords(node.source, data)) {
       target = spliceString(target, match, index, index + match.length);
     }
 
@@ -64,7 +64,7 @@ export function applyIgnoreList(ignoreList?: string) {
 }
 
 export function applyCorrectList(correctList?: string) {
-  const data = parseCommaList(correctList || "");
+  const data = parseCommaList(correctList || '');
 
   return (node: TextNodeType) => {
     if (!data.length) {
@@ -72,7 +72,7 @@ export function applyCorrectList(correctList?: string) {
     }
 
     let target = node.target;
-    for (const { index, match, value } of findAllWords(node.target, data)) {
+    for (const {index, match, value} of findAllWords(node.target, data)) {
       target = spliceString(target, value, index, index + match.length);
     }
 
@@ -84,5 +84,6 @@ export function applyCorrectList(correctList?: string) {
 }
 
 export function parseCommaList(value: string) {
-  return value.trim().split(/\s*\,\s*/);
+  const trimmed = value.trim();
+  return trimmed ? trimmed.split(/\s*\,\s*/) : [];
 }

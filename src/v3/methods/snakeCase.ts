@@ -1,10 +1,11 @@
-import { createDefinition } from "./types";
+import {createDefinition} from './types';
+import {noCase} from './noCase';
 
 export const snakeCaseDef = createDefinition({
-  name: "snakeCase",
-  text: "snake_case",
+  name: 'snakeCase',
+  text: 'snake_case',
 });
 
 export function snakeCase(value: string) {
-  return value;
+  return noCase(value, '_');
 }

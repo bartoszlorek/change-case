@@ -1,7 +1,7 @@
-import { spliceString } from "../../helpers";
-import { SelectionInterface } from "./SelectionInterface";
-import { dispatchChangeEvent } from "./nativeEvent";
-import { setProperty } from "./nativeSetter";
+import {spliceString} from '../../helpers';
+import {SelectionInterface} from './SelectionInterface';
+import {dispatchChangeEvent} from './nativeEvent';
+import {setProperty} from './nativeSetter';
 
 export class SelectionElement<T extends HTMLInputElement | HTMLTextAreaElement>
   implements SelectionInterface
@@ -36,7 +36,7 @@ export class SelectionElement<T extends HTMLInputElement | HTMLTextAreaElement>
         this.endOffset
       );
 
-      setProperty(this.container, "value", nextValue);
+      setProperty(this.container, 'value', nextValue);
       dispatchChangeEvent(this.container);
 
       this.endOffset += nextValueSlice.length - currentValueSlice.length;
