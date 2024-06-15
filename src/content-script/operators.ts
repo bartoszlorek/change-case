@@ -1,11 +1,8 @@
-import {pipe} from 'ramda';
-import {spliceString, findAllWords} from '../helpers';
+import {spliceString, findAllWords, pipe} from '../helpers';
 import type {MethodTransformation} from '../methods';
 
-export function buildOperators(
-  method: MethodTransformation
-): Promise<(value: string) => string> {
-  return new Promise(resolve => {
+export function buildOperators(method: MethodTransformation) {
+  return new Promise<MethodTransformation>(resolve => {
     chrome.storage.sync.get(null, data => {
       resolve(
         pipe(
