@@ -4,19 +4,19 @@ const {clean} = require('esbuild-plugin-clean');
 
 const [, , watchMode] = process.argv;
 
-const outdir = 'dist_v3';
+const outdir = 'dist';
 const options = {
   entryPoints: [
     {
-      in: 'src/v3/content-script/index.ts',
+      in: 'src/content-script/index.ts',
       out: 'content-script',
     },
     {
-      in: 'src/v3/options-page/index.tsx',
+      in: 'src/options-page/index.tsx',
       out: 'options-page',
     },
     {
-      in: 'src/v3/service-worker/index.ts',
+      in: 'src/service-worker/index.ts',
       out: 'service-worker',
     },
   ],

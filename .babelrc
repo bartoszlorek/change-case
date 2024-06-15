@@ -3,20 +3,5 @@
     "@babel/preset-env",
     "@babel/preset-react",
     "@babel/preset-typescript"
-  ],
-  "plugins": [
-    "lodash",
-    "@babel/plugin-proposal-class-properties",
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "regenerator": true
-      }
-    ]
-  ],
-  "env": {
-    "development": {
-      "plugins": ["babel-plugin-styled-components"]
-    }
-  }
+  ]
 }

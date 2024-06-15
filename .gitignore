@@ -1,7 +1,4 @@
 /node_modules
 /coverage
-/dist/**/*.js
-/dist/**/*.js.map
-/dist/**/*.txt
-/dist_v3
+/dist
 .DS_Store
