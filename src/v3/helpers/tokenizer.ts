@@ -73,7 +73,7 @@ const unicodeRanges = [
   combiningDiacriticalMarks,
 ].reduce((acc, regex) => acc + regex.source, '');
 
-const meaningfulChars = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
+const relevantCharacters = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
 
 interface Token {
   index: number;
@@ -89,22 +89,23 @@ export function tokenizer(value: string): Token[] {
     return tokens;
   }
 
-  let current = '';
   let index = 0;
+  let current = '';
 
   for (let i = 0; i < chars.length; i++) {
     const char = chars[i];
-    current += char;
 
-    if (!meaningfulChars.test(char)) {
+    if (!relevantCharacters.test(char)) {
       tokens.push({
         index: index,
-        value: current.slice(0, -1),
-        break: current.slice(-1),
+        value: current,
+        break: char,
       });
 
-      current = '';
       index = i + 1;
+      current = '';
+    } else {
+      current += char;
     }
   }
 
