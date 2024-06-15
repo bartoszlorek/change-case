@@ -1,9 +1,5 @@
 module.exports = {
-  setupFiles: ['<rootDir>/setupTests.js'],
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  moduleDirectories: ['node_modules', 'src', 'src/options'],
-  moduleNameMapper: {
-    '^@utils(.*)$': '<rootDir>/src/.utils$1',
-    '^@options(.*)$': '<rootDir>/src/options$1',
-  },
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['./jest.setup.js'],
 };

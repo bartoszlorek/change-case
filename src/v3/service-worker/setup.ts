@@ -34,7 +34,7 @@ const contextMenuItems = [
   noCaseDef,
 ];
 
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener(details => {
   contextMenuItems.forEach((item, index) => {
     if (item === null) {
       chrome.contextMenus.create({
@@ -50,6 +50,10 @@ chrome.runtime.onInstalled.addListener(() => {
       });
     }
   });
+
+  if (details.reason === 'install') {
+    chrome.runtime.openOptionsPage();
+  }
 });
 
 async function sendMethodMessage(tabId: number, name: string) {
