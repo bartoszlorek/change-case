@@ -1,6 +1,7 @@
 const esbuild = require('esbuild');
 const {copy} = require('esbuild-plugin-copy');
 const {clean} = require('esbuild-plugin-clean');
+const {sassPlugin, postcssModules} = require('esbuild-sass-plugin');
 
 const [, , watchMode] = process.argv;
 
@@ -33,6 +34,13 @@ const options = {
         {from: 'public/*', to: '.'},
         {from: 'manifest.json', to: 'manifest.json'},
       ],
+    }),
+    sassPlugin({
+      filter: /\.module\.scss$/,
+      transform: postcssModules({}),
+    }),
+    sassPlugin({
+      filter: /\.scss$/,
     }),
     logger(),
   ],

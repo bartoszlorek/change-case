@@ -1,13 +1,11 @@
+import './global.scss';
 import * as React from 'react';
-import styled from 'styled-components';
 import useForm from './useForm';
 import {useLog} from './useLog';
 import {
   Button,
-  PrimaryButton,
   Console,
   Controls,
-  GlobalStyle,
   Ribbon,
   Section,
   Sections,
@@ -19,11 +17,7 @@ type FieldType = 'ignoreList' | 'correctList';
 const openShortcutsPage = () =>
   chrome.tabs.create({url: 'chrome://extensions/shortcuts'});
 
-type PropsType = Readonly<{
-  className?: string;
-}>;
-
-function App({className}: PropsType) {
+export function App() {
   const log = useLog({
     timeout: 3000,
   });
@@ -38,17 +32,18 @@ function App({className}: PropsType) {
   });
 
   return (
-    <div className={className}>
-      <GlobalStyle />
+    <div>
+      <Ribbon active={!isUpdated} />
       <Sections>
         <Section
           title="Keyboard Shortcuts"
           description="Since 2.3.0 version, this extension supports browser native keyboard shortcuts. Open them and scroll to Change Case card."
         >
-          <PrimaryButton
-            value="Open Chrome Keyboard Shortcuts"
+          <Button
+            type="primary"
+            text="Open Chrome Keyboard Shortcuts"
+            size="full"
             onClick={openShortcutsPage}
-            wide
           />
         </Section>
         <Section
@@ -67,16 +62,17 @@ function App({className}: PropsType) {
           />
         </Section>
       </Sections>
+
       <Controls>
         <Console log={log} />
-        {!isUpdated && <Button value="Reject" onClick={rejectForm} />}
-        <PrimaryButton value="Save" disabled={isUpdated} onClick={saveForm} />
+        {!isUpdated && <Button text="Reject" onClick={rejectForm} />}
+        <Button
+          type="primary"
+          text="Save"
+          disabled={isUpdated}
+          onClick={saveForm}
+        />
       </Controls>
-      <Ribbon active={!isUpdated} />
     </div>
   );
 }
-
-export default styled(App)`
-  background: #f6f7f9;
-`;

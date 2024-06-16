@@ -1,30 +1,21 @@
 import * as React from 'react';
-import styled, {css} from 'styled-components';
+import cx from 'classnames';
 import type {Log} from '../useLog';
+import styles from './Console.module.scss';
 
 type PropsType = Readonly<{
   log: Log;
-  className?: string;
 }>;
 
-const Console = ({className, log}: PropsType) =>
-  log.type && <div className={className}>{log.text}</div>;
+export function Console({log}: PropsType) {
+  if (log.text === '') {
+    return null;
+  }
 
-const styleType =
-  (type: Log['type']) => (style: TemplateStringsArray) => (props: PropsType) =>
-    props.log.type === type && css(style);
+  const consoleClass = cx(styles.console, {
+    [styles.consoleInfo]: log.type === 'info',
+    [styles.consoleWarn]: log.type === 'warn',
+  });
 
-export default styled(Console)`
-  margin: 0 auto 0 0;
-  white-space: nowrap;
-  font-weight: bold;
-  overflow: hidden;
-
-  ${styleType('info')`
-    color: #009ff1;
-  `}
-
-  ${styleType('warn')`
-    color: #f1002b;
-  `}
-`;
+  return <div className={consoleClass}>{log.text}</div>;
+}

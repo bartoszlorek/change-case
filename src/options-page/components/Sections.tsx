@@ -1,8 +1,10 @@
-import styled from 'styled-components';
+import * as React from 'react';
+import styles from './Sections.module.scss';
 
-const Sections = styled.div`
-  position: relative;
-  margin-bottom: 60px;
-`;
+type PropsType = Readonly<{
+  children: React.ReactNode;
+}>;
 
-export default Sections;
+export function Sections({children}: PropsType) {
+  return <div className={styles.container}>{children}</div>;
+}

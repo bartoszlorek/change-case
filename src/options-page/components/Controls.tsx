@@ -1,23 +1,10 @@
-import styled from 'styled-components';
+import * as React from 'react';
+import styles from './Controls.module.scss';
 
-const Controls = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+type PropsType = Readonly<{
+  children: React.ReactNode;
+}>;
 
-  padding: 14px 17px;
-  background: #fff;
-  border-top: 1px solid #dddfe2;
-  box-shadow: 0px -3px 1px 0px rgba(50, 60, 70, 0.04);
-
-  & > button {
-    margin: 0 0 0 6px;
-    flex-shrink: 0;
-  }
-`;
-
-export default Controls;
+export function Controls({children}: PropsType) {
+  return <div className={styles.container}>{children}</div>;
+}

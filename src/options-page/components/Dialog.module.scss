@@ -1,0 +1,41 @@
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(42, 45, 53, 0.4);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.15s normal forwards;
+}
+
+.container {
+  background: #fff;
+  border-radius: 3px;
+  overflow: hidden;
+  width: 60%;
+}
+
+.buttons {
+  background: #f6f7f9;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 17px;
+  border-top: 1px solid #dddfe2;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,11 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import Wrap from './Wrap';
-
-const Description = styled.p`
-  margin: 0 0 1em;
-  line-height: 1.5em;
-`;
+import {Wrap} from './Wrap';
+import styles from './Section.module.scss';
 
 type PropsType = Readonly<{
   title: string;
@@ -13,20 +8,16 @@ type PropsType = Readonly<{
   children: React.ReactNode;
 }>;
 
-const Section = ({title, description, children}: PropsType) => {
-  const showDescription = !!(title || description);
-
+export function Section({title, description, children}: PropsType) {
   return (
     <Wrap>
-      {showDescription && (
-        <Description>
+      {(title || description) && (
+        <p className={styles.description}>
           {title && <b>{title}: </b>}
           {description}
-        </Description>
+        </p>
       )}
       {children}
     </Wrap>
   );
-};
-
-export default Section;
+}

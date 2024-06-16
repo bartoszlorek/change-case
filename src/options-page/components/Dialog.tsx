@@ -1,53 +1,23 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import {confirmable} from 'react-confirm';
-import {showIn} from './animation';
-
-import Button, {PrimaryButton} from './Button';
-import Wrap from './Wrap';
-
-const Window = styled.div`
-  background: #fff;
-  border-radius: 3px;
-  overflow: hidden;
-  width: 60%;
-`;
-
-const WrapButtons = styled(Wrap)`
-  background: #f6f7f9;
-  display: flex;
-  justify-content: space-between;
-`;
+import {Button} from './Button';
+import {Wrap} from './Wrap';
+import styles from './Dialog.module.scss';
 
 type PropsType = Readonly<{
-  className: string;
   message: string;
-  proceed: () => void;
-  dismiss: () => void;
+  proceed?: () => void;
+  dismiss?: () => void;
 }>;
 
-const Dialog = ({className, message, proceed, dismiss}: PropsType) => (
-  <div className={className}>
-    <Window>
+export const Dialog = confirmable(({message, proceed, dismiss}: PropsType) => (
+  <div className={styles.overlay}>
+    <div className={styles.container}>
       <Wrap>{message}</Wrap>
-      <WrapButtons>
-        <Button value="No" onClick={dismiss} />
-        <PrimaryButton value="Yes" onClick={proceed} />
-      </WrapButtons>
-    </Window>
+      <div className={styles.buttons}>
+        <Button text="No" onClick={dismiss} />
+        <Button type="primary" text="Yes" onClick={proceed} />
+      </div>
+    </div>
   </div>
-);
-
-export default styled(confirmable(Dialog))`
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(42, 45, 53, 0.4);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: ${showIn} 0.15s normal forwards;
-`;
+));
