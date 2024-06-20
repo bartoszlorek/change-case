@@ -1,4 +1,5 @@
-import {lowerCase} from './lowerCase';
+import scenarios from '../scenarios';
+import {lowerCase, lowerCaseV3} from './lowerCase';
 
 describe('lowerCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('lowerCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quick brown fox from town'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(lowerCase(input)).toBe(output);
+  });
+});
+
+describe('lowerCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(lowerCaseV3(source)).toBe(expected.lowerCase);
   });
 });

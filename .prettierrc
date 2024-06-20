@@ -3,5 +3,13 @@
   "singleQuote": true,
   "bracketSpacing": false,
   "trailingComma": "es5",
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "scenarios.ts",
+      "options": {
+        "printWidth": 200
+      }
+    }
+  ]
 }

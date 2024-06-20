@@ -1,4 +1,5 @@
-import {noAccents} from './noAccents';
+import scenarios from '../scenarios';
+import {noAccents, noAccentsV3} from './noAccents';
 
 describe('noAccents()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('noAccents()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quick brown fox from town'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(noAccents(input)).toBe(output);
+  });
+});
+
+describe('noAccentsV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(noAccentsV3(source)).toBe(expected.noAccents);
   });
 });

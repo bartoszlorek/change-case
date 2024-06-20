@@ -1,4 +1,5 @@
-import {constantCase} from './constantCase';
+import scenarios from '../scenarios';
+import {constantCase, constantCaseV3} from './constantCase';
 
 describe('constantCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('constantCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'QUICK_BROWN_FOX_FROM_TOWN'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(constantCase(input)).toBe(output);
+  });
+});
+
+describe('constantCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(constantCaseV3(source)).toBe(expected.constantCase);
   });
 });

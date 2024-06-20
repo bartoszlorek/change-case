@@ -1,8 +1,8 @@
+import scenarios from '../scenarios';
 import {tokenizer} from './tokenizer';
-import examples from '../examples';
 
 describe('tokenizer()', () => {
-  it.each(examples)('%p', ({source, tokens}) => {
+  it.each(scenarios)('$scenario \t $source', ({source, tokens}) => {
     expect(tokenizer(source)).toEqual(tokens);
   });
 });

@@ -53,7 +53,6 @@ const cyrillicSupplement = /\u0500-\u050F\u0510-\u051F\u0520-\u052F/;
 /**
  * https://en.wikipedia.org/wiki/Combining_Diacritical_Marks
  */
-
 const combiningDiacriticalMarks =
   /\u0300-\u030F\u0310-\u031F\u0320-\u032F\u0330-\u033F\u0340-\u034F\u0350-\u035F\u0360-\u036F/;
 
@@ -120,9 +119,27 @@ export function tokenizer(value: string): Token[] {
   return tokens;
 }
 
+export function notEmptyToken(token: Token) {
+  return token.value !== '';
+}
+
+export function startsNumeric(value: string) {
+  return /^[0-9]/.test(value);
+}
+
 /**
  * https://en.wikipedia.org/wiki/Apostrophe
  */
 export function isApostrophe(value: string) {
   return /['’]/.test(value);
+}
+
+/**
+ * https://en.wikipedia.org/wiki/Abbreviation
+ * https://www.grammar-monster.com/lessons/abbreviations_full_stops_periods.htm
+ * https://www.scribbr.com/definitions/for-example-abbreviation/
+ * https://edu.gcfglobal.org/en/grammar/abbreviations-and-acronyms/1/#
+ */
+export function isAbbreviationToken(token: Token) {
+  return false;
 }

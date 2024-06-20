@@ -1,4 +1,7 @@
 import {createDefinition} from './types';
+import {lowerCaseV3} from './lowerCase';
+import {upperCaseV3} from './upperCase';
+
 import {lowerCase} from './lowerCase';
 import {upperCase} from './upperCase';
 
@@ -16,4 +19,17 @@ export function toggleCase(value: string) {
     }
     return result + upperChar;
   }, '');
+}
+
+export function toggleCaseV3(input: string) {
+  return [...input]
+    .map(char => {
+      const upperChar = upperCaseV3(char);
+
+      if (char === upperChar) {
+        return lowerCaseV3(char);
+      }
+      return upperChar;
+    })
+    .join('');
 }

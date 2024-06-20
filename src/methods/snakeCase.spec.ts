@@ -1,4 +1,5 @@
-import {snakeCase} from './snakeCase';
+import scenarios from '../scenarios';
+import {snakeCase, snakeCaseV3} from './snakeCase';
 
 describe('snakeCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('snakeCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quick_brown_fox_from_town'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(snakeCase(input)).toBe(output);
+  });
+});
+
+describe('snakeCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(snakeCaseV3(source)).toBe(expected.snakeCase);
   });
 });

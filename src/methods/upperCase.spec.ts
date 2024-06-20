@@ -1,4 +1,5 @@
-import {upperCase} from './upperCase';
+import scenarios from '../scenarios';
+import {upperCase, upperCaseV3} from './upperCase';
 
 describe('upperCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('upperCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'QUICK BROWN FOX FROM TOWN'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(upperCase(input)).toBe(output);
+  });
+});
+
+describe('upperCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(upperCaseV3(source)).toBe(expected.upperCase);
   });
 });

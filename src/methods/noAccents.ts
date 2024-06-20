@@ -6,10 +6,16 @@ export const noAccentsDef = createDefinition({
 });
 
 /**
+ * https://en.wikipedia.org/wiki/Combining_Diacritical_Marks
+ */
+const combiningDiacriticalMarks =
+  /[\u0300-\u030F\u0310-\u031F\u0320-\u032F\u0330-\u033F\u0340-\u034F\u0350-\u035F\u0360-\u036F]/g;
+
+/**
  * based on remove-accents by Marin Atanasov
  * https://github.com/tyxla/remove-accents
  */
-const ACCENTS_MAP = {
+const accentsObject = {
   À: 'A',
   Á: 'A',
   Â: 'A',
@@ -411,9 +417,24 @@ const ACCENTS_MAP = {
   z̧: 'z',
 };
 
-const chars = Object.keys(ACCENTS_MAP).join('|');
-const regex = new RegExp(chars, 'g');
+const accentsMap = new Map(Object.entries(accentsObject));
+const accentsRegex = new RegExp(Object.keys(accentsObject).join('|'), 'g');
 
 export function noAccents(value: string) {
-  return value.replace(regex, match => ACCENTS_MAP[match]);
+  // @ts-ignore
+  return value.replace(accentsRegex, match => accentsObject[match]);
+}
+
+export function noAccentsV3(input: string) {
+  /**
+   * https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+   */
+  const normalized = input
+    .normalize('NFD')
+    .replace(combiningDiacriticalMarks, '');
+
+  return normalized.replace(
+    accentsRegex,
+    match => accentsMap.get(match) || match
+  );
 }

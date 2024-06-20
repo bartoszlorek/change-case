@@ -1,4 +1,5 @@
-import {dotCase} from './dotCase';
+import scenarios from '../scenarios';
+import {dotCase, dotCaseV3} from './dotCase';
 
 describe('dotCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('dotCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quick.brown.fox.from.town'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(dotCase(input)).toBe(output);
+  });
+});
+
+describe('dotCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(dotCaseV3(source)).toBe(expected.dotCase);
   });
 });

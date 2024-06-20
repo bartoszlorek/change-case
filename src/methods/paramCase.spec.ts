@@ -1,4 +1,5 @@
-import {paramCase} from './paramCase';
+import scenarios from '../scenarios';
+import {paramCase, paramCaseV3} from './paramCase';
 
 describe('paramCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('paramCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quick-brown-fox-from-town'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(paramCase(input)).toBe(output);
+  });
+});
+
+describe('paramCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(paramCaseV3(source)).toBe(expected.paramCase);
   });
 });

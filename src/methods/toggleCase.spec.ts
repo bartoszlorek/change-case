@@ -1,4 +1,5 @@
-import {toggleCase} from './toggleCase';
+import scenarios from '../scenarios';
+import {toggleCase, toggleCaseV3} from './toggleCase';
 
 describe('toggleCase()', () => {
   it.each`
@@ -26,5 +27,11 @@ describe('toggleCase()', () => {
     ${'quick BROWN fox'} | ${'QUICK brown FOX'}
   `('usage: $input —— $output', ({input, output}) => {
     expect(toggleCase(input)).toBe(output);
+  });
+});
+
+describe('toggleCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(toggleCaseV3(source)).toBe(expected.toggleCase);
   });
 });

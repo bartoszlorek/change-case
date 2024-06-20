@@ -1,4 +1,5 @@
-import {camelCase} from './camelCase';
+import scenarios from '../scenarios';
+import {camelCase, camelCaseV3} from './camelCase';
 
 describe('camelCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('camelCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'quickBrownFoxFromTown'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(camelCase(input)).toBe(output);
+  });
+});
+
+describe('camelCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(camelCaseV3(source)).toBe(expected.camelCase);
   });
 });

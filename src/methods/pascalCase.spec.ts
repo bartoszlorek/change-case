@@ -1,4 +1,5 @@
-import {pascalCase} from './pascalCase';
+import scenarios from '../scenarios';
+import {pascalCase, pascalCaseV3} from './pascalCase';
 
 describe('pascalCase()', () => {
   it.each`
@@ -18,5 +19,11 @@ describe('pascalCase()', () => {
     ${'noCase'}       | ${'quick brown fox from town'} | ${'QuickBrownFoxFromTown'}
   `('converts from $method —— $output', ({input, output}) => {
     expect(pascalCase(input)).toBe(output);
+  });
+});
+
+describe('pascalCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
+    expect(pascalCaseV3(source)).toBe(expected.pascalCase);
   });
 });
