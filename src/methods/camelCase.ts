@@ -1,7 +1,8 @@
 import {createDefinition} from './types';
-import {tokenizer, notEmptyToken, startsNumeric} from '../helpers/tokenizer';
+import {upperCaseFirst, startsNumeric} from '../helpers';
+import {tokenizer, isNotEmptyToken} from '../tokenizer';
+
 import {lowerCaseV3} from './lowerCase';
-import {upperCaseV3} from './upperCase';
 
 import {noCase} from './noCase';
 import {upperCase} from './upperCase';
@@ -25,8 +26,8 @@ export function camelCase(value: string, mergeNumbers?: boolean) {
 
 export function camelCaseV3(input: string) {
   return tokenizer(input)
-    .filter(notEmptyToken)
-    .map<string>(({value}, index) => {
+    .filter(isNotEmptyToken)
+    .map(({value}, index) => {
       if (index === 0) {
         return lowerCaseV3(value);
       }
@@ -35,7 +36,7 @@ export function camelCaseV3(input: string) {
         return '_' + value;
       }
 
-      return upperCaseV3(value.slice(0, 1)) + lowerCaseV3(value.slice(1));
+      return upperCaseFirst(value);
     })
     .join('');
 }

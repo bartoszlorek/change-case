@@ -1,3 +1,5 @@
+import {Token} from './token';
+
 /**
  * https://en.wikipedia.org/wiki/Latin-1_Supplement
  */
@@ -74,12 +76,6 @@ const unicodeRanges = [
 
 const relevantCharacters = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
 
-interface Token {
-  index: number;
-  value: string;
-  break: string;
-}
-
 export function tokenizer(value: string): Token[] {
   const chars = [...value];
   const tokens: Token[] = [];
@@ -117,29 +113,4 @@ export function tokenizer(value: string): Token[] {
   }
 
   return tokens;
-}
-
-export function notEmptyToken(token: Token) {
-  return token.value !== '';
-}
-
-export function startsNumeric(value: string) {
-  return /^[0-9]/.test(value);
-}
-
-/**
- * https://en.wikipedia.org/wiki/Apostrophe
- */
-export function isApostrophe(value: string) {
-  return /['’]/.test(value);
-}
-
-/**
- * https://en.wikipedia.org/wiki/Abbreviation
- * https://www.grammar-monster.com/lessons/abbreviations_full_stops_periods.htm
- * https://www.scribbr.com/definitions/for-example-abbreviation/
- * https://edu.gcfglobal.org/en/grammar/abbreviations-and-acronyms/1/#
- */
-export function isAbbreviationToken(token: Token) {
-  return false;
 }

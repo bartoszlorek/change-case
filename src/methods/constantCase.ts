@@ -1,5 +1,5 @@
 import {createDefinition} from './types';
-import {tokenizer, notEmptyToken} from '../helpers/tokenizer';
+import {tokenizer, isNotEmptyToken} from '../tokenizer';
 import {upperCaseV3} from './upperCase';
 
 import {upperCase} from './upperCase';
@@ -16,7 +16,7 @@ export function constantCase(value: string) {
 
 export function constantCaseV3(input: string) {
   return tokenizer(input)
-    .filter(notEmptyToken)
-    .map<string>(({value}) => upperCaseV3(value))
+    .filter(isNotEmptyToken)
+    .map(({value}) => upperCaseV3(value))
     .join('_');
 }

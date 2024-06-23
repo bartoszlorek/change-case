@@ -1,5 +1,5 @@
 import {createDefinition} from './types';
-import {tokenizer, notEmptyToken} from '../helpers/tokenizer';
+import {tokenizer, isNotEmptyToken} from '../tokenizer';
 import {lowerCaseV3} from './lowerCase';
 
 import {noCase} from './noCase';
@@ -15,7 +15,7 @@ export function paramCase(value: string) {
 
 export function paramCaseV3(input: string) {
   return tokenizer(input)
-    .filter(notEmptyToken)
-    .map<string>(({value}) => lowerCaseV3(value))
+    .filter(isNotEmptyToken)
+    .map(({value}) => lowerCaseV3(value))
     .join('-');
 }

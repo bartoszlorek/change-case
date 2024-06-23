@@ -1,4 +1,5 @@
-import {sentenceCase} from './sentenceCase';
+import scenarios from '../scenarios';
+import {sentenceCase, sentenceCaseV3} from './sentenceCase';
 
 describe('sentenceCase()', () => {
   it.each`
@@ -60,5 +61,11 @@ describe('sentenceCase()', () => {
     expect(sentenceCase('hello Mr. and Sgt. Doggy!')).toBe(
       'Hello mr. and sgt. doggy!'
     );
+  });
+});
+
+describe('sentenceCaseV3()', () => {
+  it.each(scenarios)('$scenario \t $source', ({scenario, source, expected}) => {
+    expect(sentenceCaseV3(source)).toBe(expected.sentenceCase);
   });
 });

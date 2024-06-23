@@ -1,6 +1,14 @@
 import {createDefinition} from './types';
+import {Stack, upperCaseFirst} from '../helpers';
+import {
+  tokenizer,
+  isNotEmptyToken,
+  isAbbreviationToken,
+  isOpeningQuotationToken,
+  isClosingQuotationToken,
+} from '../tokenizer';
+
 import {noCase} from './noCase';
-import {upperCase} from './upperCase';
 
 const NOT_EMPTY = (value: string) => value !== '';
 
@@ -24,11 +32,6 @@ export function sentenceCase(value: string) {
   }, '');
 }
 
-function upperCaseFirst(value: string) {
-  value = String(value);
-  return upperCase(value.charAt(0)) + value.substr(1);
-}
-
 const SENTENCES_REGEXP = /(\s+|.*?[.!?]|.*)/g;
 
 // A.B. abbr. Acad. A.D. alt. at. no. Capt. Dr. est. Sgt. ...
@@ -46,4 +49,47 @@ function isAbbreviation(value: string) {
   }
   let last = value.match(LAST_WORD)?.[1] || '';
   return last.length <= MAX_LENGTH || last[0] === last[0].toUpperCase();
+}
+
+const endingSentence = /[.!?]/;
+
+export function sentenceCaseV3(input: string) {
+  // each quote (possibly nested) starts a new sentence
+  // https://www.grammarly.com/blog/capitalization-in-quotes/
+  const startedSentences = new Stack([false]);
+  const openQuotationMarks = new Stack<string>();
+
+  return tokenizer(input)
+    .map(token => {
+      let value = token.value;
+      if (startedSentences.isCurrent(false) && isNotEmptyToken(token)) {
+        startedSentences.setCurrent(true);
+        value = upperCaseFirst(value);
+      } else {
+        value = value.toLocaleLowerCase();
+      }
+
+      if (endingSentence.test(token.break) && !isAbbreviationToken(token)) {
+        startedSentences.setCurrent(false);
+      }
+
+      const openingMark = openQuotationMarks.current();
+      if (openingMark && isClosingQuotationToken(token, openingMark)) {
+        startedSentences.pop();
+        openQuotationMarks.pop();
+      }
+
+      //
+      else if (isOpeningQuotationToken(token)) {
+        // when a quote starts a parent sentence
+        if (startedSentences.isCurrent(false)) {
+          startedSentences.setCurrent(true);
+        }
+        startedSentences.push(false);
+        openQuotationMarks.push(token.break);
+      }
+
+      return value + token.break;
+    })
+    .join('');
 }
