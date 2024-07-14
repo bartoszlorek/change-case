@@ -1,6 +1,8 @@
 import './global.scss';
 import * as React from 'react';
-import useForm from './useForm';
+import {accessStorage} from '../helpers';
+import {initialStorageValues} from '../storage';
+import {useForm} from './useForm';
 import {useLog} from './useLog';
 import {
   Button,
@@ -12,8 +14,6 @@ import {
   Textarea,
 } from './components';
 
-type FieldType = 'ignoreList' | 'correctList';
-
 const openShortcutsPage = () =>
   chrome.tabs.create({url: 'chrome://extensions/shortcuts'});
 
@@ -22,13 +22,16 @@ export function App() {
     timeout: 3000,
   });
 
-  const {isUpdated, getFieldProps, saveForm, rejectForm} = useForm({
-    onSave: () => log.info('options saved'),
-    transform: data =>
-      new Map<FieldType, string>([
-        ['ignoreList', data.ignoreList || ''],
-        ['correctList', data.correctList || ''],
-      ]),
+  const {isUpdated, getFieldProps, submitForm, rejectForm} = useForm({
+    getInitialState: () => initialStorageValues,
+    getStorageState: () => accessStorage(initialStorageValues).getValues(),
+    onSubmit: async data => {
+      await accessStorage(initialStorageValues).setValues(data);
+      log.info('options saved');
+    },
+    onError: () => {
+      log.warn('something went wrong');
+    },
   });
 
   return (
@@ -70,7 +73,7 @@ export function App() {
           type="primary"
           text="Save"
           disabled={isUpdated}
-          onClick={saveForm}
+          onClick={submitForm}
         />
       </Controls>
     </div>

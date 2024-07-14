@@ -22,3 +22,28 @@ export function asyncMessageHandler<
     }
   };
 }
+
+type StorageValue = number | string | boolean | null | StorageValue[];
+
+export function accessStorage<T extends Record<string, StorageValue>>(
+  initialValues: T
+) {
+  function setValues(data: Partial<T>) {
+    return chrome.storage.sync.set(data);
+  }
+
+  function getValues(): Promise<T> {
+    return chrome.storage.sync.get(initialValues).then(result => {
+      const output = {} as T;
+      for (const [key, value] of Object.entries(initialValues)) {
+        output[key as keyof T] = result[key] ?? value;
+      }
+      return output;
+    });
+  }
+
+  return {
+    setValues,
+    getValues,
+  };
+}

@@ -2,75 +2,68 @@ import * as React from 'react';
 import {createConfirmation} from 'react-confirm';
 import {Dialog} from './components';
 
-const {sync} = chrome.storage;
+type FormValue = string | number | boolean | null | FormValue[];
+
 const confirm = createConfirmation(Dialog, 0);
 const confirmText = 'Do you want to discard unsaved changes?';
 
 type PropsType<T> = Readonly<{
-  transform: (data: {[key: string]: any}) => Map<T, string>;
-  onSave: () => void;
+  getInitialState: () => T;
+  getStorageState: () => Promise<T>;
+  onSubmit: (data: T) => Promise<void>;
+  onError: (error: unknown) => void;
 }>;
 
-const useForm = <T extends string>({onSave, transform}: PropsType<T>) => {
-  const transformRef = React.useRef(transform);
+export function useForm<T extends Record<string, FormValue>>({
+  getInitialState,
+  getStorageState,
+  onSubmit,
+  onError,
+}: PropsType<T>) {
+  const [fieldsData, setFieldsData] = React.useState<T>(getInitialState);
+  const [storedData, setStoredData] = React.useState<T | undefined>();
   const [isUpdated, setIsUpdated] = React.useState(true);
-  const [savedData, setSavedData] = React.useState<Map<T, string>>(
-    () => new Map()
-  );
-  const [data, setData] = React.useState<Map<T, string>>(() => new Map());
 
   React.useEffect(() => {
-    transformRef.current = transform;
-  }, [transform]);
-
-  React.useEffect(() => {
-    sync.get(null, data => {
+    getStorageState().then(data => {
+      setFieldsData(data);
+      setStoredData(data);
       setIsUpdated(true);
-      setSavedData(transformRef.current(data));
-      setData(transformRef.current(data));
     });
   }, []);
 
-  const getFieldProps = React.useCallback(
-    (name: T) => ({
-      value: data.get(name) || '',
-      onChange: (value: string) => {
-        const cloned = new Map(data);
-        cloned.set(name, value);
+  const getFieldProps = <K extends keyof T>(name: K) => ({
+    value: fieldsData[name],
+    onChange: (value: T[K]) => {
+      setFieldsData(currentData => ({...currentData, [name]: value}));
+      setIsUpdated(storedData?.[name] === value);
+    },
+  });
 
-        setIsUpdated(savedData.get(name) === value);
-        setData(cloned);
-      },
-    }),
-    [savedData, data]
-  );
-
-  const saveForm = React.useCallback(() => {
-    if (isUpdated) {
-      return;
+  const submitForm = React.useCallback(async () => {
+    try {
+      if (!isUpdated) {
+        await onSubmit(fieldsData);
+        setStoredData(fieldsData);
+        setIsUpdated(true);
+      }
+    } catch (error) {
+      onError(error);
     }
+  }, [isUpdated, fieldsData]);
 
-    sync.clear();
-    sync.set(Object.fromEntries(data), () => {
+  const rejectForm = React.useCallback(async () => {
+    if (storedData) {
+      await confirm({message: confirmText});
+      setFieldsData(storedData);
       setIsUpdated(true);
-      setSavedData(data);
-      onSave();
-    });
-  }, [isUpdated, data, onSave]);
-
-  const rejectForm = React.useCallback(() => {
-    confirm({message: confirmText}).then(() => {
-      setIsUpdated(true);
-      setData(savedData);
-    });
-  }, [savedData]);
+    }
+  }, [storedData]);
 
   return {
     isUpdated,
     getFieldProps,
-    saveForm,
+    submitForm,
     rejectForm,
   };
-};
-
-export default useForm;
+}
