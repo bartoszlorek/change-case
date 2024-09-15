@@ -1,5 +1,5 @@
 import {camelCase} from '../methods';
-import {parseCommaList, composeMethod} from './composer';
+import {parseCommaList, composeMethod} from './composition';
 
 describe('parseCommaList()', () => {
   it.each`

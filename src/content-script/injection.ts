@@ -16,7 +16,7 @@ import {
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
-import {composeMethod} from './composer';
+import {composeMethod} from './composition';
 import type {MethodTransformation} from '../methods';
 
 const definedMethods: Record<string, MethodTransformation> = {
