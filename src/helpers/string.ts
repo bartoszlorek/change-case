@@ -20,36 +20,34 @@ export function startsNumeric(value: string) {
 
 export function insensitiveStringSearch(
   source: string,
-  patterns: string[],
+  target: string,
   ignores = /[\s\-\_\.]/
 ): {
   match: string;
-  pattern: string;
   startIndex: number;
   endIndex: number;
 }[] {
-  const matches = [];
+  if (!source || !target) {
+    return [];
+  }
+  const results = [];
   const normSource = normalizeString(source, ignores);
+  const normTarget = normalizeString(target, ignores);
 
-  for (const pattern of patterns) {
-    const normPattern = normalizeString(pattern, ignores);
+  let i = -1;
+  while ((i = normSource.text.indexOf(normTarget.text, i + 1)) !== -1) {
+    const j = i + normTarget.text.length;
+    const startIndex = i - normSource.offsets[i];
+    const endIndex = j - normSource.offsets[j - 1];
 
-    let i = -1;
-    while ((i = normSource.text.indexOf(normPattern.text, i + 1)) !== -1) {
-      const j = i + normPattern.text.length;
-      const startIndex = i - normSource.offsets[i];
-      const endIndex = j - normSource.offsets[j - 1];
-
-      matches.push({
-        match: source.slice(startIndex, endIndex),
-        pattern,
-        startIndex,
-        endIndex,
-      });
-    }
+    results.push({
+      match: source.slice(startIndex, endIndex),
+      startIndex,
+      endIndex,
+    });
   }
 
-  return matches;
+  return results;
 }
 
 function normalizeString(value: string, ignores: RegExp) {

@@ -16,7 +16,7 @@ import {
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
-import {buildOperators} from './operators';
+import {composeMethod} from './composer';
 import type {MethodTransformation} from '../methods';
 
 const definedMethods: Record<string, MethodTransformation> = {
@@ -55,8 +55,7 @@ chrome.runtime.onMessage.addListener(
     }
 
     console.log(selection);
-    buildOperators(method).then(composedMethod => {
-      selection.textContent((value: string) => composedMethod(value));
-    });
+    const composedMethod = await composeMethod(method);
+    selection.textContent(composedMethod);
   })
 );
