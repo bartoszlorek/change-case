@@ -1,4 +1,4 @@
-import {insensitiveStringSearch} from './string';
+import {insensitiveStringSearch} from './search';
 
 describe('insensitiveStringSearch()', () => {
   it.each([
