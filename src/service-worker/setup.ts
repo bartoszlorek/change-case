@@ -1,37 +1,28 @@
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
-import {
-  camelCaseDef,
-  constantCaseDef,
-  dotCaseDef,
-  lowerCaseDef,
-  noAccentsDef,
-  noCaseDef,
-  paramCaseDef,
-  pascalCaseDef,
-  sentenceCaseDef,
-  snakeCaseDef,
-  titleCaseDef,
-  toggleCaseDef,
-  upperCaseDef,
-} from '../methods';
+import type {MethodName} from '../methods';
 
-const contextMenuItems = [
-  upperCaseDef,
-  lowerCaseDef,
-  titleCaseDef,
-  sentenceCaseDef,
+type ContextMenuItemType = {
+  name: MethodName;
+  text: string;
+};
+
+const contextMenuItems: Array<null | ContextMenuItemType> = [
+  {name: 'upperCase', text: 'UPPERCASE'},
+  {name: 'lowerCase', text: 'lowercase'},
+  {name: 'titleCase', text: 'Title Case'},
+  {name: 'sentenceCase', text: 'Sentence case'},
   null,
-  camelCaseDef,
-  pascalCaseDef,
-  constantCaseDef,
+  {name: 'camelCase', text: 'camelCase'},
+  {name: 'pascalCase', text: 'PascalCase'},
+  {name: 'constantCase', text: 'CONSTANT_CASE'},
   null,
-  paramCaseDef,
-  snakeCaseDef,
-  dotCaseDef,
+  {name: 'paramCase', text: 'param-case'},
+  {name: 'snakeCase', text: 'snake_case'},
+  {name: 'dotCase', text: 'dot.case'},
   null,
-  toggleCaseDef,
-  noAccentsDef,
-  noCaseDef,
+  {name: 'toggleCase', text: 'tOGGLE cASE'},
+  {name: 'noAccents', text: 'no accents'},
+  {name: 'noCase', text: 'no case'},
 ];
 
 chrome.runtime.onInstalled.addListener(details => {

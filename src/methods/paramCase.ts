@@ -1,21 +1,16 @@
-import {createDefinition} from './types';
+import {lowerCase} from '../helpers';
 import {tokenizer, isNotEmptyToken} from '../tokenizer';
-import {lowerCaseV3} from './lowerCase';
 
-import {noCase} from './noCase';
-
-export const paramCaseDef = createDefinition({
-  name: 'paramCase',
-  text: 'param-case',
-});
+// legacy
+import {noCase as legacyNoCase} from './noCase';
 
 export function paramCase(value: string) {
-  return noCase(value, '-');
+  return legacyNoCase(value, '-');
 }
 
 export function paramCaseV3(input: string) {
   return tokenizer(input)
     .filter(isNotEmptyToken)
-    .map(({value}) => lowerCaseV3(value))
+    .map(({value}) => lowerCase(value))
     .join('-');
 }

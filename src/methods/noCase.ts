@@ -1,10 +1,4 @@
-import {createDefinition} from './types';
 import {lowerCase} from './lowerCase';
-
-export const noCaseDef = createDefinition({
-  name: 'noCase',
-  text: 'no case',
-});
 
 export function noCase(value: string, replacement: string | null = ' ') {
   value = value

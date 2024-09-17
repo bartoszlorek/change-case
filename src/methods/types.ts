@@ -1,10 +1,16 @@
-export interface MethodDefinition {
-  name: string;
-  text: string;
-}
+export type MethodName =
+  | 'camelCase'
+  | 'constantCase'
+  | 'dotCase'
+  | 'lowerCase'
+  | 'noAccents'
+  | 'noCase'
+  | 'paramCase'
+  | 'pascalCase'
+  | 'sentenceCase'
+  | 'snakeCase'
+  | 'titleCase'
+  | 'toggleCase'
+  | 'upperCase';
 
-export function createDefinition(def: MethodDefinition) {
-  return def;
-}
-
-export type MethodTransformation = (input: string) => string;
+export type MethodType = (input: string) => string;

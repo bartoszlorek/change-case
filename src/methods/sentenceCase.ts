@@ -1,4 +1,3 @@
-import {createDefinition} from './types';
 import {Stack, upperCaseFirst} from '../helpers';
 import {
   tokenizer,
@@ -11,11 +10,6 @@ import {
 import {noCase} from './noCase';
 
 const NOT_EMPTY = (value: string) => value !== '';
-
-export const sentenceCaseDef = createDefinition({
-  name: 'sentenceCase',
-  text: 'Sentence case',
-});
 
 export function sentenceCase(value: string) {
   const frags = noCase(value, null).split(SENTENCES_REGEXP).filter(NOT_EMPTY);

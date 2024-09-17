@@ -1,5 +1,4 @@
 export * from './types';
-export * from './types';
 export * from './camelCase';
 export * from './constantCase';
 export * from './dotCase';

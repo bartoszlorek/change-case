@@ -1,7 +1,7 @@
-import {createDefinition} from './types';
-import {noCase} from './noCase';
-import {lowerCase} from './lowerCase';
-import {upperCase} from './upperCase';
+// legacy
+import {noCase as legacyNoCase} from './noCase';
+import {lowerCase as legacyLowerCase} from './lowerCase';
+import {upperCase as legacyUpperCase} from './upperCase';
 
 const MINOR_WORDS = [
   'a',
@@ -53,16 +53,11 @@ const MINOR_REGEX = new RegExp(
   'gi'
 );
 
-export const titleCaseDef = createDefinition({
-  name: 'titleCase',
-  text: 'Title Case',
-});
-
 export function titleCase(value: string) {
-  return noCase(value, null)
-    .replace(FIRST_LETTER_REGEX, upperCase)
-    .replace(MINOR_REGEX, lowerCase)
-    .replace(COLON_REGEX, upperCase);
+  return legacyNoCase(value, null)
+    .replace(FIRST_LETTER_REGEX, legacyUpperCase)
+    .replace(MINOR_REGEX, legacyLowerCase)
+    .replace(COLON_REGEX, legacyUpperCase);
 }
 
 /**

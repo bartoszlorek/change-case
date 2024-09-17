@@ -17,9 +17,9 @@ import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
 import {composeMethod} from './composition';
-import type {MethodTransformation} from '../methods';
+import type {MethodName, MethodType} from '../methods';
 
-const definedMethods: Record<string, MethodTransformation> = {
+const definedMethods: Record<MethodName, MethodType> = {
   camelCase,
   constantCase,
   dotCase,
@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener(
 
 chrome.runtime.onMessage.addListener(
   asyncMessageHandler<MethodMessage>('change_case_method', async ({name}) => {
-    const method = definedMethods[name];
+    const method = definedMethods[name as MethodName];
     if (method === undefined) {
       return;
     }

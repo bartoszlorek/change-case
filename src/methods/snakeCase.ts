@@ -1,21 +1,16 @@
-import {createDefinition} from './types';
+import {lowerCase} from '../helpers';
 import {tokenizer, isNotEmptyToken} from '../tokenizer';
-import {lowerCaseV3} from './lowerCase';
 
-import {noCase} from './noCase';
-
-export const snakeCaseDef = createDefinition({
-  name: 'snakeCase',
-  text: 'snake_case',
-});
+// legacy
+import {noCase as legacyNoCase} from './noCase';
 
 export function snakeCase(value: string) {
-  return noCase(value, '_');
+  return legacyNoCase(value, '_');
 }
 
 export function snakeCaseV3(input: string) {
   return tokenizer(input)
     .filter(isNotEmptyToken)
-    .map(({value}) => lowerCaseV3(value))
+    .map(({value}) => lowerCase(value))
     .join('_');
 }

@@ -1,10 +1,8 @@
 import {spliceString, accessStorage, insensitiveStringSearch} from '../helpers';
 import {initialStorageValues} from '../storage';
-import type {MethodTransformation} from '../methods';
+import type {MethodType} from '../methods';
 
-export async function composeMethod(
-  method: MethodTransformation
-): Promise<MethodTransformation> {
+export async function composeMethod(method: MethodType): Promise<MethodType> {
   const storage = accessStorage(initialStorageValues);
   const data = await storage.getValues();
   const ignoreList = parseCommaList(data.ignoreList);

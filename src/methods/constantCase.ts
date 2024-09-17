@@ -1,22 +1,17 @@
-import {createDefinition} from './types';
+import {upperCase} from '../helpers';
 import {tokenizer, isNotEmptyToken} from '../tokenizer';
-import {upperCaseV3} from './upperCase';
 
-import {upperCase} from './upperCase';
-import {snakeCase} from './snakeCase';
-
-export const constantCaseDef = createDefinition({
-  name: 'constantCase',
-  text: 'CONSTANT_CASE',
-});
+// legacy
+import {upperCase as legacyUpperCase} from './upperCase';
+import {snakeCase as legacySnakeCase} from './snakeCase';
 
 export function constantCase(value: string) {
-  return upperCase(snakeCase(value));
+  return legacyUpperCase(legacySnakeCase(value));
 }
 
 export function constantCaseV3(input: string) {
   return tokenizer(input)
     .filter(isNotEmptyToken)
-    .map(({value}) => upperCaseV3(value))
+    .map(({value}) => upperCase(value))
     .join('_');
 }

@@ -1,10 +1,3 @@
-import {createDefinition} from './types';
-
-export const noAccentsDef = createDefinition({
-  name: 'noAccents',
-  text: 'no accents',
-});
-
 /**
  * https://en.wikipedia.org/wiki/Combining_Diacritical_Marks
  */
