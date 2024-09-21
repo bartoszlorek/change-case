@@ -1,4 +1,4 @@
-import {camelCase} from '../methods';
+import {camelCase} from '../methods/v3';
 import {composeMethod, parseCommaList} from './composition';
 
 describe('composeMethod()', () => {

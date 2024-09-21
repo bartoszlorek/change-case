@@ -12,12 +12,12 @@ import {
   titleCase,
   toggleCase,
   upperCase,
-} from '../methods';
+} from '../methods/v2';
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
 import {composeMethod} from './composition';
-import type {MethodName, MethodType} from '../methods';
+import type {MethodName, MethodType} from '../methods/types';
 
 const definedMethods: Record<MethodName, MethodType> = {
   camelCase,

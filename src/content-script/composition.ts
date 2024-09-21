@@ -1,6 +1,6 @@
 import {spliceString, accessStorage, insensitiveStringSearch} from '../helpers';
 import {initialStorageValues} from '../storage';
-import type {MethodType} from '../methods';
+import type {MethodType} from '../methods/types';
 
 export async function composeMethod(method: MethodType): Promise<MethodType> {
   const storage = accessStorage(initialStorageValues);
