@@ -1,5 +1,5 @@
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
-import type {MethodName} from '../methods';
+import type {MethodName} from '../methods/types';
 
 type ContextMenuItemType = {
   name: MethodName;
