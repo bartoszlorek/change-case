@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Change Case</title>
+    <style>
+      body {
+        padding: 24px;
+      }
+      body,
+      input,
+      textarea {
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 1.5em;
+      }
+      input,
+      textarea {
+        display: block;
+        width: 100%;
+        margin: 0 0 12px;
+        padding: 12px;
+      }
+      section {
+        margin: 0 auto 48px;
+        max-width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>HTML Input and Textarea</h1>
+      <p>Ignores non-editable text nodes like this paragraph.</p>
+      <input
+        type="text"
+        value="The Beatles were an English rock band formed in Liverpool in 1960. The core lineup of the band comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr." />
+      <textarea rows="14">
+The Beatles were an English rock band formed in Liverpool in 1960. The core lineup of the band comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr. They are widely regarded as the most influential band of all time and were integral to the development of 1960s counterculture and the recognition of popular music as an art form.
+
+Rooted in skiffle, beat and 1950s rock 'n' roll, their sound incorporated elements of classical music and traditional pop in innovative ways. The band also explored music styles ranging from folk and Indian music to psychedelia and hard rock. As pioneers in recording, songwriting and artistic presentation, the Beatles revolutionized many aspects of the music industry and were often publicized as leaders of the era's youth and sociocultural movements.</textarea
+      >
+    </section>
+
+    <section>
+      <h1>Editable Content</h1>
+      <div contenteditable="true">
+        <p>
+          The Beatles were an English rock band formed in Liverpool in 1960. The
+          core lineup of the band comprised John Lennon, Paul McCartney, George
+          Harrison and Ringo Starr. They are widely regarded as the most
+          influential band of all time and were integral to the development of
+          1960s counterculture and the recognition of popular music as an art
+          form.
+        </p>
+        <p>
+          Rooted in skiffle, beat and 1950s rock 'n' roll, their sound
+          incorporated elements of classical music and traditional pop in
+          innovative ways. The band also explored music styles ranging from folk
+          and Indian music to psychedelia and hard rock. As pioneers in
+          recording, songwriting and artistic presentation, the Beatles
+          revolutionized many aspects of the music industry and were often
+          publicized as leaders of the era's youth and sociocultural movements.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h1>TinyMCE</h1>
+      <textarea id="tinymce-editor">
+        The Beatles were an English rock band formed in Liverpool in 1960. The core lineup of the band comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr. They are widely regarded as the most influential band of all time and were integral to the development of 1960s counterculture and the recognition of popular music as an art form. Rooted in skiffle, beat and 1950s rock 'n' roll, their sound incorporated elements of classical music and traditional pop in innovative ways. The band also explored music styles ranging from folk and Indian music to psychedelia and hard rock. As pioneers in recording, songwriting and artistic presentation, the Beatles revolutionized many aspects of the music industry and were often publicized as leaders of the era's youth and sociocultural movements.</textarea
+      >
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.3.0/tinymce.min.js"></script>
+      <script type="text/javascript">
+        tinymce.init({
+          selector: '#tinymce-editor',
+          menubar: false,
+          branding: false,
+          height: 400,
+        });
+      </script>
+    </section>
+
+    <section>
+      <h1>Other editors</h1>
+      <ul>
+        <li>
+          <a href="https://ckeditor.com/ckeditor-5/demo/feature-rich/">
+            CKEditor
+          </a>
+        </li>
+        <li>
+          <a href="https://www.slatejs.org/examples/huge-document">Slate</a>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
