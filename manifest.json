@@ -11,7 +11,7 @@
     "service_worker": "service-worker.js"
   },
   "options_ui": {
-    "page": "options-page.html"
+    "page": "options.html"
   },
   "icons": {
     "16": "assets/icon16.png",

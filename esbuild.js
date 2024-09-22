@@ -13,12 +13,16 @@ const options = {
       out: 'content-script',
     },
     {
-      in: 'src/options-page/index.tsx',
-      out: 'options-page',
-    },
-    {
       in: 'src/service-worker/index.ts',
       out: 'service-worker',
+    },
+    {
+      in: 'src/pages/errors/index.tsx',
+      out: 'errors-page',
+    },
+    {
+      in: 'src/pages/options/index.tsx',
+      out: 'options-page',
     },
   ],
   outdir,
