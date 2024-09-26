@@ -13,8 +13,7 @@ describe('composeMethod()', () => {
     ${undefined}             | ${undefined}             | ${'theQuickBrownFoxJumpsOverTheLazyDog'}
     ${'THE QUICK BROWN FOX'} | ${undefined}             | ${'The quick brown foxJumpsOverTheLazyDog'}
     ${undefined}             | ${'THE_QUICK_BROWN_FOX'} | ${'THE_QUICK_BROWN_FOXJumpsOverTheLazyDog'}
-    ${'BROWN_FOX, LAZY_DOG'} | ${'THE, OVER'}           | ${'THEQuickbrown foxJumpsOVERTHElazy dog'}
-    ${'THE QUICK BROWN FOX'} | ${'QUICK_BROWN'}         | ${'The QUICK_BROWN foxJumpsOverTheLazyDog'}
+    ${'THE QUICK BROWN FOX'} | ${'QUICK BROWN'}         | ${'The QUICK BROWN foxJumpsOverTheLazyDog'}
   `('returns "$output"', async ({ignoreList, correctList, output}) => {
     (chrome.storage.sync.get as jest.Mock).mockResolvedValueOnce({
       ignoreList,

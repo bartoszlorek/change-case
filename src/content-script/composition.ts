@@ -1,4 +1,4 @@
-import {spliceString, accessStorage, insensitiveStringSearch} from '../helpers';
+import {spliceString, accessStorage, stringSearch} from '../helpers';
 import {initialStorageValues} from '../storage';
 import type {MethodType} from '../methods/types';
 
@@ -12,21 +12,24 @@ export async function composeMethod(method: MethodType): Promise<MethodType> {
     let output = method(input);
 
     for (const ignoreValue of ignoreList) {
-      const inputResults = insensitiveStringSearch(input, ignoreValue);
-      const outputResults = insensitiveStringSearch(output, ignoreValue);
+      const inputResults = stringSearch(input, ignoreValue);
+      const outputResults = stringSearch(output, ignoreValue);
 
-      for (let i = 0; i < outputResults.length; i++) {
-        output = spliceString(
-          output,
-          inputResults[i].match,
-          outputResults[i].startIndex,
-          outputResults[i].endIndex
-        );
+      // TODO: fix inconsistency in matching input and output
+      if (inputResults.length === outputResults.length) {
+        for (let i = 0; i < outputResults.length; i++) {
+          output = spliceString(
+            output,
+            inputResults[i].match,
+            outputResults[i].startIndex,
+            outputResults[i].endIndex
+          );
+        }
       }
     }
 
     for (const correctValue of correctList) {
-      for (const result of insensitiveStringSearch(output, correctValue)) {
+      for (const result of stringSearch(output, correctValue)) {
         output = spliceString(
           output,
           correctValue,

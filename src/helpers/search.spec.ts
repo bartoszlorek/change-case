@@ -1,6 +1,6 @@
-import {insensitiveStringSearch} from './search';
+import {stringSearch} from './search';
 
-describe('insensitiveStringSearch()', () => {
+describe('stringSearch()', () => {
   it.each([
     {
       source: '',
@@ -77,7 +77,23 @@ describe('insensitiveStringSearch()', () => {
         },
       ],
     },
+    {
+      source: 'this is an elephant with an umbrella',
+      target: 'AN',
+      expected: [
+        {
+          match: 'an',
+          startIndex: 8,
+          endIndex: 10,
+        },
+        {
+          match: 'an',
+          startIndex: 25,
+          endIndex: 27,
+        },
+      ],
+    },
   ])('matches "$target" in "$source"', ({source, target, expected}) => {
-    expect(insensitiveStringSearch(source, target)).toEqual(expected);
+    expect(stringSearch(source, target)).toEqual(expected);
   });
 });
