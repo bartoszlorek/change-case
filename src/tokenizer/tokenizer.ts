@@ -1,5 +1,7 @@
 import {Token} from './token';
 
+export type TokenizerType = typeof tokenizer;
+
 /**
  * https://en.wikipedia.org/wiki/Latin-1_Supplement
  */
@@ -113,4 +115,8 @@ export function tokenizer(value: string): Token[] {
   }
 
   return tokens;
+}
+
+export function caseInsensitiveTokenizer(value: string) {
+  return tokenizer(value.toLocaleLowerCase());
 }
