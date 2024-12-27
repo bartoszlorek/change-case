@@ -1,6 +1,6 @@
 import {Token} from './token';
 
-export type TokenizerType = typeof tokenizer;
+const MIN_LENGTH_TO_CASE_CHANGE = 2;
 
 /**
  * https://en.wikipedia.org/wiki/Latin-1_Supplement
@@ -78,6 +78,8 @@ const unicodeRanges = [
 
 const relevantCharacters = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
 
+export type TokenizerType = typeof tokenizer;
+
 export function tokenizer(value: string): Token[] {
   const chars = [...value];
   const tokens: Token[] = [];
@@ -102,6 +104,20 @@ export function tokenizer(value: string): Token[] {
       index = i + 1;
       current = '';
     } else {
+      if (
+        current.length >= MIN_LENGTH_TO_CASE_CHANGE &&
+        isUpperCaseChange(chars[i - 1], char)
+      ) {
+        tokens.push({
+          index: index,
+          value: current,
+          break: '',
+        });
+
+        index = i;
+        current = '';
+      }
+
       current += char;
     }
   }
@@ -119,4 +135,24 @@ export function tokenizer(value: string): Token[] {
 
 export function caseInsensitiveTokenizer(value: string) {
   return tokenizer(value.toLocaleLowerCase());
+}
+
+function isUpperCaseChange(a: string, b: string) {
+  const lowerA = a.toLowerCase();
+  const upperA = a.toUpperCase();
+
+  // unsupported char
+  if (lowerA === upperA) {
+    return false;
+  }
+
+  const lowerB = b.toLowerCase();
+  const upperB = b.toUpperCase();
+
+  // unsupported char
+  if (lowerB === upperB) {
+    return false;
+  }
+
+  return a === lowerA && b === upperB;
 }
