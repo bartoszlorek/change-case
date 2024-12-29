@@ -1,87 +1,64 @@
 import {stringSearch} from './search';
-import {caseInsensitiveTokenizer} from './tokenizer';
 
 describe('stringSearch()', () => {
   const source = `She saw Sharif's shoes on the sofa. But was she so sure those were Sharif's shoes she saw?`;
 
   it.each([
     {
-      patterns: [],
+      target: '',
+      fromIndex: 0,
       results: [],
     },
     {
-      patterns: [''],
-      results: [],
-    },
-    {
-      patterns: [`SHARIF`],
+      target: `sharif`,
+      fromIndex: 0,
       results: [
         {
-          pattern: 'SHARIF',
-          matched: 'Sharif',
+          match: 'Sharif',
           startIndex: 8,
           endIndex: 14,
         },
         {
-          pattern: 'SHARIF',
-          matched: 'Sharif',
+          match: 'Sharif',
           startIndex: 67,
           endIndex: 73,
         },
       ],
     },
     {
-      patterns: [`Sharif's shoes on`],
+      target: `sharif`,
+      fromIndex: 10,
       results: [
         {
-          pattern: "Sharif's shoes on",
-          matched: "Sharif's shoes on",
-          startIndex: 8,
-          endIndex: 25,
-        },
-      ],
-    },
-    {
-      patterns: [`she saw`, `Sharif's shoes`],
-      results: [
-        {
-          pattern: 'she saw',
-          matched: 'She saw',
-          startIndex: 0,
-          endIndex: 7,
-        },
-        {
-          pattern: 'she saw',
-          matched: 'she saw',
-          startIndex: 82,
-          endIndex: 89,
-        },
-        {
-          pattern: "Sharif's shoes",
-          matched: "Sharif's shoes",
-          startIndex: 8,
-          endIndex: 22,
-        },
-        {
-          pattern: "Sharif's shoes",
-          matched: "Sharif's shoes",
+          match: 'Sharif',
           startIndex: 67,
-          endIndex: 81,
+          endIndex: 73,
         },
       ],
     },
     {
-      patterns: [`sharif_s_shoes_on`],
+      target: `sharif's shoes on`,
+      fromIndex: 0,
       results: [
         {
-          pattern: 'sharif_s_shoes_on',
-          matched: "Sharif's shoes on",
+          match: "Sharif's shoes on",
           startIndex: 8,
           endIndex: 25,
         },
       ],
     },
-  ])('returns results of $patterns', ({patterns, results}) => {
-    expect(stringSearch(source, patterns, caseInsensitiveTokenizer)).toEqual(results);
+    {
+      target: `sharif_s_shoes_on`,
+      fromIndex: 0,
+      results: [
+        {
+          match: "Sharif's shoes on",
+          startIndex: 8,
+          endIndex: 25,
+        },
+      ],
+    },
+  ])('returns results of "$target" starting from $fromIndex index', ({target, fromIndex, results}) => {
+    expect(stringSearch(source, target, fromIndex)).toEqual(results);
   });
 });

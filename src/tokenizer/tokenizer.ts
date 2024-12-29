@@ -78,8 +78,6 @@ const unicodeRanges = [
 
 const relevantCharacters = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
 
-export type TokenizerType = typeof tokenizer;
-
 export function tokenizer(value: string): Token[] {
   const chars = [...value];
   const tokens: Token[] = [];
@@ -131,10 +129,6 @@ export function tokenizer(value: string): Token[] {
   }
 
   return tokens;
-}
-
-export function caseInsensitiveTokenizer(value: string) {
-  return tokenizer(value.toLocaleLowerCase());
 }
 
 function isUpperCaseChange(a: string, b: string) {

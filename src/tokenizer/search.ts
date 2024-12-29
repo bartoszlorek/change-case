@@ -1,60 +1,49 @@
+import {tokenizer} from './tokenizer';
 import type {Token} from './token';
-import type {TokenizerType} from './tokenizer';
 
 interface SearchResult {
-  pattern: string;
-  matched: string;
+  match: string;
   startIndex: number;
   endIndex: number;
 }
 
 export function stringSearch(
   source: string,
-  patterns: string[],
-  tokenize: TokenizerType
+  target: string,
+  fromIndex: number = 0
 ): SearchResult[] {
-  if (!source.length || !patterns.length) {
+  if (!source || !target) {
     return [];
   }
-
-  const sourceTokens = tokenize(source);
   const results: SearchResult[] = [];
+  const sourceTokens = normalize(tokenizer(source.slice(fromIndex)));
+  const targetTokens = normalize(tokenizer(target));
 
-  for (let i = 0; i < patterns.length; i++) {
-    const pattern = patterns[i];
-    const patternTokens = tokenize(pattern);
+  let j = -1;
+  while ((j = findIndex(sourceTokens, targetTokens[0], j + 1)) !== -1) {
+    // matches the remaining pattern tokens
+    // starting from the second one
+    let k = 1;
+    for (; k < targetTokens.length; k++) {
+      if (sourceTokens[j + k].value !== targetTokens[k].value) {
+        break;
+      }
+    }
 
-    if (!patternTokens.length) {
+    // didn't get to the end
+    if (k < targetTokens.length) {
       continue;
     }
 
-    let j = -1;
-    while ((j = findIndex(sourceTokens, patternTokens[0], j + 1)) !== -1) {
-      // matches the remaining pattern tokens
-      // starting from the second one
-      let k = 1;
-      for (; k < patternTokens.length; k++) {
-        if (sourceTokens[j + k].value !== patternTokens[k].value) {
-          break;
-        }
-      }
+    const startIndex = sourceTokens[j].index + fromIndex;
+    const endToken = sourceTokens[j + k - 1];
+    const endIndex = endToken.index + endToken.value.length + fromIndex;
 
-      // didn't get to the end
-      if (k < patternTokens.length) {
-        continue;
-      }
-
-      const startIndex = sourceTokens[j].index;
-      const endToken = sourceTokens[j + k - 1];
-      const endIndex = endToken.index + endToken.value.length;
-
-      results.push({
-        pattern,
-        matched: source.slice(startIndex, endIndex),
-        startIndex,
-        endIndex,
-      });
-    }
+    results.push({
+      match: source.slice(startIndex, endIndex),
+      startIndex,
+      endIndex,
+    });
   }
 
   return results;
@@ -67,4 +56,11 @@ function findIndex(array: Token[], token: Token, startIndex: number = 0) {
     }
   }
   return -1;
+}
+
+function normalize(tokens: Token[]): Token[] {
+  for (const token of tokens) {
+    token.value = token.value.toLocaleLowerCase();
+  }
+  return tokens;
 }
