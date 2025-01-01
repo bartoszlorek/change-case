@@ -1,64 +1,58 @@
-import {stringSearch} from './search';
+import {tokenizer} from './tokenizer';
+import {searchTokens} from './search';
 
-describe('stringSearch()', () => {
-  const source = `She saw Sharif's shoes on the sofa. But was she so sure those were Sharif's shoes she saw?`;
+describe('searchTokens()', () => {
+  const source = tokenizer(
+    `She saw Sharif's shoes on the sofa. But was she so sure those were Sharif's shoes she saw?`
+  );
 
   it.each([
     {
-      target: '',
-      fromIndex: 0,
+      input: '',
       results: [],
     },
     {
-      target: `sharif`,
-      fromIndex: 0,
+      input: `sharif`,
       results: [
         {
-          match: 'Sharif',
-          startIndex: 8,
-          endIndex: 14,
+          index: 8,
+          tokens: [{index: 8, value: 'Sharif', extra: "'"}],
         },
         {
-          match: 'Sharif',
-          startIndex: 67,
-          endIndex: 73,
+          index: 67,
+          tokens: [{index: 67, value: 'Sharif', extra: "'"}],
         },
       ],
     },
     {
-      target: `sharif`,
-      fromIndex: 10,
+      input: `sharif's shoes on`,
       results: [
         {
-          match: 'Sharif',
-          startIndex: 67,
-          endIndex: 73,
+          index: 8,
+          tokens: [
+            {index: 8, value: 'Sharif', extra: "'"},
+            {index: 15, value: 's', extra: ' '},
+            {index: 17, value: 'shoes', extra: ' '},
+            {index: 23, value: 'on', extra: ' '},
+          ],
         },
       ],
     },
     {
-      target: `sharif's shoes on`,
-      fromIndex: 0,
+      input: `sharif_s_shoes_on`,
       results: [
         {
-          match: "Sharif's shoes on",
-          startIndex: 8,
-          endIndex: 25,
+          index: 8,
+          tokens: [
+            {index: 8, value: 'Sharif', extra: "'"},
+            {index: 15, value: 's', extra: ' '},
+            {index: 17, value: 'shoes', extra: ' '},
+            {index: 23, value: 'on', extra: ' '},
+          ],
         },
       ],
     },
-    {
-      target: `sharif_s_shoes_on`,
-      fromIndex: 0,
-      results: [
-        {
-          match: "Sharif's shoes on",
-          startIndex: 8,
-          endIndex: 25,
-        },
-      ],
-    },
-  ])('returns results of "$target" starting from $fromIndex index', ({target, fromIndex, results}) => {
-    expect(stringSearch(source, target, fromIndex)).toEqual(results);
+  ])('returns results of "$input" search', ({input, results}) => {
+    expect(searchTokens(source, tokenizer(input))).toEqual(results);
   });
 });

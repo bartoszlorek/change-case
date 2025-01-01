@@ -1,49 +1,45 @@
-import {
-  spliceString,
-  accessStorage,
-  stringSearch,
-  parseCommaList,
-} from '../helpers';
+import {accessStorage, parseCommaList} from '../helpers';
 import {initialStorageValues} from '../storage';
-import type {MethodType} from '../methods/types';
+import {tokenizer, renderTokens, searchTokens, Token} from '../tokenizer';
+import type {MethodHandler} from '../methods/types';
 
-export async function composeMethod(method: MethodType): Promise<MethodType> {
+export async function composeMethod(handler: MethodHandler) {
   const storage = accessStorage(initialStorageValues);
-  const data = await storage.getValues();
-  const ignoreList = parseCommaList(data.ignoreList);
-  const correctList = parseCommaList(data.correctList);
+  const {correctList, ignoreList} = await storage.getValues();
+  const correctTokensList = parseCommaList(correctList).map(tokenizer);
+  const ignoreTokensList = parseCommaList(ignoreList).map(tokenizer);
 
   return (input: string) => {
-    let output = method(input);
+    const inputTokens = tokenizer(input);
 
-    for (const ignoreValue of ignoreList) {
-      const inputResults = stringSearch(input, ignoreValue);
-      const outputResults = stringSearch(output, ignoreValue);
-
-      // TODO: fix inconsistency in matching input and output
-      if (inputResults.length === outputResults.length) {
-        for (let i = 0; i < outputResults.length; i++) {
-          output = spliceString(
-            output,
-            inputResults[i].match,
-            outputResults[i].startIndex,
-            outputResults[i].endIndex
-          );
+    const correctIndices = new Map<number, Token>();
+    for (const correctTokens of correctTokensList) {
+      for (const match of searchTokens(inputTokens, correctTokens)) {
+        for (let i = 0; i < match.tokens.length; i++) {
+          correctIndices.set(match.tokens[i].index, correctTokens[i]);
         }
       }
     }
 
-    for (const correctValue of correctList) {
-      for (const result of stringSearch(output, correctValue)) {
-        output = spliceString(
-          output,
-          correctValue,
-          result.startIndex,
-          result.endIndex
-        );
+    const ignoreIndices = new Set<number>();
+    for (const ignoreTokens of ignoreTokensList) {
+      for (const match of searchTokens(inputTokens, ignoreTokens)) {
+        for (const token of match.tokens) {
+          ignoreIndices.add(token.index);
+        }
       }
     }
 
-    return output;
+    return renderTokens(inputTokens, handler, token => {
+      if (correctIndices.has(token.index)) {
+        return correctIndices.get(token.index)!.toText();
+      }
+
+      if (ignoreIndices.has(token.index)) {
+        return token.toText();
+      }
+
+      return true;
+    });
   };
 }

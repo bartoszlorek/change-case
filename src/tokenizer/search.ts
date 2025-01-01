@@ -1,66 +1,62 @@
-import {tokenizer} from './tokenizer';
 import type {Token} from './token';
 
 interface SearchResult {
-  match: string;
-  startIndex: number;
-  endIndex: number;
+  index: number;
+  tokens: Token[];
 }
 
-export function stringSearch(
-  source: string,
-  target: string,
-  fromIndex: number = 0
-): SearchResult[] {
-  if (!source || !target) {
+/**
+ * Returns source tokens found by fuzzy matching
+ * of target tokens, preserving the order of them.
+ */
+export function searchTokens(source: Token[], target: Token[]) {
+  if (!source.length || !target.length) {
     return [];
   }
+
   const results: SearchResult[] = [];
-  const sourceTokens = normalize(tokenizer(source.slice(fromIndex)));
-  const targetTokens = normalize(tokenizer(target));
 
   let j = -1;
-  while ((j = findIndex(sourceTokens, targetTokens[0], j + 1)) !== -1) {
-    // matches the remaining pattern tokens
+  while ((j = fuzzyFindIndex(source, target[0], j + 1)) !== -1) {
+    // matches the remaining target tokens
     // starting from the second one
     let k = 1;
-    for (; k < targetTokens.length; k++) {
-      if (sourceTokens[j + k].value !== targetTokens[k].value) {
+    for (; k < target.length; k++) {
+      if (!target[k].isFuzzyEqual(source[j + k])) {
         break;
       }
     }
 
     // didn't get to the end
-    if (k < targetTokens.length) {
+    if (k < target.length) {
       continue;
     }
 
-    const startIndex = sourceTokens[j].index + fromIndex;
-    const endToken = sourceTokens[j + k - 1];
-    const endIndex = endToken.index + endToken.value.length + fromIndex;
+    const tokens: Token[] = [];
+
+    k = 0;
+    for (; k < target.length; k++) {
+      tokens.push(source[j + k]);
+    }
 
     results.push({
-      match: source.slice(startIndex, endIndex),
-      startIndex,
-      endIndex,
+      index: tokens[0].index,
+      tokens,
     });
   }
 
   return results;
 }
 
-function findIndex(array: Token[], token: Token, startIndex: number = 0) {
+export function fuzzyFindIndex(
+  array: Token[],
+  token: Token,
+  startIndex: number = 0
+) {
   for (let i = startIndex; i < array.length; i++) {
-    if (token.value === array[i].value) {
+    if (array[i].isFuzzyEqual(token)) {
       return i;
     }
   }
   return -1;
-}
-
-function normalize(tokens: Token[]): Token[] {
-  for (const token of tokens) {
-    token.value = token.value.toLocaleLowerCase();
-  }
-  return tokens;
 }

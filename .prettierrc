@@ -11,12 +11,6 @@
       "options": {
         "printWidth": 200
       }
-    },
-    {
-      "files": "*.spec.ts",
-      "options": {
-        "printWidth": 400
-      }
     }
   ]
 }
