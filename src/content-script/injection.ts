@@ -16,7 +16,7 @@ import {
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
-import {composeMethod} from './composition';
+import {composeMethod} from './compose';
 import type {MethodName, MethodHandler} from '../methods/types';
 
 const definedHandlers: Record<MethodName, () => MethodHandler> = {

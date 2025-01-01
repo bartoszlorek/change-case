@@ -1,5 +1,5 @@
 import {camelCase} from '../methods/v3';
-import {composeMethod} from './composition';
+import {composeMethod} from './compose';
 
 describe('composeMethod()', () => {
   const input = `Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, where’s the peck of pickled peppers Peter Piper picked?`;
