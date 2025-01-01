@@ -12,28 +12,28 @@ describe('tokenizer()', () => {
     {
       source: 'Paul McCartney and John Lennon',
       tokens: [
-        {index: 0, value: 'Paul', break: ' '},
-        {index: 5, value: 'Mc', break: ''},
-        {index: 7, value: 'Cartney', break: ' '},
-        {index: 15, value: 'and', break: ' '},
-        {index: 19, value: 'John', break: ' '},
-        {index: 24, value: 'Lennon', break: ''},
+        {index: 0, value: 'Paul', extra: ' '},
+        {index: 5, value: 'Mc', extra: ''},
+        {index: 7, value: 'Cartney', extra: ' '},
+        {index: 15, value: 'and', extra: ' '},
+        {index: 19, value: 'John', extra: ' '},
+        {index: 24, value: 'Lennon', extra: ''},
       ],
     },
     {
       source: 'helloMyKitty',
       tokens: [
-        {index: 0, value: 'hello', break: ''},
-        {index: 5, value: 'My', break: ''},
-        {index: 7, value: 'Kitty', break: ''},
+        {index: 0, value: 'hello', extra: ''},
+        {index: 5, value: 'My', extra: ''},
+        {index: 7, value: 'Kitty', extra: ''},
       ],
     },
     {
       source: 'Apple iPhone 17',
       tokens: [
-        {index: 0, value: 'Apple', break: ' '},
-        {index: 6, value: 'iPhone', break: ' '},
-        {index: 13, value: '17', break: ''},
+        {index: 0, value: 'Apple', extra: ' '},
+        {index: 6, value: 'iPhone', extra: ' '},
+        {index: 13, value: '17', extra: ''},
       ],
     },
   ])('returns tokens on case change from "$source"', ({source, tokens}) => {

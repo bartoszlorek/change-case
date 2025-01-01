@@ -1,23 +1,33 @@
-export interface Token {
+import {lowerCase} from '../helpers';
+
+export class Token {
   index: number;
   value: string;
-  break: string;
-}
+  extra: string;
 
-export function nextToken(token: Token, array: Token[]) {
-  const index = array.indexOf(token);
-  return (index >= 0 && array[index + 1]) || null;
-}
+  constructor(index: number, value: string, extra: string) {
+    this.index = index;
+    this.value = value;
+    this.extra = extra;
+  }
 
-export function prevToken(token: Token, array: Token[]) {
-  const index = array.indexOf(token);
-  return (index >= 0 && array[index - 1]) || null;
-}
+  toText() {
+    return this.value + this.extra;
+  }
 
-export function isEmptyToken(token: Token) {
-  return token.value === '';
-}
+  isEmpty() {
+    return this.value === '';
+  }
 
-export function isNotEmptyToken(token: Token) {
-  return token.value !== '';
+  isNotEmpty() {
+    return this.value !== '';
+  }
+
+  isEqual(token: Token) {
+    return this.value === token.value;
+  }
+
+  isFuzzyEqual(token: Token) {
+    return lowerCase(this.value) === lowerCase(token.value);
+  }
 }

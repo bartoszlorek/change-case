@@ -80,12 +80,11 @@ const relevantCharacters = new RegExp(`[0-9a-zA-Z${unicodeRanges}]`);
 
 export function tokenizer(value: string): Token[] {
   const chars = [...value];
-  const tokens: Token[] = [];
-
   if (chars.length === 0) {
-    return tokens;
+    return [];
   }
 
+  const tokens: Token[] = [];
   let index = 0;
   let current = '';
 
@@ -93,12 +92,7 @@ export function tokenizer(value: string): Token[] {
     const char = chars[i];
 
     if (!relevantCharacters.test(char)) {
-      tokens.push({
-        index: index,
-        value: current,
-        break: char,
-      });
-
+      tokens.push(new Token(index, current, char));
       index = i + 1;
       current = '';
     } else {
@@ -106,12 +100,7 @@ export function tokenizer(value: string): Token[] {
         current.length >= MIN_LENGTH_TO_CASE_CHANGE &&
         isUpperCaseChange(chars[i - 1], char)
       ) {
-        tokens.push({
-          index: index,
-          value: current,
-          break: '',
-        });
-
+        tokens.push(new Token(index, current, ''));
         index = i;
         current = '';
       }
@@ -120,12 +109,9 @@ export function tokenizer(value: string): Token[] {
     }
   }
 
-  if (current) {
-    tokens.push({
-      index: index,
-      value: current,
-      break: '',
-    });
+  // adds the last remaining token
+  if (current !== '') {
+    tokens.push(new Token(index, current, ''));
   }
 
   return tokens;

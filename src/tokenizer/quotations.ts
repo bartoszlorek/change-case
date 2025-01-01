@@ -38,10 +38,10 @@ for (const [openingMark, closingMark] of possiblePairs) {
 }
 
 export function isOpeningQuotationToken(token: Token) {
-  return token.value === '' && openingMarks.includes(token.break);
+  return token.value === '' && openingMarks.includes(token.extra);
 }
 
 export function isClosingQuotationToken(token: Token, openingMark: string) {
   const closingMarks = closingMarksMap.get(openingMark);
-  return closingMarks?.includes(token.break) || false;
+  return closingMarks?.includes(token.extra) || false;
 }

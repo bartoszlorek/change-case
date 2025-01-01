@@ -96,7 +96,7 @@ const popularTwoLetterWords = [
 ];
 
 export function isAbbreviationToken(token: Token) {
-  if (token.break !== '.') {
+  if (token.extra !== '.') {
     return false;
   }
 
