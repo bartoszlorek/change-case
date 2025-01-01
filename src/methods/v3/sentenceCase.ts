@@ -1,9 +1,4 @@
-import {Stack, upperCaseFirst} from '../../helpers';
-import {
-  isAbbreviationToken,
-  isOpeningQuotationToken,
-  isClosingQuotationToken,
-} from '../../tokenizer';
+import {Stack, upperCaseFirst, lowerCase} from '../../helpers';
 import type {MethodHandler} from '../types';
 
 const endingSentence = /[.!?]/;
@@ -20,21 +15,21 @@ export function sentenceCase(): MethodHandler {
       startedSentences.setCurrent(true);
       value = upperCaseFirst(value);
     } else {
-      value = value.toLocaleLowerCase();
+      value = lowerCase(value);
     }
 
-    if (endingSentence.test(token.extra) && !isAbbreviationToken(token)) {
+    if (endingSentence.test(token.extra) && !token.isAbbreviation()) {
       startedSentences.setCurrent(false);
     }
 
     const openingMark = openQuotationMarks.current();
-    if (openingMark && isClosingQuotationToken(token, openingMark)) {
+    if (openingMark && token.isClosingQuotation(openingMark)) {
       startedSentences.pop();
       openQuotationMarks.pop();
     }
 
     //
-    else if (isOpeningQuotationToken(token)) {
+    else if (token.isOpeningQuotation()) {
       // when a quote starts a parent sentence
       if (startedSentences.isCurrent(false)) {
         startedSentences.setCurrent(true);

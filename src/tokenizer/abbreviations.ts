@@ -1,12 +1,10 @@
-import {Token} from './token';
-
 /**
  * https://www.grammarly.com/blog/abbreviations/
  * https://www.grammar-monster.com/lessons/abbreviations_full_stops_periods.htm
  * https://edu.gcfglobal.org/en/grammar/abbreviations-and-acronyms/1/
  * https://www.sussex.ac.uk/informatics/punctuation/capsandabbr/abbr
  */
-const threeOrMoreLetterAbbreviations = [
+export const threeOrMoreLetterAbbreviations = [
   'apt', // apartment
   'ave', // avenue
   'blvd', // boulevard
@@ -65,7 +63,7 @@ const threeOrMoreLetterAbbreviations = [
 /**
  * https://en.wiktionary.org/wiki/Appendix:Glossary_of_two-letter_English_words
  */
-const popularTwoLetterWords = [
+export const popularTwoLetterWords = [
   'am',
   'an',
   'as',
@@ -94,17 +92,3 @@ const popularTwoLetterWords = [
   'us',
   'we',
 ];
-
-export function isAbbreviationToken(token: Token) {
-  if (token.extra !== '.') {
-    return false;
-  }
-
-  const lowerValue = token.value.toLowerCase();
-  if (lowerValue.length >= 3) {
-    return threeOrMoreLetterAbbreviations.includes(lowerValue);
-  }
-
-  // v. e.g. i.e. Dr. Mr. St.
-  return !popularTwoLetterWords.includes(lowerValue);
-}

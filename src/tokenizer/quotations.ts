@@ -1,5 +1,3 @@
-import {Token} from './token';
-
 /**
  * https://en.wikipedia.org/wiki/Quotation_mark
  * https://www.grammarly.com/blog/quotation-marks/
@@ -28,20 +26,13 @@ const possiblePairs: [OpeningMark, ClosingMark][] = [
   [`’`, `‘`],
 ];
 
-const openingMarks = [...new Set(possiblePairs.map(a => a[0]))];
-const closingMarksMap = new Map<OpeningMark, ClosingMark[]>();
+export const openingMarksList = [...new Set(possiblePairs.map(a => a[0]))];
+export const closingMarksMap = new Map<OpeningMark, ClosingMark[]>();
 
+// build lookup table for all possible
+// closing marks of a single opening mark
 for (const [openingMark, closingMark] of possiblePairs) {
   const closingMarks = closingMarksMap.get(openingMark) || [];
   closingMarksMap.set(openingMark, closingMarks);
   closingMarks.push(closingMark);
-}
-
-export function isOpeningQuotationToken(token: Token) {
-  return token.value === '' && openingMarks.includes(token.extra);
-}
-
-export function isClosingQuotationToken(token: Token, openingMark: string) {
-  const closingMarks = closingMarksMap.get(openingMark);
-  return closingMarks?.includes(token.extra) || false;
 }
