@@ -1,6 +1,8 @@
+import type {MethodHandler} from '../types';
+
 /**
  * @deprecated
  */
-export function noCase(input: string) {
-  return input;
+export function noCase(): MethodHandler {
+  return token => token.toText();
 }

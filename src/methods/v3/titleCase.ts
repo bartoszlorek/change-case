@@ -1,6 +1,8 @@
+import type {MethodHandler} from '../types';
+
 /**
  * @unimplemented
  */
-export function titleCase(input: string) {
-  return input;
+export function titleCase(): MethodHandler {
+  return token => token.toText();
 }

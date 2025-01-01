@@ -1,9 +1,19 @@
 import {lowerCase} from '../../helpers';
-import {tokenizer, isNotEmptyToken} from '../../tokenizer';
+import type {MethodHandler} from '../types';
 
-export function snakeCase(input: string) {
-  return tokenizer(input)
-    .filter(isNotEmptyToken)
-    .map(({value}) => lowerCase(value))
-    .join('_');
+export function snakeCase(): MethodHandler {
+  let didStart = false;
+
+  return token => {
+    if (token.isEmpty()) {
+      return '';
+    }
+
+    if (!didStart) {
+      didStart = true;
+      return lowerCase(token.value);
+    }
+
+    return '_' + lowerCase(token.value);
+  };
 }

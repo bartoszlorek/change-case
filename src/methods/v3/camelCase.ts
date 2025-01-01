@@ -1,19 +1,23 @@
 import {lowerCase, upperCaseFirst, startsNumeric} from '../../helpers';
-import {tokenizer, isNotEmptyToken} from '../../tokenizer';
+import type {MethodHandler} from '../types';
 
-export function camelCase(input: string) {
-  return tokenizer(input)
-    .filter(isNotEmptyToken)
-    .map(({value}, index) => {
-      if (index === 0) {
-        return lowerCase(value);
-      }
+export function camelCase(): MethodHandler {
+  let didStart = false;
 
-      if (startsNumeric(value)) {
-        return '_' + value;
-      }
+  return token => {
+    if (token.isEmpty()) {
+      return '';
+    }
 
-      return upperCaseFirst(value);
-    })
-    .join('');
+    if (!didStart) {
+      didStart = true;
+      return lowerCase(token.value);
+    }
+
+    if (startsNumeric(token.value)) {
+      return '_' + token.value;
+    }
+
+    return upperCaseFirst(token.value);
+  };
 }

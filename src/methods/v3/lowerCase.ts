@@ -1,3 +1,5 @@
-export function lowerCase(input: string) {
-  return input.toLocaleLowerCase();
+import type {MethodHandler} from '../types';
+
+export function lowerCase(): MethodHandler {
+  return token => token.toText().toLocaleLowerCase();
 }

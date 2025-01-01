@@ -1,7 +1,8 @@
+import {renderString} from '../../tokenizer';
 import {noCase} from './noCase';
 
 describe('noCase()', () => {
   it('is not implemented', () => {
-    expect(noCase('hello world')).toBe('hello world');
+    expect(renderString('hello world', noCase())).toBe('hello world');
   });
 });

@@ -1,8 +1,9 @@
 import scenarios from '../../scenarios';
+import {renderString} from '../../tokenizer';
 import {lowerCase} from './lowerCase';
 
 describe('lowerCase()', () => {
   it.each(scenarios)('$scenario \t $source', ({source, expected}) => {
-    expect(lowerCase(source)).toBe(expected.lowerCase);
+    expect(renderString(source, lowerCase())).toBe(expected.lowerCase);
   });
 });

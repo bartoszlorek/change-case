@@ -1,15 +1,19 @@
 import {upperCaseFirst, startsNumeric} from '../../helpers';
-import {tokenizer, isNotEmptyToken} from '../../tokenizer';
+import type {MethodHandler} from '../types';
 
-export function pascalCase(input: string) {
-  return tokenizer(input)
-    .filter(isNotEmptyToken)
-    .map<string>(({value}, index) => {
-      if (index > 0 && startsNumeric(value)) {
-        return '_' + value;
-      }
+export function pascalCase(): MethodHandler {
+  let didStart = false;
 
-      return upperCaseFirst(value);
-    })
-    .join('');
+  return token => {
+    if (token.isEmpty()) {
+      return '';
+    }
+
+    if (startsNumeric(token.value)) {
+      return didStart ? '_' + token.value : token.value;
+    }
+
+    didStart = true;
+    return upperCaseFirst(token.value);
+  };
 }

@@ -1,3 +1,5 @@
+import type {MethodHandler} from '../types';
+
 /**
  * https://en.wikipedia.org/wiki/Combining_Diacritical_Marks
  */
@@ -413,16 +415,19 @@ const accentsObject = {
 const accentsMap = new Map(Object.entries(accentsObject));
 const accentsRegex = new RegExp(Object.keys(accentsObject).join('|'), 'g');
 
-export function noAccents(input: string) {
-  /**
-   * https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
-   */
-  const normalized = input
-    .normalize('NFD')
-    .replace(combiningDiacriticalMarks, '');
+export function noAccents(): MethodHandler {
+  return token => {
+    const text = token.toText();
+    /**
+     * https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+     */
+    const normalizedText = text
+      .normalize('NFD')
+      .replace(combiningDiacriticalMarks, '');
 
-  return normalized.replace(
-    accentsRegex,
-    match => accentsMap.get(match) || match
-  );
+    return normalizedText.replace(
+      accentsRegex,
+      match => accentsMap.get(match) || match
+    );
+  };
 }

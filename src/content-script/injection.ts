@@ -12,14 +12,14 @@ import {
   titleCase,
   toggleCase,
   upperCase,
-} from '../methods/v2';
+} from '../methods/v3';
 import {HandshakeMessage, HandshakeResponse, MethodMessage} from '../messages';
 import {asyncMessageHandler} from '../helpers';
 import {createSelection} from './selection';
 import {composeMethod} from './composition';
-import type {MethodName, MethodType} from '../methods/types';
+import type {MethodName, MethodHandler} from '../methods/types';
 
-const definedMethods: Record<MethodName, MethodType> = {
+const definedHandlers: Record<MethodName, () => MethodHandler> = {
   camelCase,
   constantCase,
   dotCase,
@@ -44,8 +44,8 @@ chrome.runtime.onMessage.addListener(
 
 chrome.runtime.onMessage.addListener(
   asyncMessageHandler<MethodMessage>('change_case_method', async ({name}) => {
-    const method = definedMethods[name as MethodName];
-    if (method === undefined) {
+    const createHandler = definedHandlers[name as MethodName];
+    if (createHandler === undefined) {
       return;
     }
 
@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(
     }
 
     console.log(selection);
-    const composedMethod = await composeMethod(method);
+    const composedMethod = await composeMethod(createHandler());
     selection.textContent(composedMethod);
   })
 );

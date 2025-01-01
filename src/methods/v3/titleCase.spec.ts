@@ -1,7 +1,8 @@
+import {renderString} from '../../tokenizer';
 import {titleCase} from './titleCase';
 
 describe('titleCase()', () => {
   it('is not implemented', () => {
-    expect(titleCase('hello world')).toBe('hello world');
+    expect(renderString('hello world', titleCase())).toBe('hello world');
   });
 });

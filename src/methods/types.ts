@@ -1,3 +1,5 @@
+import type {Token} from '../tokenizer';
+
 export type MethodName =
   | 'camelCase'
   | 'constantCase'
@@ -13,4 +15,4 @@ export type MethodName =
   | 'toggleCase'
   | 'upperCase';
 
-export type MethodType = (input: string) => string;
+export type MethodHandler = (token: Token) => string;
